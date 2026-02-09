@@ -1,0 +1,468 @@
+MCAT Gamified Content Hub — Pipeline + Mode Compiler Handoff Notes
+(Ordered, comprehensive consolidation of the previous two assistant responses)
+
+Last updated: 2026-02-09 (America/New_York)
+
+============================================================
+0) EXECUTIVE SUMMARY (WHAT CHANGED + WHY IT MATTERS)
+============================================================
+
+You started with a phased extraction pipeline that uses Gemini to extract and restructure Kaplan MCAT PDF content into JSON artifacts. The core product vision is ADHD-first: guided learning as the “Right of Way” gate, no-shame feedback, chunked instruction, varied drills, and game/lore immersion.
+
+The key architectural upgrades added recently are:
+
+A) PRIMITIVES LAYER (new middle layer)
+- A deterministic bridge from “extracted text” to “game-ready typed objects.”
+- Output: primitives/{subject}/{section_id}.json
+- Purpose: stabilize downstream game generation; reduce “scrape text again” fragility.
+
+B) MODE COMPILER PHASE (new compilation layer)
+- Deterministically maps each subchapter/section into:
+  - mandatory Guided Learning (gate)
+  - a mode loadout (unlocked after guided learning)
+  - engine-ready payloads (for generic + archetype-specific modes)
+- Output: compiled/{subject}/{section_id}_modes.json
+
+C) LORE/THEME AS DATA (world bible)
+- A single configuration file that defines regions, characters, and default speaker styles.
+- Purpose: theme + TTS planning can be embedded into outputs now, without UI.
+
+D) PROMPT UPGRADES FOR STRUCTURE + ANTI-HALLUCINATION
+- Prompts shifted toward structured outputs for figures/graphs/tables and improved “don’t guess” constraints.
+
+The result is an “Extract → Normalize → Compile” architecture:
+1) Extract: Kaplan → structured JSON (sections, checks, figures, equations, etc.)
+2) Normalize: Primitives → typed building blocks for game engines
+3) Compile: Mode compiler → mode loadouts + payloads + TTS event hooks
+4) Later: UI rendering, Firebase integration, actual TTS provider wiring, telemetry ingestion.
+
+============================================================
+1) BASELINE (WHAT THE PROJECT WAS BEFORE THESE CHANGES)
+============================================================
+
+Baseline concepts (from your PROJECT_SUMMARY.md and earlier context):
+
+- Kaplan books are the source of truth; AI is used as labor to extract/reformat.
+- Goal: build a gamified MCAT hub optimized for ADHD engagement:
+  - micro-lessons
+  - frequent checks
+  - immediate, supportive feedback
+  - variety, novelty, no-shame language
+- Pipeline runs in phases using Python scripts + Gemini calls.
+- “Format tags drive everything”: extracted content is categorized into typed blocks.
+- There is a verification loop to catch hallucinations/mismatches.
+
+Baseline challenge you flagged:
+- Even after extracting diagrams/graphs/tables, it wasn’t obvious how to turn them into games.
+- “Build Mode” style games seemed to require custom visuals or heavy manual effort.
+- You wanted a clear picture of game identification → game creation pipeline.
+
+============================================================
+2) CURRENT STATE (AFTER THE RECENT REPO IMPROVEMENTS)
+============================================================
+
+Newly added/updated components (conceptually):
+
+2.1 Lore + Characters (data-driven)
+- File: lore/world.json
+- Defines:
+  - regions per subject
+  - speaker IDs (narrator/operator, 7 subject companions, main antagonist)
+  - a shopkeeper/quartermaster voice
+  - optional lightweight miniboss skins (e.g., fogling, misconception imp)
+- Purpose: keep immersion simple but consistent; avoid lore bloat.
+
+2.2 Primitives Layer (new bridge)
+- Output directory: primitives/{subject}/{section_id}.json
+- Contents:
+  - terms (term/definition pairs; glossary overlap)
+  - processes (step lists; sequence-ready)
+  - tables (structured; sort/match-ready)
+  - equations (equation + variables/units when possible)
+  - figures (with structured label/trend fields when available)
+- Purpose: every game engine consumes primitives, not raw Kaplan prose.
+
+2.3 Mode Compiler Phase (new)
+- Output directory: compiled/{subject}/{section_id}_modes.json
+- Generates:
+  - Guided Learning as mandatory gate (unlock_after == none)
+  - Post-gate mode loadout (unlock_after == guided_learning)
+  - Engine payloads for each mode instance
+  - Basic TTS event hooks (speaker_id + short template lines)
+
+2.4 Prompt Improvements (higher structure, fewer hallucinations)
+- Figure catalog prompt updated to attempt:
+  - labels list
+  - graph axes/trend summaries
+  - table headers/rows
+  - flow nodes/edges (if diagram implies a process)
+- Extraction prompt improvements:
+  - stronger anti-guess rules
+  - missing/uncertain item reporting
+  - anchor text for questions to improve matching
+
+2.5 Operational note
+- TTS provider, Firebase, UI are not implemented yet by design.
+- This work focuses on upstream data quality, determinism, and scalability.
+
+============================================================
+3) KEY ARCHITECTURE PRINCIPLES GOING FORWARD
+============================================================
+
+3.1 Separate “information” from “theme”
+- Information layer: nodes, edges, steps, labels, correct rules.
+- Theme layer: skin, naming, character flavor, sound cues, region aesthetic.
+- Benefit: you can scale content without needing bespoke art per chapter.
+
+3.2 Deterministic-first, model-assisted second
+- Use AI to extract/restructure into known schemas.
+- Use deterministic rules to select game engines and compile payloads.
+- Use AI only where:
+  - it can produce structured outputs with evidence anchors
+  - or where it can generate distractors/hints from known wrong-answer rationales.
+
+3.3 Guided Learning is mandatory “Right of Way”
+- Every section/subchapter begins with Guided Learning:
+  - chunked teaching + frequent micro-checks
+  - uses Kaplan concept checks in order
+  - unlocks all drills/games behind it
+- This ensures baseline knowledge before mastery games.
+
+============================================================
+4) TTS PLANNING (WITHOUT IMPLEMENTING A TTS PROVIDER YET)
+============================================================
+
+Treat TTS as an audio UI layer (event-driven), not a narrator reading paragraphs.
+
+4.1 Standardize TTS events per mode
+Each mode payload should include a tts.events map like:
+- mission_briefing (operator/narrator)
+- segment_teach (companion)
+- check_prompt (companion)
+- correct_feedback (companion)
+- wrong_feedback (companion)
+- unlock_modes (operator)
+- boss_intro / boss_taunt / boss_defeat (antagonist or miniboss skin)
+- shop_greeting / purchase_confirm (quartermaster)
+
+Each event includes:
+- speaker_id
+- style_tag (supportive, hype, taunt_light, transactional)
+- max_seconds (to keep ADHD-friendly brevity)
+- text_templates (multiple variants to reduce repetition)
+
+4.2 Guided Learning TTS cadence
+Rule of thumb:
+- no spoken segment > ~20 seconds without an action
+- embed micro-interactions every 20–60 seconds:
+  - quick check, choose, tap, or “repeat it back”
+
+Guided learning template:
+1) Hook (1 sentence)
+2) Chunk (2–4 sentences max)
+3) Check prompt (1 question)
+4) Feedback (1–2 sentences)
+5) Bridge (1 sentence to next chunk)
+
+4.3 Boss fight TTS cadence
+Boss fights should be higher tempo and less explanatory:
+- read stem + options clearly (once)
+- correctness + 1 key reason
+- if wrong: short reframe + option for hint token
+- progress count (“Q6 of 15”)
+
+4.4 Memorization game TTS cadence
+In drills/games:
+- 1-line instruction
+- short reactive feedback
+- reward streaks (“3 in a row”)
+- avoid long explanations (save for guided learning)
+
+============================================================
+5) HOW EXTRACTIONS BECOME GAMES (THE FULL PIPELINE)
+============================================================
+
+The core problem you described: “I have figures/graphs/tables, but I can’t see how they turn into games.”
+
+Solution: compile content into primitives, then map primitives to engines.
+
+5.1 Normalize raw extraction into primitives
+Convert extracted artifacts into typed primitives:
+- Process: ordered steps → sequence engine
+- Network/Pathway: nodes/edges → build/regulate engine
+- Table: headers/rows → table repair / sorting engine
+- Graph: axes + trend summary + key points → curve-shift / graph detective engine
+- Diagram: label list → label matching engine (upgrade later to hotspots)
+- Vocab: term/definition → recall/cloze engines
+- Equations: equation + variables/units → equation forge engine
+
+5.2 Classify section archetypes using primitives (not raw text)
+Each section can have 1–3 archetypes:
+- process/sequence
+- pathway/network
+- table/matrix
+- graph/trend
+- diagram/labeling
+- equation/quant
+- vocab/definition
+- comparison
+- regulation (special flag)
+
+5.3 Mode selection rules (deterministic loadouts)
+Every section gets:
+- Guided Learning (mandatory gate)
+- 2–3 universal drills (always)
+- 1 archetype-specific mode (if primitives support it)
+- optional mini-boss (short mixed retrieval)
+
+Example selection rules:
+- If process steps >= 4 → sequence_builder
+- If tables exist → sort_buckets + table_repair
+- If equations >= 2 → equation_forge (+ units matching later)
+- If graph spec exists → graph_detective / curve_shift
+- If diagram label list exists → label_text / label_match
+
+5.4 Payload compilation
+Each mode produces an engine-ready payload:
+- includes content objects + distractors + scoring rules
+- includes tts event hooks + default speaker_id
+
+5.5 Rendering and “visual requirements”
+You do NOT need custom art per concept.
+Use schematic renderers:
+- nodes/edges pathways
+- drag-drop labels
+- fill-in tables
+- curves with parameter toggles
+Theme is applied as skin:
+- “energy pipes” instead of arrows
+- “reactor modules” instead of enzymes
+- region-specific UI dressing later
+
+============================================================
+6) HOW TO KNOW IF ENGINE PAIRING IS OPTIMAL (NOT GUESSWORK)
+============================================================
+
+You will not know optimal pairing by intuition alone. Use metrics.
+
+6.1 Add telemetry fields now (in schemas) even before UI
+For every mode instance define:
+- expected_duration_sec
+- memory_type: item | system
+- difficulty
+- primary_objective_tag
+- unlock_after
+
+6.2 Track these metrics later
+- completion rate per mode
+- replay rate per mode
+- drop-off time
+- immediate accuracy
+- delayed accuracy (1 day / 7 days)
+- hint usage rate
+- time-to-mastery
+
+6.3 A/B test engine alternatives per archetype
+Example:
+- For graph-heavy topics: compare curve_shift vs graph_detective
+- Keep the best on retention + completion; minimize drop-off.
+
+============================================================
+7) PROMPTS: WHAT TO IMPROVE (HIGH IMPACT CHANGES)
+============================================================
+
+Prompts should maximize structured outputs and minimize degrees of freedom.
+
+7.1 Strict output schemas
+Every extraction prompt should require:
+- required keys
+- allowed enums
+- missing_items: []
+- uncertain_items: []
+- extraction_warnings: []
+
+7.2 Ban invention and require nulls
+Instruction:
+- “If it’s not in the provided pages, do not infer. Use null and add to missing_items.”
+
+7.3 Evidence anchors for risky fields
+For:
+- table fills
+- diagram labels
+- graph axes/trends
+- wrong-answer rationales not in Kaplan
+Require:
+- confidence (high/medium/low)
+- if low: needs_review true
+- evidence_excerpt (short, capped)
+
+7.4 Split large prompts into smaller extraction tasks
+Your baseline Phase 3 “BIG extraction” is the main bottleneck.
+Best practice:
+- section content blocks only
+- concept checks + answer key/explanations only
+- end-of-section summaries only
+- equations only
+- shared concepts only
+Smaller calls reduce drift and improve debuggability.
+
+============================================================
+8) QUALITY GATE (MUST HAVE BEFORE SCALING)
+============================================================
+
+Add a dedicated validation phase:
+- validation_report.json (machine)
+- validation_summary.md (human)
+
+Checks:
+- schema completeness
+- counts and sanity bounds
+- question-answer mapping integrity
+- figure references exist in figure catalog
+- missing/uncertain item reporting
+- risky fields flagged for review
+
+This prevents silent data corruption and speeds debugging.
+
+============================================================
+9) TRACEABILITY (SOURCE ANCHORS) — DO THIS NOW
+============================================================
+
+Every atomic object should include:
+- source: {pdf, page_start, page_end}
+- anchor_text (first 8–12 words)
+- evidence_excerpt (short quote or near-verbatim phrase, capped)
+
+This enables:
+- human spot-checking
+- automated cross-checks
+- faster correction workflows
+
+============================================================
+10) DATA PACKAGING STRATEGY (FOR PERFORMANCE LATER)
+============================================================
+
+Your baseline aimed at “single JSON per concept section” for fast frontend use.
+
+Recommended compromise:
+- Keep a single authoring JSON as source-of-truth
+- Build runtime bundles:
+  - concept.json (metadata + level index)
+  - levels/{level_id}.json (guided learning levels)
+  - modes/{mode_id}.json (compiled mode payloads)
+Benefits:
+- keeps fast loading
+- avoids huge payload files
+- supports incremental loading on web/mobile
+
+============================================================
+11) ADHD-SPECIFIC OPTIMIZATIONS TO BAKE INTO DATA NOW
+============================================================
+
+11.1 Novelty rotation (variants)
+Generate 2–3 mode variants per section:
+- same concept, different surface form (MC, drag/sort, cloze)
+This reduces boredom and helps adherence.
+
+11.2 Fail-forward remediation payloads
+Standard fields:
+- hint_1 (gentle)
+- hint_2 (direct)
+- common_trap (why wrong is tempting)
+- retry_prompt_variant (reworded)
+No-shame language enforced.
+
+11.3 Micro-goals per guided learning step
+Add:
+- micro_goal
+- win_condition
+- reward_preview (“Unlock Build Mode”)
+This increases perceived progress and motivation.
+
+============================================================
+12) DEVELOPMENT QUALITY IMPROVEMENTS (DO NOW)
+============================================================
+
+12.1 Version everything
+Embed in every output JSON:
+- pipeline_version
+- prompt_versions
+- model_used
+- input_pdf_hash
+- timestamp
+
+12.2 Golden chapter regression suite
+Pick 2–3 chapters as tests:
+- run pipeline after prompt/schema changes
+- assert expected counts and schema integrity
+
+12.3 Caching / cost controls
+- cache Gemini outputs by input hash
+- auto-split large inputs by page ranges
+- avoid reruns when unchanged
+
+12.4 Repo hygiene
+- ignore and avoid shipping __pycache__ folders in zips
+- keep packaging clean for handoff.
+
+============================================================
+13) RISKS / CONSTRAINTS YOU SHOULD ADDRESS EARLY
+============================================================
+
+Copyright / licensing:
+- Kaplan content is copyrighted. Extracting and redistributing verbatim text can create risk.
+- Consider licensing strategy or design constraints that minimize verbatim reproduction.
+- Plan early so you don’t build into a legal corner.
+
+============================================================
+14) ROADMAP (ORDERED, HIGH ROI)
+============================================================
+
+NOW (best ROI, unlocks scalability)
+1) Add Quality Gate / Validation phase
+2) Add TOC → page-range slicing per section (split the “big extraction” internally)
+3) Add traceability anchors across outputs (page refs + anchor text + evidence excerpts)
+4) Expand primitives for graphs/tables/diagrams into stricter structured formats
+5) Add runtime bundle build step (concept.json + levels + modes)
+
+NEXT (improves engagement + optimization)
+6) Add mode variants (novelty rotation)
+7) Add telemetry schema to compiled modes
+8) Add lightweight CLI review tool for needs_review items
+
+LATER (polish + power)
+9) Hotspot labeling workflow for diagrams (semi-manual + reusable)
+10) Adaptive engine selection using retention + completion metrics
+11) Full reward economy and shop balancing
+
+============================================================
+15) HANDOFF NOTES FOR ANOTHER AI AGENT
+============================================================
+
+Goal for the next agent:
+- Make the pipeline robust and scalable across all Kaplan books while preserving MCAT accuracy.
+- Keep Guided Learning mandatory gate; compile post-gate modes deterministically.
+- Strengthen prompts toward strict schemas, evidence anchors, and missing/uncertain reporting.
+- Add a dedicated validation phase and enforce traceability.
+- Keep theme/lore separate and data-driven; attach speaker_id + tts events but do not implement TTS provider yet.
+- Avoid requiring bespoke art; rely on schematic renderers + skins.
+
+What’s intentionally NOT done yet:
+- Firebase/Firestore integration
+- real TTS service wiring
+- front-end UI implementation
+- full telemetry pipeline ingestion and A/B testing framework
+
+============================================================
+16) QUICK COMMANDS / OPERATIONS (CONCEPTUAL)
+============================================================
+
+Typical pipeline pattern:
+- Run extraction phases on a given PDF and chapter
+- Build primitives
+- Compile modes
+- Validate outputs
+
+(Exact commands depend on scripts in the repo; the guiding structure is above.)
+
+END OF DOCUMENT
