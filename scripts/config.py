@@ -22,26 +22,24 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 GOOGLE_CLOUD_PROJECT_ID = os.getenv("GOOGLE_CLOUD_PROJECT_ID", "")
 
 # ─── Gemini Model Settings ──────────────────────────────────
-# Multi-model strategy optimized for BEST quality:
+# Strategy: Try Gemini 3 Flash first (best quality). If it fails
+# (copyright block, rate limit, etc.), fall back to 2.5 Flash.
 #
-# gemini-2.5-flash:       Smart, 65K output. Best for PDF EXTRACTION (reads copyrighted text).
-# gemini-3-flash-preview: NEWEST, best reasoning. Best for GENERATION (restructuring, questions).
-#
-# Gemini 3 has stricter copyright filters and refuses to extract verbatim from textbooks.
-# So we use 2.5 for all extraction (Phases 1-5) and 3 for all generation (Phases 6-9).
-GEMINI_MODEL_EXTRACT = "gemini-2.5-flash"          # Extraction from PDFs (reads copyrighted material)
-GEMINI_MODEL_GENERATE = "gemini-3-flash-preview"   # Generation tasks (restructuring, enrichment, questions)
+# For PDF extraction: Gemini 3 blocks copyrighted text, so extraction
+# methods start with 2.5 Flash directly (known to work).
+# For generation (no PDF): Gemini 3 first, fallback to 2.5.
+GEMINI_MODEL_PRIMARY = "gemini-3-flash-preview"   # Best quality, try first
+GEMINI_MODEL_FALLBACK = "gemini-2.5-flash"         # Reliable fallback
+GEMINI_MODEL_EXTRACT = "gemini-2.5-flash"          # PDF extraction (copyright-safe)
 
-# Aliases used by the GeminiClient
-GEMINI_MODEL_LIGHT = GEMINI_MODEL_EXTRACT    # Light = extraction tasks
-GEMINI_MODEL_HEAVY = GEMINI_MODEL_EXTRACT    # Heavy extraction also uses 2.5 (copyright-safe)
-GEMINI_MODEL_CREATIVE = GEMINI_MODEL_GENERATE  # Creative = generation tasks
-
-# Legacy alias
+# Legacy aliases used by scripts
+GEMINI_MODEL_LIGHT = GEMINI_MODEL_EXTRACT
+GEMINI_MODEL_HEAVY = GEMINI_MODEL_EXTRACT
+GEMINI_MODEL_CREATIVE = GEMINI_MODEL_PRIMARY
 GEMINI_MODEL = GEMINI_MODEL_EXTRACT
 
 GEMINI_TEMPERATURE_EXTRACT = 0.1           # Low creativity for faithful extraction
-GEMINI_TEMPERATURE_RESTRUCTURE = 0.4       # Slightly more creative for question wording
+GEMINI_TEMPERATURE_RESTRUCTURE = 0.4       # Creative for ADHD-friendly question wording
 GEMINI_TEMPERATURE_ENRICH = 0.3            # Moderate for explanations
 
 # ─── Paths ──────────────────────────────────────────────────
@@ -68,8 +66,7 @@ BOOKS = {
 }
 
 # ─── Rate Limiting (Gemini free tier) ───────────────────────
-# Free tier: 15 RPM, 1M tokens/min for Gemini 2.0 Flash
-GEMINI_REQUESTS_PER_MINUTE = 14   # Stay just under limit
+GEMINI_REQUESTS_PER_MINUTE = 14   # Stay under 15 RPM free tier limit
 GEMINI_DELAY_BETWEEN_REQUESTS = 60 / GEMINI_REQUESTS_PER_MINUTE  # ~4.3 seconds
 
 # ─── TTS Settings (Google Cloud Text-to-Speech) ────────────

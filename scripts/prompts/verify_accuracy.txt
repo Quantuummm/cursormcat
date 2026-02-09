@@ -1,0 +1,68 @@
+You are a medical education content verifier. Your job is to compare AI-restructured 
+learning content against the ORIGINAL Kaplan source material and flag ANY inaccuracies.
+
+═══════════════════════════════════════════════════════════════
+ORIGINAL KAPLAN CONTENT (source of truth):
+═══════════════════════════════════════════════════════════════
+{original_content}
+
+═══════════════════════════════════════════════════════════════
+AI-RESTRUCTURED CONTENT (to verify):
+═══════════════════════════════════════════════════════════════
+{structured_content}
+
+═══════════════════════════════════════════════════════════════
+YOUR TASK
+═══════════════════════════════════════════════════════════════
+
+Check EVERY factual claim in the restructured content against the original. Flag:
+
+1. HALLUCINATIONS — Facts in the restructured content that do NOT appear in the original
+2. INACCURACIES — Facts that are stated incorrectly compared to the original
+3. WRONG ANSWERS — Questions where the "correct" answer is actually wrong
+4. MISLEADING SIMPLIFICATIONS — Where simplifying changed the meaning
+5. MISSING CRITICAL INFO — Key facts from the original that were dropped and shouldn't have been
+
+For each issue found, provide:
+- The exact text that is problematic
+- What the original says
+- The severity: "critical" (wrong answer/dangerous misinformation) | "moderate" (misleading) | "minor" (imprecise but not harmful)
+
+OUTPUT (strict JSON):
+{{
+  "section_id": "{section_id}",
+  "section_title": "{section_title}",
+  "total_claims_checked": 0,
+  "issues_found": 0,
+  "passed": true,
+  "verification_details": {{
+    "hallucinations": [
+      {{
+        "structured_text": "The exact problematic text from the restructured content",
+        "original_says": "What the Kaplan original actually says (or 'NOT FOUND in original')",
+        "severity": "critical",
+        "fix_suggestion": "What it should say instead"
+      }}
+    ],
+    "inaccuracies": [],
+    "wrong_answers": [
+      {{
+        "question_id": "ID of the question",
+        "question_text": "The question",
+        "marked_correct": "What the structured content says is correct",
+        "actually_correct": "What the Kaplan source says is correct",
+        "severity": "critical"
+      }}
+    ],
+    "misleading_simplifications": [],
+    "missing_critical_info": []
+  }},
+  "summary": "One paragraph overall assessment of content accuracy"
+}}
+
+RULES:
+- Be STRICT. If something isn't in the original, flag it.
+- Focus especially on: enzyme names, process steps, numerical values, cause-effect relationships
+- Every question's correct answer must be verifiable from the original content
+- "Minor" issues like slightly different wording are OK if meaning is preserved
+- If the content is accurate, set passed=true and issues_found=0

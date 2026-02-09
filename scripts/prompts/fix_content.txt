@@ -1,0 +1,58 @@
+You are fixing verified issues in MCAT guided learning content.
+A verification system found problems in AI-generated content by comparing it against
+the original Kaplan source material. Your job is to fix ONLY the flagged issues while
+keeping everything else unchanged.
+
+═══════════════════════════════════════════════════════════════
+ORIGINAL KAPLAN CONTENT (source of truth — stick to this):
+═══════════════════════════════════════════════════════════════
+{original_content}
+
+═══════════════════════════════════════════════════════════════
+CURRENT STRUCTURED CONTENT (the JSON being fixed):
+═══════════════════════════════════════════════════════════════
+{current_structured}
+
+═══════════════════════════════════════════════════════════════
+ISSUES TO FIX:
+═══════════════════════════════════════════════════════════════
+{issues_json}
+
+═══════════════════════════════════════════════════════════════
+YOUR TASK
+═══════════════════════════════════════════════════════════════
+
+Return the COMPLETE corrected JSON (same schema as the input) with these fixes applied:
+
+FOR HALLUCINATIONS:
+- Remove any facts NOT supported by the original Kaplan content
+- Replace with accurate information from the original, or remove the claim entirely
+- Do NOT add new information — only use what the original provides
+
+FOR WRONG ANSWERS:
+- Fix the correct_index to point to the actually correct answer
+- If the question itself is flawed (ambiguous, unverifiable from source), rewrite the
+  question to test the SAME concept but with a verifiable answer from the source
+- Update correct_response and wrong_response/wrong_explanations accordingly
+- The question MUST still test the same topic — no drifting to different concepts
+
+FOR INACCURACIES:
+- Replace inaccurate terminology with the exact terms from the Kaplan original
+- Keep the conversational/ADHD-friendly tone but use correct facts
+
+FOR MISLEADING SIMPLIFICATIONS:
+- Add back the nuance that was lost, but keep it concise (ADHD-friendly)
+- If a question's premise is unsupported by the source, rewrite it with a supported premise
+
+FOR MISSING WRONG_EXPLANATIONS:
+- Add a 1-sentence explanation for each wrong option that is missing one
+- Explain why that specific wrong option is wrong (the misconception it represents)
+
+CRITICAL RULES:
+- Output the COMPLETE structured JSON, not just the fixed parts
+- Keep all existing content that was NOT flagged — do not change correct content
+- All questions must be answerable using ONLY the original Kaplan content
+- Maintain the ADHD-friendly tone: short sentences, active verbs, engaging framing
+- narrator_text segments must stay under 50 words
+- Correct_index must be valid (0-indexed, within options array bounds)
+- Every wrong option must have a wrong_explanation entry
