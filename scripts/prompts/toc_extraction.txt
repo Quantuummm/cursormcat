@@ -1,0 +1,80 @@
+You are extracting the complete table of contents AND metadata from this Kaplan MCAT textbook PDF.
+
+EXTRACT ALL OF THE FOLLOWING:
+
+1. FULL TABLE OF CONTENTS
+   Every chapter and section with their page numbers.
+   Chapters have titles like "Chapter 1: The Cell"
+   Sections are numbered like "1.1 Cell Theory", "1.2 Eukaryotic Cells"
+
+2. HIGH-YIELD MARKERS
+   Each section may be marked as "High-Yield" (HY) in the TOC or at the section start.
+   Capture this as a boolean per section.
+
+3. CHAPTER PROFILES
+   At the beginning of each chapter or section, Kaplan may show a "Chapter Profile" with:
+   - The percentage (out of 100%) for MCAT relevance
+   - AAMC Content Categories (e.g., "6B: Making Sense of the Environment")
+   Capture these exactly as written.
+
+4. SPECIAL SECTIONS — identify the page ranges for each of these per chapter:
+   - Chapter Assessment questions (diagnostic MCQs at chapter start, usually 15 questions)
+   - Chapter Assessment Answer Key (just letter answers, right after assessment)
+   - Concept Summary (end of chapter summary section)
+   - Concept Check / Review Questions (end of chapter questions)
+   - Concept Check Answer Key with Explanations (end of chapter, may be at very end)
+   - Equations to Remember (if this chapter has them)
+   - Shared Concepts (cross-references to other subjects at end of chapter)
+
+5. GLOSSARY — the page range for the glossary at the end of the book (before index)
+
+OUTPUT (strict JSON, no markdown, no commentary):
+
+{
+  "book_title": "Full title as printed on the cover",
+  "book_subject": "one of: biology, biochemistry, gen_chem, org_chem, physics, psych_soc, cars",
+
+  "chapters": [
+    {
+      "chapter_number": 1,
+      "chapter_title": "The Cell",
+      "page_start": 3,
+      "page_end": 52,
+
+      "chapter_profile": {
+        "mcat_relevance_percent": 8,
+        "aamc_content_categories": [
+          {"code": "1A", "description": "Structure and function of proteins and their constituent amino acids"}
+        ]
+      },
+
+      "chapter_assessment_pages": [4, 5, 6],
+      "chapter_assessment_answer_key_pages": [7],
+      "detailed_answer_explanation_pages": [50, 51],
+
+      "sections": [
+        {
+          "section_id": "1.1",
+          "section_title": "Cell Theory",
+          "page_start": 8,
+          "page_end": 15,
+          "is_high_yield": true
+        }
+      ],
+
+      "summary_pages": [45, 46],
+      "concept_check_pages": [47, 48, 49],
+      "equations_to_remember_pages": null,
+      "shared_concepts_pages": [52]
+    }
+  ],
+
+  "glossary_pages": {"page_start": 420, "page_end": 445}
+}
+
+RULES:
+- If a section/field doesn't exist for a given chapter, use null
+- Page numbers must be integers
+- Section IDs must follow the "X.Y" format exactly as printed
+- Include ALL chapters and ALL sections — do not skip any
+- If you cannot determine exact page numbers, give your best estimate

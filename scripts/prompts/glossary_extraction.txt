@@ -1,0 +1,27 @@
+Extract the complete glossary from the end of this Kaplan MCAT textbook.
+
+The glossary is an alphabetical list of key terms with their definitions, typically found after the last chapter and before the index.
+
+For each term, extract:
+- The term exactly as written (preserving capitalization)
+- The full definition exactly as written
+- The first letter (for alphabetical grouping)
+
+OUTPUT (strict JSON):
+{{
+  "book": "{book_subject}",
+  "total_terms": 0,
+  "terms": [
+    {{
+      "term": "Activation energy",
+      "definition": "The minimum amount of energy required for a reaction to proceed. Enzymes lower the activation energy of a reaction.",
+      "first_letter": "A"
+    }}
+  ]
+}}
+
+RULES:
+- Extract EVERY term in the glossary. Do not skip any.
+- Maintain alphabetical order as printed.
+- Definitions should be verbatim from the book.
+- Set total_terms to the actual count of terms extracted.

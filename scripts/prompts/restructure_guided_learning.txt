@@ -1,0 +1,256 @@
+You are transforming extracted Kaplan MCAT content into a progressive guided learning experience designed for learners with ADHD.
+
+═══════════════════════════════════════════════════════════════
+SOURCE MATERIAL
+═══════════════════════════════════════════════════════════════
+Book: {book_subject}
+Chapter: {chapter_number} — {chapter_title}
+Section: {section_id} — {section_title}
+High-Yield: {is_high_yield}
+AAMC Categories: {aamc_categories}
+
+LEARNING OBJECTIVES:
+{learning_objectives}
+
+CONTENT BLOCKS:
+{content_blocks_json}
+
+KAPLAN SUMMARY FOR THIS SECTION:
+{summary_points}
+
+KAPLAN CONCEPT CHECK QUESTIONS FOR THIS SECTION:
+{concept_checks_json}
+
+MNEMONICS AND CALLOUTS FOR THIS SECTION:
+{callouts_json}
+
+FIGURE REFERENCES IN THIS SECTION:
+{figure_refs_json}
+
+GAME CLASSIFICATION FOR THIS SECTION:
+{game_classification_json}
+
+═══════════════════════════════════════════════════════════════
+YOUR TASK
+═══════════════════════════════════════════════════════════════
+Transform this content into a GUIDED LEARNING SEQUENCE. The learner starts knowing NOTHING about this topic. Build them from "what is this?" to "I can answer MCAT questions about this."
+
+Create between 3-7 LEVELS depending on concept complexity:
+- Simple concept → 3 levels
+- Medium concept → 5 levels
+- Complex concept (pathways, multi-step processes) → 6-7 levels
+
+EVERY level follows: LEARN → CHECK → APPLY
+
+═══════════════════════════════════════════════════════════════
+LEVEL PROGRESSION TEMPLATE
+═══════════════════════════════════════════════════════════════
+Level 1: "The Big Picture" — What is this and why does it matter?
+Level 2: "The Rules" — What principles or laws control this?
+Level 3: "The Players" — What molecules, enzymes, structures are involved?
+Level 4: "The Process" — How does it actually work, step by step?
+Level 5: "The Variations" — How does this differ across contexts? (prok vs euk, different tissues, etc.)
+Level 6: "When Things Go Wrong" — Diseases, mutations, inhibitors, clinical relevance
+Level 7: "MCAT Patterns" — How the MCAT tests this + practice questions
+
+Skip levels that don't apply. Not every concept has "variations" or "diseases." Add levels if the concept needs more scaffolding between ideas.
+
+═══════════════════════════════════════════════════════════════
+WRITING RULES FOR LEARN SEGMENTS (TTS + CAPTIONS)
+═══════════════════════════════════════════════════════════════
+Each learn segment has TWO text versions:
+
+narrator_text (spoken aloud via TTS):
+- Write as if a smart friend is explaining at a coffee shop
+- Short sentences: 8-15 words each
+- Use "you" and "your" — talk TO the learner directly
+- Use [PAUSE] between distinct ideas (converts to SSML <break> tags)
+- NEVER use parenthetical asides in narration — make them separate sentences
+- Pronounce abbreviations naturally: "DNA" = "D-N-A", "ATP" = "A-T-P"
+- Use everyday analogies when introducing abstract concepts
+- Each segment = 10-20 seconds of speech (25-50 words max)
+
+display_text (shown on screen while narrator speaks):
+- Can use **bold** for key terms being introduced
+- Can use bullet points for lists
+- Can include chemical notation (5'→3') that would be awkward spoken
+- Slightly more detailed than narrator_text
+- Must contain the KEY TERM the learner should remember
+
+═══════════════════════════════════════════════════════════════
+QUESTION DESIGN RULES (ADHD-OPTIMIZED)
+═══════════════════════════════════════════════════════════════
+
+USE THESE 7 QUESTION TYPES. Vary them — never use the same type 3 times in a row:
+
+1. "snap_judgment" — True or False, gut-check speed
+   Example: "True or false: DNA polymerase builds 3' to 5'."
+
+2. "fill_the_gap" — One blank to complete
+   Example: "Helicase _____ the double helix."
+
+3. "pick_one" — 4-option multiple choice
+   Example: "Which enzyme seals Okazaki fragments?"
+
+4. "what_breaks" — Predict the consequence of a failure/inhibition
+   Example: "Topoisomerase is blocked. What happens at the fork?"
+
+5. "put_in_order" — Arrange 3-5 steps in correct sequence
+   Example: "Order: Seal → Prime → Unwind → Extend"
+
+6. "match_up" — Connect items from two lists
+   Example: "Match enzyme to job: Helicase→? Ligase→? Primase→?"
+
+7. "spot_the_lie" — 3 true statements + 1 false. Find the false one.
+   Example: "Which one is WRONG about the leading strand?"
+
+QUESTION WORDING RULES:
+- Start with an ACTION VERB or SCENARIO. Never "Which of the following..."
+- Max 2 sentences for question stem
+- For pick_one: 1 correct, 1 close distractor, 2 clearly wrong but plausible
+- NEVER double negatives ("Which is NOT incorrect")
+- NEVER "all of the above" or "none of the above"
+- Use present tense: "What happens" not "What would happen"
+- Frame as puzzles and challenges, not quiz questions
+
+FEEDBACK FOR EVERY QUESTION:
+- correct_response: 1 sentence celebration + WHY it's right. Never just "Correct!"
+  Examples: "Exactly! Helicase goes first because..." / "Nailed it! The fork needs..."
+- wrong_response: Warm redirect + the actual answer. Never "Wrong!" or "Incorrect!"
+  Examples: "Almost! The key is..." / "Close — here's the thing..." / "Not this one — think about..."
+- wrong_explanations: For EACH wrong option, 1 sentence explaining the specific misconception
+
+═══════════════════════════════════════════════════════════════
+SPECIAL ELEMENTS TO INSERT
+═══════════════════════════════════════════════════════════════
+
+MISSION BRIEFING: Create a pre-lesson briefing from the learning objectives.
+  narrator_text should be energizing: "Here's what we're tackling..." / "By the end, you'll know..."
+
+PRO TIPS: Insert MCAT Expertise callouts at the most relevant point in the levels.
+  Format as: type "mcat_pro_tip" with narrator_text and display_text
+
+MNEMONICS: If a mnemonic exists for content in a level, embed it in the learn segment.
+  Add a "mnemonic" field to the segment.
+
+FIGURE REFERENCES: When a figure is relevant to a learn segment, include figure_ref with the figure_id.
+  The frontend will display the image alongside the text.
+
+═══════════════════════════════════════════════════════════════
+APPLY QUESTIONS (end of each level)
+═══════════════════════════════════════════════════════════════
+Apply questions DIFFER from check questions:
+- They require COMBINING ideas from the current level
+- They present a novel scenario not directly stated in the learn segments
+- They mimic MCAT reasoning: "Given X, predict Y"
+- Always pick_one or what_breaks type
+- Include a "reasoning" field with the logical chain to the answer
+
+═══════════════════════════════════════════════════════════════
+OUTPUT JSON SCHEMA
+═══════════════════════════════════════════════════════════════
+
+{{
+  "concept_id": "{section_id}-slugified-title",
+  "title": "{section_title}",
+  "book": "{book_subject}",
+  "chapter": {chapter_number},
+  "section_id": "{section_id}",
+  "is_high_yield": {is_high_yield},
+  "aamc_categories": {aamc_categories},
+  "complexity": 5,
+  "estimated_minutes": 12,
+  "prerequisite_concepts": ["other-concept-id-1"],
+
+  "mission_briefing": {{
+    "narrator_text": "Alright, here is what we are tackling. [PAUSE] By the end of this...",
+    "display_text": "**Mission: Section Title**\n• Objective 1\n• Objective 2\n• Objective 3"
+  }},
+
+  "levels": [
+    {{
+      "level": 1,
+      "title": "The Big Picture",
+      "learn_segments": [
+        {{
+          "segment_id": "concept-id-L1-S1",
+          "narrator_text": "Here is the deal. [PAUSE] Sentence two. [PAUSE] Sentence three.",
+          "display_text": "**Key Term** — explanation with bullets",
+          "key_term": "the one term to remember",
+          "estimated_seconds": 15,
+          "mnemonic": null,
+          "figure_ref": null
+        }}
+      ],
+      "pro_tips": [
+        {{
+          "narrator_text": "Quick MCAT tip. [PAUSE] The test loves asking...",
+          "display_text": "🎯 **MCAT Pro Tip:** ...",
+          "source": "Kaplan MCAT Expertise"
+        }}
+      ],
+      "check_questions": [
+        {{
+          "question_id": "concept-id-L1-CQ1",
+          "question_type": "snap_judgment",
+          "question_text": "True or false: ...",
+          "options": ["True", "False"],
+          "correct_index": 1,
+          "correct_response": "Exactly! Because...",
+          "wrong_response": "Not quite — here is the key...",
+          "wrong_explanations": {{
+            "0": "This is a common misconception because..."
+          }},
+          "source": "ai_generated"
+        }}
+      ],
+      "apply_question": {{
+        "question_id": "concept-id-L1-AQ1",
+        "question_type": "what_breaks",
+        "scenario": "A researcher adds Drug X that blocks...",
+        "question_text": "What is the first thing that fails?",
+        "options": ["Option A", "Option B", "Option C", "Option D"],
+        "correct_index": 2,
+        "correct_response": "Right! Because...",
+        "wrong_response": "Close — think about the sequence...",
+        "reasoning": "Step 1 depends on... therefore...",
+        "wrong_explanations": {{
+          "0": "This step actually comes after...",
+          "1": "This would only be affected if...",
+          "3": "This is downstream of the actual failure point..."
+        }}
+      }}
+    }}
+  ],
+
+  "bridges": [
+    {{
+      "target_concept_id": "related-concept-slug",
+      "target_title": "Related Concept Name",
+      "relationship": "prerequisite",
+      "connection_explanation": "One sentence explaining the connection",
+      "bridge_question": {{
+        "question_text": "A question spanning both topics",
+        "answer": "Brief answer"
+      }}
+    }}
+  ],
+
+  "game_elements": {game_classification_json}
+}}
+
+═══════════════════════════════════════════════════════════════
+QUALITY CHECKS — Verify before outputting:
+═══════════════════════════════════════════════════════════════
+- Every question has the right number of options for its type
+- correct_index points to the actual correct option (0-indexed)
+- No question stem exceeds 2 sentences
+- No narrator_text segment exceeds 50 words
+- wrong_explanations exist for EVERY wrong option index
+- No two consecutive check_questions use the same question_type
+- At least 3 different question_types used across all levels
+- Every learn segment teaches exactly ONE new idea
+- Apply questions require combining ideas, not just recalling
+- Bridge targets are real MCAT topics
+- Kaplan concept checks are used where appropriate (mark source as "kaplan_original" or "kaplan_adapted")
+- Learning objectives are fully covered across all levels

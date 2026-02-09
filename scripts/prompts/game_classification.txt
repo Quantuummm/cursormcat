@@ -1,0 +1,104 @@
+Analyze this extracted MCAT content section and classify what memorization games could be made from it.
+
+SECTION: {section_id} — {section_title}
+BOOK: {book_subject}, Chapter {chapter_number}
+
+CONTENT BLOCKS:
+{content_blocks_json}
+
+FIGURES FOR THIS SECTION:
+{figures_json}
+
+EQUATIONS FOR THIS SECTION:
+{equations_json}
+
+═══════════════════════════════════════════════════════════════
+GAME TYPE DEFINITIONS
+═══════════════════════════════════════════════════════════════
+
+"build" — Put steps of a process in the correct order (drag-and-drop sequencing)
+  Trigger: numbered_steps with 4+ steps, or any described process/pathway
+
+"label" — Identify and label parts of a structure or diagram (tap-to-label)
+  Trigger: figure with 4+ labeled parts, or a labeled diagram description
+
+"enzyme" — Match enzymes/molecules to their functions or targets (drag-to-match)
+  Trigger: comparison_table or fill_in_table with enzyme-function mappings
+
+"regulate" — Apply correct inhibitors/activators to targets and predict effects
+  Trigger: content mentioning regulatory molecules, feedback loops, or pathway control
+
+"match" — Drag properties to the correct category in a comparison (column sorting)
+  Trigger: comparison_table with 3+ rows comparing 2+ items
+
+"equation" — See equation name → pick the formula, or see formula → identify variables
+  Trigger: equations_to_remember entries
+
+"rapid_recall" — Flash a term, pick the correct definition from 4 options (5-sec timer)
+  Trigger: 5+ definitions in the section, or a long bullet_list of categorized items
+
+"diagram_label" — Tap regions of an image to label them correctly
+  Trigger: illustration or structure figure with distinct labeled regions
+
+═══════════════════════════════════════════════════════════════
+REPETITION PRIORITY RULES
+═══════════════════════════════════════════════════════════════
+
+Mark as "critical" if the content is ANY of these high-yield memorization topics:
+- Metabolic pathways (glycolysis, TCA/Krebs, ETC, gluconeogenesis, beta-oxidation, pentose phosphate, urea cycle, fatty acid synthesis)
+- Amino acid properties and classifications (polar, nonpolar, charged, special)
+- Organic chemistry functional groups
+- Brain regions and their functions
+- Enzyme classifications and mechanisms
+- Hormones and their target organs/effects
+- Autonomic nervous system effects (sympathetic vs parasympathetic)
+- Kidney nephron segments and their functions
+- Immune cell types and their roles
+- Cardiac cycle and heart anatomy
+- Key physics equations and when to use each
+- Acid-base chemistry (pKa, Henderson-Hasselbalch)
+- Genetic code / codon table usage
+- Cell cycle phases and checkpoints
+- Sensory organ structures (eye, ear)
+- Muscle contraction mechanism
+
+Mark as "important" if it involves structured memorization but isn't in the critical list.
+Mark as "supplementary" if the content is more conceptual understanding than pure memorization.
+
+═══════════════════════════════════════════════════════════════
+OUTPUT
+═══════════════════════════════════════════════════════════════
+
+OUTPUT (strict JSON):
+{{
+  "section_id": "{section_id}",
+  "section_title": "{section_title}",
+  "has_games": true,
+
+  "games": [
+    {{
+      "game_type": "build",
+      "game_title": "Build: [Process Name]",
+      "description": "Place the steps of [process] in the correct order",
+      "difficulty": 2,
+      "repetition_priority": "critical",
+      "source_content": "Brief description of which content block this came from",
+      "items": [
+        {{"order": 1, "name": "Step name", "detail": "Brief detail about this step"}},
+        {{"order": 2, "name": "Step name", "detail": "Brief detail about this step"}}
+      ],
+      "distractors": ["Fake step that doesn't belong"],
+      "regulators": [
+        {{"molecule": "ATP", "type": "inhibitor", "target": "PFK-1", "effect": "Slows pathway when energy is high"}}
+      ]
+    }}
+  ]
+}}
+
+RULES:
+- If there is NO structured/ordered/labeled content suitable for games → set has_games to false and games to empty array []
+- Each game must have at least 4 items to be worthwhile
+- Include 1-2 distractors (plausible-sounding wrong items) for build and label games
+- Only include regulators if the content actually mentions regulatory molecules
+- game_title should be concise: "Build: Glycolysis" or "Label: Brain Lobes" or "Match: Prokaryote vs Eukaryote"
+- Difficulty 1 = 4-5 items, Difficulty 2 = 6-8 items, Difficulty 3 = 9+ items

@@ -1,0 +1,70 @@
+You are creating an enriched MCAT Bridge connection between two topics.
+
+Kaplan's "Shared Concepts" section connects these two topics:
+
+SOURCE: {source_book} Chapter {source_chapter} — {source_chapter_title}
+  Section focus: {source_section_title}
+
+TARGET: {target_book} Chapter {target_chapter} — {target_chapter_title}
+  Topics mentioned: {target_topics}
+
+SOURCE SUMMARY (what the source section covers):
+{source_summary}
+
+TARGET SUMMARY (what the target section covers):
+{target_summary}
+
+═══════════════════════════════════════════════════════════════
+YOUR TASK
+═══════════════════════════════════════════════════════════════
+
+Explain WHY these are connected and create content for the "MCAT Bridge" feature, where a student who finishes one topic sees how it connects to another.
+
+OUTPUT (strict JSON):
+{{
+  "bridge_id": "{source_book}-ch{source_chapter}_to_{target_book}-ch{target_chapter}",
+  "source": {{
+    "book": "{source_book}",
+    "chapter": {source_chapter},
+    "chapter_title": "{source_chapter_title}",
+    "section_title": "{source_section_title}"
+  }},
+  "target": {{
+    "book": "{target_book}",
+    "chapter": {target_chapter},
+    "chapter_title": "{target_chapter_title}"
+  }},
+
+  "connection_type": "application | contrast | prerequisite | consequence | shared_mechanism",
+
+  "connection_explanation": "2-3 sentences explaining WHY these topics connect and how the MCAT links them. Be specific — reference actual concepts from both sides.",
+
+  "narrator_text": "A TTS-friendly version of the connection explanation. Short sentences, uses [PAUSE], conversational tone. Max 40 words.",
+
+  "display_text": "Screen-friendly version with **bold** key terms. Can be slightly longer than narrator_text.",
+
+  "mcat_test_pattern": "1-2 sentences describing how the MCAT specifically tests this connection. Example: 'MCAT passages often present a biological system and ask you to apply physics energy concepts.'",
+
+  "bridge_questions": [
+    {{
+      "question_text": "A question that requires knowledge of BOTH topics to answer",
+      "options": ["Option A", "Option B", "Option C", "Option D"],
+      "correct_index": 0,
+      "explanation": "Why this answer is right, referencing both topics",
+      "difficulty": 2
+    }},
+    {{
+      "question_text": "A second bridge question from a different angle",
+      "options": ["Option A", "Option B", "Option C", "Option D"],
+      "correct_index": 3,
+      "explanation": "Explanation referencing both topics",
+      "difficulty": 3
+    }}
+  ]
+}}
+
+RULES:
+- connection_type must be one of the 5 options listed
+- Bridge questions MUST require knowledge of both source and target to answer correctly
+- Be specific — don't say "these are related." Say HOW they're related with concrete examples.
+- narrator_text should be engaging: "Here is something cool..." / "This connects because..."

@@ -1,0 +1,38 @@
+# Environment
+.env
+*.env
+
+# PDFs (copyrighted material - never commit)
+pdfs/
+
+# Extracted content (large JSON files)
+extracted/
+classified/
+structured/
+bridges/
+audio/
+
+# Assets (extracted images)
+assets/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Google Cloud credentials
+*.json
+!scripts/prompts/*.json
+!package.json

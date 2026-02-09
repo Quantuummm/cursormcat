@@ -1,0 +1,41 @@
+Extract the Chapter Assessment (diagnostic questions) from Chapter {chapter_number}: {chapter_title} of this Kaplan MCAT textbook.
+
+These are the multiple-choice questions at the BEGINNING of the chapter (diagnostic/pre-test), with a short answer key (letter only) immediately following them, AND detailed explanations at the END of the chapter.
+
+YOUR TASK:
+1. Extract EVERY question with its full stem and ALL 4 answer options
+2. Match each question with its correct answer letter from the short answer key
+3. Match each question with its full explanation from the detailed answer section at the end of the chapter
+
+OUTPUT (strict JSON):
+
+{{
+  "book": "{book_subject}",
+  "chapter_number": {chapter_number},
+  "chapter_title": "{chapter_title}",
+  "assessment_type": "chapter_diagnostic",
+  "total_questions": 15,
+
+  "questions": [
+    {{
+      "question_number": 1,
+      "question_text": "Full question stem exactly as written",
+      "options": [
+        {{"letter": "A", "text": "Full option A text"}},
+        {{"letter": "B", "text": "Full option B text"}},
+        {{"letter": "C", "text": "Full option C text"}},
+        {{"letter": "D", "text": "Full option D text"}}
+      ],
+      "correct_letter": "B",
+      "kaplan_explanation": "Full explanation from the detailed answer key section at the end of the chapter. Extract verbatim."
+    }}
+  ]
+}}
+
+CRITICAL RULES:
+- Extract ALL questions (typically 15). Do not skip any.
+- The short answer key near the questions may only have "1. B, 2. A, 3. C..." — just the letters.
+- The detailed explanations are in a SEPARATE section, often at the end of the chapter. Find them and match by question number.
+- If a question references a figure or table, note it as [FIGURE: description] in the question_text.
+- Extract option text VERBATIM from the book.
+- If you cannot find the detailed explanation for a question, set kaplan_explanation to null.
