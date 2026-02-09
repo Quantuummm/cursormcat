@@ -9,3 +9,4 @@ python-slugify>=8.0.0
 Pillow>=10.0.0
 tqdm>=4.66.0
 python-dotenv>=1.0.0
+I did it -ChatGPT
