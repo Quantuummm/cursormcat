@@ -76,8 +76,8 @@ def run(pdf_filename: str = None, chapter_num: int = None):
                 book_subject=subject,
             )
 
-            print(f"     🔍 Extracting (this may take 30-60 seconds)...")
-            chapter_data = client.extract(prompt, pdf_file)
+            print(f"     🔍 Extracting with {client.__class__.__name__} heavy model (may take 30-90s)...")
+            chapter_data = client.extract_heavy(prompt, pdf_file, phase=f"P3_sections_ch{ch_num}")
 
             # Validate
             issues = validate_extraction(chapter_data)
@@ -106,6 +106,8 @@ def run(pdf_filename: str = None, chapter_num: int = None):
                 json.dump(chapter_data, f, indent=2, ensure_ascii=False)
             print(f"     💾 Saved: {output_path.name}")
 
+    client.print_cost_summary()
+    client.save_usage_log(f"usage_phase3_{list(books_to_process.values())[0] if len(books_to_process) == 1 else 'all'}.json")
     client.cleanup()
     print(f"\n✅ Phase 3 complete!")
 

@@ -49,9 +49,9 @@ def run(pdf_filename: str = None):
         # Upload PDF to Gemini
         pdf_file = client.upload_pdf(pdf_path)
 
-        # Extract TOC
+        # Extract TOC (light model — structured output fits easily)
         print(f"  🔍 Analyzing table of contents...")
-        toc = client.extract(prompt_template, pdf_file)
+        toc = client.extract_light(prompt_template, pdf_file, phase="P1_toc")
 
         # Validate
         issues = validate_toc(toc)

@@ -138,29 +138,50 @@ def run(pdf_filename: str = None, chapter_num: int = None):
                     game_classification_json=json.dumps(game_classification, indent=2),
                 )
 
-                print(f"        🔄 Restructuring (this takes 30-90 seconds)...")
-                structured = client.restructure(prompt)
+                print(f"        🔄 Restructuring with Gemini 3 Flash (30-90 seconds)...")
 
-                # Validate
-                issues = validate_restructured(structured)
-                print_validation(f"Section {sec_id}", issues)
+                try:
+                    structured = client.restructure(prompt, phase=f"P8_restructure_{sec_id}")
 
-                levels = structured.get("levels", [])
-                total_questions = sum(
-                    len(lv.get("check_questions", []))
-                    + (1 if lv.get("apply_question") else 0)
-                    for lv in levels
-                )
-                print(f"        Levels: {len(levels)}")
-                print(f"        Total questions: {total_questions}")
-                print(f"        Has games: {structured.get('game_elements', {}).get('has_games', False)}")
+                    # Handle case where Gemini returns a list instead of an object
+                    if isinstance(structured, list):
+                        # Take first item if it looks like a concept object
+                        if structured and isinstance(structured[0], dict) and "levels" in structured[0]:
+                            structured = structured[0]
+                        else:
+                            structured = {
+                                "concept_id": f"{sec_id}-{safe_title}",
+                                "title": sec_title,
+                                "levels": structured if all(isinstance(x, dict) for x in structured) else [],
+                            }
 
-                # Save
-                concept_id = structured.get("concept_id", f"{sec_id}-{safe_title}")
-                output_path = output_dir / f"{concept_id}.json"
-                with open(output_path, "w", encoding="utf-8") as f:
-                    json.dump(structured, f, indent=2, ensure_ascii=False)
-                print(f"        💾 Saved: {output_path.name}")
+                    # Validate
+                    issues = validate_restructured(structured)
+                    print_validation(f"Section {sec_id}", issues)
+
+                    levels = structured.get("levels", [])
+                    total_questions = sum(
+                        len(lv.get("check_questions", []))
+                        + (1 if lv.get("apply_question") else 0)
+                        for lv in levels
+                    )
+                    print(f"        Levels: {len(levels)}")
+                    print(f"        Total questions: {total_questions}")
+                    game_els = structured.get("game_elements", {})
+                    has_games = game_els.get("has_games", False) if isinstance(game_els, dict) else False
+                    print(f"        Has games: {has_games}")
+
+                    # Save
+                    concept_id = structured.get("concept_id", f"{sec_id}-{safe_title}")
+                    output_path = output_dir / f"{concept_id}.json"
+                    with open(output_path, "w", encoding="utf-8") as f:
+                        json.dump(structured, f, indent=2, ensure_ascii=False)
+                    print(f"        💾 Saved: {output_path.name}")
+
+                except Exception as e:
+                    print(f"        ❌ Failed to restructure {sec_id}: {e}")
+                    print(f"        ⏭️  Skipping this section, continuing with next...")
+                    continue
 
         print(f"\n  📁 Structured files saved to: {output_dir}")
 

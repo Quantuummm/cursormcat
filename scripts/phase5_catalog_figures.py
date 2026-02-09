@@ -80,7 +80,7 @@ def run(pdf_filename: str = None, chapter_num: int = None):
             )
 
             print(f"     🔍 Identifying figures...")
-            catalog = client.extract(prompt, pdf_file)
+            catalog = client.extract_light(prompt, pdf_file, phase=f"P5_figures_ch{ch_num}")
 
             ch_figures = catalog.get("figures", [])
             print(f"     Found {len(ch_figures)} figures")

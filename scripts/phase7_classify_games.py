@@ -85,7 +85,16 @@ def run(pdf_filename: str = None, chapter_num: int = None):
                 )
 
                 print(f"     🎮 Section {sec_id}: {sec_title}...", end=" ")
-                classification = client.enrich(prompt)
+                classification = client.enrich(prompt, phase=f"P7_games_{sec_id}")
+
+                # Handle case where Gemini returns a list instead of an object
+                if isinstance(classification, list):
+                    classification = {
+                        "section_id": sec_id,
+                        "section_title": sec_title,
+                        "has_games": len(classification) > 0,
+                        "games": classification,
+                    }
 
                 games = classification.get("games", [])
                 has_games = classification.get("has_games", False)

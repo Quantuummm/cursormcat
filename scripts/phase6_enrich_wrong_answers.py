@@ -75,7 +75,7 @@ def run(pdf_filename: str = None):
             )
 
             print(f"     🔍 Generating explanations...")
-            enrichments = client.enrich(prompt)
+            enrichments = client.enrich(prompt, phase=f"P6_wrong_answers_ch{ch_num}")
 
             # Merge enrichments back into assessment
             enrichment_map = {}

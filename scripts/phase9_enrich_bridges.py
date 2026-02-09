@@ -122,7 +122,7 @@ def run():
         )
 
         try:
-            enriched = client.enrich(prompt)
+            enriched = client.enrich(prompt, phase=f"P9_bridge_{i}")
             enriched_bridges.append(enriched)
 
             conn_type = enriched.get("connection_type", "?")

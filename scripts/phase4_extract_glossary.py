@@ -58,7 +58,7 @@ def run(pdf_filename: str = None):
         prompt = prompt_template.format(book_subject=subject)
 
         print(f"  🔍 Extracting glossary terms...")
-        glossary = client.extract(prompt, pdf_file)
+        glossary = client.extract_heavy(prompt, pdf_file, phase="P4_glossary")
 
         # Validate
         issues = validate_glossary(glossary)

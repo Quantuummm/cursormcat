@@ -72,7 +72,7 @@ def run(pdf_filename: str = None, chapter_num: int = None):
                 book_subject=subject,
             )
 
-            assessment = client.extract(prompt, pdf_file)
+            assessment = client.extract_light(prompt, pdf_file, phase=f"P2_assessment_ch{ch_num}")
 
             # Validate
             issues = validate_assessment(assessment)
