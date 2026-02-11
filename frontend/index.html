@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MCAT Mastery</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/planets.css">
+    <link rel="stylesheet" href="css/animations.css">
+
+    <!-- Firebase SDK (compat for simplicity) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+</head>
+<body>
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- LOADING SCREEN                                  -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <div id="loading-screen" class="screen active">
+        <div class="loading-content">
+            <h1 class="game-title">MCAT Mastery</h1>
+            <p class="loading-subtitle">Reclaim the Light. Defeat Grimble.</p>
+            <div class="loading-bar-container">
+                <div class="loading-bar" id="loading-bar"></div>
+            </div>
+            <p class="loading-status" id="loading-status">Initializing LYRA...</p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- CHARACTER SELECT                                -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <div id="character-select-screen" class="screen">
+        <div class="screen-header">
+            <h2>Choose Your Commander</h2>
+            <p class="screen-subtitle">Who will lead the reclamation?</p>
+        </div>
+        <div id="commander-grid" class="commander-grid">
+            <!-- Populated by JS -->
+        </div>
+        <div class="character-name-input">
+            <label for="player-name">Commander Name</label>
+            <input type="text" id="player-name" placeholder="Enter name..." maxlength="16">
+        </div>
+        <div id="resonance-picker" class="resonance-picker">
+            <h3>Choose Your Resonance</h3>
+            <div class="resonance-grid">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+        <button id="btn-start-adventure" class="btn btn-primary btn-large" disabled>Begin Adventure</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- SHIP DASHBOARD (HUB)                            -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <div id="dashboard-screen" class="screen">
+        <header class="dashboard-header">
+            <div class="player-info">
+                <span class="player-name" id="hud-player-name">Commander</span>
+                <span class="player-level" id="hud-level">Lv 1</span>
+            </div>
+            <div class="hud-resources">
+                <div class="hud-item" id="hud-crystals" title="Energy Crystals">
+                    <span class="hud-icon">✨</span>
+                    <span class="hud-value" id="hud-crystal-count">0</span>
+                </div>
+                <div class="hud-item" id="hud-energy" title="Neural Charge">
+                    <span class="hud-icon">⚡</span>
+                    <span class="hud-value" id="hud-energy-count">6/6</span>
+                </div>
+                <div class="hud-item" id="hud-streak" title="Daily Streak">
+                    <span class="hud-icon">🔥</span>
+                    <span class="hud-value" id="hud-streak-count">0</span>
+                </div>
+            </div>
+            <button class="btn btn-icon" id="btn-profile" title="Profile">👤</button>
+        </header>
+
+        <div class="dashboard-body">
+            <div class="lyra-greeting" id="lyra-greeting">
+                <div class="lyra-avatar"></div>
+                <div class="lyra-bubble">
+                    <p id="lyra-message">Welcome back, Commander. Where shall we deploy today?</p>
+                </div>
+            </div>
+
+            <div class="planet-orbit" id="planet-orbit">
+                <!-- 7 planet buttons rendered by dashboard.js -->
+            </div>
+
+            <div class="dashboard-actions">
+                <button class="btn btn-secondary" id="btn-notebook">📓 Notebook</button>
+                <button class="btn btn-secondary" id="btn-shop">🛒 Shop</button>
+                <button class="btn btn-secondary" id="btn-bridges">🌉 Bridges</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- PLANET MAP                                      -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <div id="planet-map-screen" class="screen">
+        <header class="planet-header" id="planet-header">
+            <button class="btn btn-icon btn-back" id="btn-back-dashboard">←</button>
+            <div class="planet-title-block">
+                <h2 id="planet-name">Verdania</h2>
+                <p id="planet-subject">Biology</p>
+            </div>
+            <div class="planet-progress">
+                <div class="progress-ring" id="planet-progress-ring"></div>
+                <span id="planet-progress-pct">0%</span>
+            </div>
+        </header>
+
+        <div class="sector-list" id="sector-list">
+            <!-- Populated by planet-map.js -->
+        </div>
+
+        <div class="tile-grid-container" id="tile-grid-container">
+            <div class="tile-grid" id="tile-grid">
+                <!-- Populated by planet-map.js -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- MISSION (Guided Learning Player)                -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <div id="mission-screen" class="screen">
+        <header class="mission-header">
+            <button class="btn btn-icon btn-back" id="btn-back-planet">←</button>
+            <div class="mission-progress-bar">
+                <div class="mission-bar-fill" id="mission-bar-fill" style="width: 0%"></div>
+            </div>
+            <div class="mission-streak-counter" id="mission-streak">
+                <span class="streak-icon">🔥</span>
+                <span class="streak-num" id="mission-streak-num">0</span>
+            </div>
+        </header>
+
+        <main class="mission-body" id="mission-body">
+            <!-- Dynamic: learn segments, questions, creature encounters -->
+        </main>
+
+        <footer class="mission-footer" id="mission-footer">
+            <!-- Dynamic: answer buttons, continue, submit -->
+        </footer>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- GAME MODE (Mem-Games)                           -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <div id="game-mode-screen" class="screen">
+        <header class="game-header">
+            <button class="btn btn-icon btn-back" id="btn-back-from-game">←</button>
+            <h2 id="game-mode-title">Mem-Game</h2>
+            <div class="game-timer" id="game-timer">⏱ --</div>
+        </header>
+        <main class="game-arena" id="game-arena">
+            <!-- Populated by individual game engines -->
+        </main>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- BRIDGE MISSION                                  -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <div id="bridge-screen" class="screen">
+        <header class="bridge-header">
+            <button class="btn btn-icon btn-back" id="btn-back-from-bridge">←</button>
+            <h2>Bridge Mission</h2>
+        </header>
+        <div class="bridge-briefing" id="bridge-briefing">
+            <!-- LYRA briefing + cross-planet visualization -->
+        </div>
+        <main class="bridge-body" id="bridge-body">
+            <!-- Questions that span two subjects -->
+        </main>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- NOTEBOOK (Field Notes / Neural Archive)         -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <div id="notebook-screen" class="screen">
+        <header class="notebook-header">
+            <button class="btn btn-icon btn-back" id="btn-back-from-notebook">←</button>
+            <h2>📓 Neural Archive</h2>
+        </header>
+        <div class="notebook-tabs">
+            <button class="tab active" data-tab="notes">Field Notes</button>
+            <button class="tab" data-tab="glossary">Glossary</button>
+            <button class="tab" data-tab="equations">Equations</button>
+            <button class="tab" data-tab="figures">Figures</button>
+        </div>
+        <div class="notebook-content" id="notebook-content">
+            <!-- Populated per tab -->
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- SHOP                                            -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <div id="shop-screen" class="screen">
+        <header class="shop-header">
+            <button class="btn btn-icon btn-back" id="btn-back-from-shop">←</button>
+            <h2>🛒 Crystal Exchange</h2>
+            <div class="shop-balance">
+                <span class="hud-icon">✨</span>
+                <span id="shop-crystal-count">0</span>
+            </div>
+        </header>
+        <div class="shop-tabs">
+            <button class="tab active" data-tab="upgrades">⚡ Upgrades</button>
+            <button class="tab" data-tab="cosmetics">🎨 Cosmetics</button>
+            <button class="tab" data-tab="items">📦 Items</button>
+        </div>
+        <div class="shop-grid" id="shop-grid">
+            <!-- Populated by shop.js -->
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- PROFILE                                         -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <div id="profile-screen" class="screen">
+        <header class="profile-header">
+            <button class="btn btn-icon btn-back" id="btn-back-from-profile">←</button>
+            <h2>Commander Profile</h2>
+        </header>
+        <div class="profile-body" id="profile-body">
+            <!-- Stats, resonance tree, achievements -->
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- TOAST / REWARD POPUP (overlay)                  -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <div id="toast-container" class="toast-container"></div>
+    <div id="reward-popup" class="reward-popup hidden">
+        <div class="reward-content">
+            <h3 id="reward-title">Sector Stabilized!</h3>
+            <div class="reward-items" id="reward-items"></div>
+            <button class="btn btn-primary" id="btn-collect-rewards">Collect</button>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- SCRIPTS                                         -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- Data layer -->
+    <script src="js/data/game-data.js"></script>
+    <script src="js/data/player.js"></script>
+
+    <!-- Systems -->
+    <script src="js/systems/tts.js"></script>
+    <script src="js/systems/fog.js"></script>
+    <script src="js/systems/energy.js"></script>
+    <script src="js/systems/streaks.js"></script>
+    <script src="js/systems/resonance.js"></script>
+    <script src="js/systems/creatures.js"></script>
+
+    <!-- Game Engines -->
+    <script src="js/engines/game-engines.js"></script>
+
+    <!-- Screens -->
+    <script src="js/screens/dashboard.js"></script>
+    <script src="js/screens/planet-map.js"></script>
+    <script src="js/screens/mission.js"></script>
+    <script src="js/screens/character-select.js"></script>
+
+    <!-- Core -->
+    <script src="js/firebase.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

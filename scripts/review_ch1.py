@@ -5,7 +5,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from config import EXTRACTED_DIR, CLASSIFIED_DIR, STRUCTURED_DIR
+from config import EXTRACTED_DIR, CLASSIFIED_DIR, STRUCTURED_DIR, ASSETS_DIR
 
 print("=" * 70)
 print("CHAPTER 1 PROOF-OF-CONCEPT: COMPLETE PIPELINE REVIEW")
@@ -38,7 +38,7 @@ figs = json.loads((EXTRACTED_DIR / "biology" / "_figure_catalog.json").read_text
 matched = sum(1 for f in figs["figures"] if f.get("matched"))
 print(f"  Figures: {figs['total_figures']} cataloged, {matched} matched to images")
 
-img_count = len(list((Path("assets/biology/figures")).glob("*.png")))
+img_count = len(list((ASSETS_DIR / "biology" / "figures").glob("*.png")))
 print(f"  Images: {img_count} PNGs extracted from PDF")
 
 # --- Games ---

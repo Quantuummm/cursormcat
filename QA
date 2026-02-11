@@ -1,0 +1,610 @@
+User: This is a crucial step of my "consolidating my backend structure to my core game design and bridging it to my frond end" multi-step plan to get my project of building an MCAT game that was specifically tailored for people with ADHD that takes you from 0-100 on every mcat subject with guided lessons, addicting games, fun lore, stunning + simple visuals/animations, and easy to play/navigate. I want you to take your time to review all the code i have in this repo so far to understand its core functionality and then focus in on this multi-phase pipeline starting with phase6 and onwards. This has to be a massive setup process because I want to remove everything in the lore folder and align it with everything in the MCAT_game_Design_v2 and apply it across the entire code. The reason I said phase6 and onwards is because that is the first phase where you see TTS calls in the prompt where it requires a character, the Operator AI, which has been updated. You will find that the entire code will require updating as the game design adds and removes game features. t I have detailed alot of functions and characters and gameplay mechanics in the game design that need a place here so they can function properly when called in the front end and stored in the backend. There are no longer any minibosses and they are replaced with the creatures that the darkness took over. You will see that you'll need to make tremendous edits from phase6-8_2 and then phase10 is the actual call to making the text to TTS through google cloud. Phase9 needs a rework too because the way it is discussed in the game design is different and if you find that the prompt can be improved, do so. If you believe the way I am approaching trying to make a connecting feature can be improved, do so. Remember that what Kaplan about relationships to topics is important but what the MCAT ACTUALLY commonly draws connections too in the actual exam needs to be included too. Phase10 and Phase11 need setup but after you are done setting up all the new features and things found in the game design file that simply isnt here like the progression system, items, the antagonist, planets, the 7 supporting characters, and much more. I need descriptions as well of what they look like to form a complete picture of their quirks and attributes that follow the thematic of the game and what it draws inspiration from. Once you are done with all that, then look at how you will turn all of that into the appropriate google TTS voices (phase10) and how that will be stored on firebase in phase11. You are allowed to create new folders to maximize organization and have the easiest time calling to stuff in the front end. Speaking about the front end, now is the time to setup for how the games, character interactions, animations, art, UX, UI, Dashboard, TTS, and guided learning will actually WORK in the front end. You need to figure that out from this data to a fully functioning game where I go to the webapp, login to sync my data, and get right into the game. Use all the elements from the game design to fuel your building and see how far you can get. Alot of the PDF extraction and manipulation data is not available because Gemini is currently processing all of that so eventually, everything up to phase5 will be done soon. Let me know if you have any questions.
+
+GitHub Copilot: 
+
+ I'll start by thoroughly reviewing the entire codebase to understand the current structure, then plan and execute a comprehensive overhaul. Let me begin by reading all the key files. 
+
+Created 10 todos
+
+Review all phase code files
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/lore/world.json)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase6/phase6_enrich_wrong_answers.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase6/wrong_answer_enrichment.txt)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase6_1/phase6_1_verify_wrong_answers.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase6_1/verify_wrong_answers.txt)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase7/phase7_build_primitives.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase7_legacy/phase7_legacy_classify_games.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase7_legacy/game_classification.txt)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase10/phase10_generate_tts.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase11/phase11_upload_firestore.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/config.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/run_pipeline.py#1-1), lines 1 to 300
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/build_primitives.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/build_primitives_NEW.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/verify_content.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/verify_guided_learning.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/phase8_restructure_guided_learning.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/phase12_compile_modes_NEW.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/restructure_one_section.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/fix_all_ch1.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/fix_and_verify.py#1-1), lines 1 to 300
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/check_phase_outputs.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/demo_pipeline_output.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/review_ch1.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/quick_fix.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/preview_toc.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/batch_submit_all.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/migrate_outputs_to_phases.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/run_pipeline.py#300-300), lines 300 to 369
+
+Searched for files matching `**/phases/**/__init__.py`, 16 matches
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase8)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase8_1)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase8_2)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase9)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/prompts)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/utils)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase8/phase8_restructure_guided_learning.py#1-1), lines 1 to 400
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase8/restructure_guided_learning.txt#1-1), lines 1 to 300
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase8_1/phase8_1_compile_modes.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase8_2/phase8_2_verify_and_fix.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase9/phase9_enrich_bridges.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase9/bridge_enrichment.txt)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/prompts/fix_content.txt)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/prompts/verify_accuracy.txt)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase8/phase8_restructure_guided_learning.py#400-400), lines 400 to 442
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/__init__.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase0/__init__.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase1/__init__.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase8/__init__.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase8_1/__init__.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase9/__init__.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/utils/__init__.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/utils/gemini_client.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/utils/schema_validator.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/utils/primitives_builder.py#1-1), lines 1 to 300
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/utils/mode_compiler.py#1-1), lines 1 to 500
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/utils/image_matcher.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/utils/checkpoint_manager.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/utils/primitives_builder_NEW.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/utils/mode_compiler_NEW.py#1-1), lines 1 to 400
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/utils/primitives_builder.py#300-300), lines 300 to 395
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/utils/mode_compiler.py#500-500), lines 500 to 816
+
+Read [](file:///c%3A/Users/Rauf/AppData/Roaming/Code/User/workspaceStorage/7064c8d67cfa9ae28dde63fb9e0d66fe/GitHub.copilot-chat/chat-session-resources/76eac0b3-9377-4b92-945e-3fc5e3cf6a6c/toolu_014LMTryw9tjqsuoiA4vGiwi__vscode-1770782605425/content.txt)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/lore/world.json)
+
+Now let me read the remaining critical files to understand the full picture: 
+
+Read phase8 prompt and mode compiler
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase8/restructure_guided_learning.txt)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase9/bridge_enrichment.txt)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase6/wrong_answer_enrichment.txt)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase6_1/verify_wrong_answers.txt)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase7_legacy/game_classification.txt)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/prompts/verify_accuracy.txt)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/prompts/fix_content.txt)
+
+Read [](file:///c%3A/Users/Rauf/AppData/Roaming/Code/User/workspaceStorage/7064c8d67cfa9ae28dde63fb9e0d66fe/GitHub.copilot-chat/chat-session-resources/76eac0b3-9377-4b92-945e-3fc5e3cf6a6c/toolu_01MWGsfvMp1Heki4J1UayNEf__vscode-1770782605504/content.txt#1-1), lines 1 to 700
+
+Read [](file:///c%3A/Users/Rauf/AppData/Roaming/Code/User/workspaceStorage/7064c8d67cfa9ae28dde63fb9e0d66fe/GitHub.copilot-chat/chat-session-resources/76eac0b3-9377-4b92-945e-3fc5e3cf6a6c/toolu_01MWGsfvMp1Heki4J1UayNEf__vscode-1770782605504/content.txt#700-700), lines 700 to 746
+
+Now I have a comprehensive understanding of the entire codebase. Let me plan the restructure and begin executing. 
+
+Created 16 todos
+
+Here's my analysis and plan. The gap between your current backend ("The Cortex Campaign" with The Operator, The Fog, Foglings, etc.) and the Game Design v2 ("MCAT Mastery" with LYRA, Grimble, 7 planets, creatures, Resonance) is enormous. Here's what I'm going to build:
+
+**New lore structure:**
+- world.json — Core game config aligned to v2
+- `characters/` — LYRA, Grimble, 4 Commanders, 7 Specialists (with full visual descriptions)
+- `planets/` — All 7 planets with sector maps, creatures, themes
+- `creatures.json` — 7 creature types × 3 variants with abilities
+- `systems/` — Resonance, economy, energy, streaks, fog, progression
+- `audio/` — Music, SFX, TTS voice assignments
+- `frontend/` — Screen definitions, animation specs, data schemas for frontend
+
+**Pipeline updates (Phase 6→11):**
+- All speaker IDs, character names, lore framing updated to v2
+- Creatures replace minibosses
+- LYRA replaces The Operator
+- Grimble replaces The Fog
+- New TTS multi-voice setup
+- Firebase schema for all new systems
+
+**Frontend bridge:**
+- Data schemas and API layer for the web app
+- Screen flow, component structure, game engine specs
+
+Let me start building. 
+
+Starting: *Rebuild lore/ with game design* (3/16)
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/lore/world.json)
+
+Ran terminal command: Remove-Item -Recurse -Force "c:\Users\Rauf\Documents\GitHub\cursormcat\lore\*"
+
+Now let me create all the core game data files. Starting with the world config and characters: 
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/lore/world.json)
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/lore/characters/lyra.json)
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/lore/characters/commanders.json)
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/lore/characters/specialists.json)
+
+Created 16 todos
+
+Now creating all 7 planet files and the creatures data: 
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/lore/planets/index.json)
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/lore/planets/verdania.json)
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/lore/planets/glycera.json)
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/lore/planets/luminara.json)
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/lore/planets/synthara.json)
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/lore/planets/aethon.json)
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/lore/planets/miravel.json)
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/lore/planets/lexara.json)
+
+Now creating the creatures master reference and game systems:  
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/lore/creatures.json)
+
+Created 16 todos
+
+Now creating all game systems data:  
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/lore/systems/resonance.json)
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/lore/systems/economy.json)
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/lore/systems/energy.json)
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/lore/systems/streaks.json)
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/lore/systems/fog.json)
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/lore/systems/progression.json)
+
+Starting: *Create audio/TTS specs* (7/16)
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/lore/audio/music_and_sfx.json)
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/lore/audio/tts_voices.json)
+
+Starting: *Update phase 6 & 6.1* (8/16)
+
+Now updating the pipeline phases. Let me read the exact current files for phases 6-11 to make precise edits:  
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase6/phase6_enrich_wrong_answers.py#1-1), lines 1 to 120
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase6/phase6_enrich_wrong_answers.py#120-120), lines 120 to 135
+
+Now let me read the current phase 8, 8.1 and 8.2 python files and phase 9, 10, 11 to understand all the code I need to update: 
+
+Read phase 8-11 Python files
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase8/phase8_restructure_guided_learning.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase8_1/phase8_1_compile_modes.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase8_2/phase8_2_verify_and_fix.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase9/phase9_enrich_bridges.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase10/phase10_generate_tts.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase11/phase11_upload_firestore.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/config.py)
+
+Read [](file:///c%3A/Users/Rauf/AppData/Roaming/Code/User/workspaceStorage/7064c8d67cfa9ae28dde63fb9e0d66fe/GitHub.copilot-chat/chat-session-resources/76eac0b3-9377-4b92-945e-3fc5e3cf6a6c/toolu_01Nek5SCj67NZKMjKqGM2Fux__vscode-1770782605584/content.txt#1-1), lines 1 to 200
+
+Read [](file:///c%3A/Users/Rauf/AppData/Roaming/Code/User/workspaceStorage/7064c8d67cfa9ae28dde63fb9e0d66fe/GitHub.copilot-chat/chat-session-resources/76eac0b3-9377-4b92-945e-3fc5e3cf6a6c/toolu_01Nek5SCj67NZKMjKqGM2Fux__vscode-1770782605584/content.txt#200-200), lines 200 to 500
+
+Read [](file:///c%3A/Users/Rauf/AppData/Roaming/Code/User/workspaceStorage/7064c8d67cfa9ae28dde63fb9e0d66fe/GitHub.copilot-chat/chat-session-resources/76eac0b3-9377-4b92-945e-3fc5e3cf6a6c/toolu_01Nek5SCj67NZKMjKqGM2Fux__vscode-1770782605584/content.txt#500-500), lines 500 to 1000
+
+Summarized conversation history
+
+Read [](file:///c%3A/Users/Rauf/AppData/Roaming/Code/User/workspaceStorage/7064c8d67cfa9ae28dde63fb9e0d66fe/GitHub.copilot-chat/chat-session-resources/76eac0b3-9377-4b92-945e-3fc5e3cf6a6c/toolu_01Nek5SCj67NZKMjKqGM2Fux__vscode-1770782605584/content.txt#1000-1000), lines 1000 to 1720
+
+Now I have full visibility into all phase code. Let me also read the prompt templates and utility files that need updating. 
+
+Read all prompt templates
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase6/wrong_answer_enrichment.txt)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase6_1/verify_wrong_answers.txt)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase8/restructure_guided_learning.txt)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase9/bridge_enrichment.txt)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/utils/mode_compiler.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/build_primitives.py)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase7/phase7_build_primitives.py)
+
+Read [](file:///c%3A/Users/Rauf/AppData/Roaming/Code/User/workspaceStorage/7064c8d67cfa9ae28dde63fb9e0d66fe/GitHub.copilot-chat/chat-session-resources/76eac0b3-9377-4b92-945e-3fc5e3cf6a6c/toolu_011gFu8k23qmywWVAyqPkJCq__vscode-1770782605596/content.txt#1-1), lines 1 to 500
+
+Read [](file:///c%3A/Users/Rauf/AppData/Roaming/Code/User/workspaceStorage/7064c8d67cfa9ae28dde63fb9e0d66fe/GitHub.copilot-chat/chat-session-resources/76eac0b3-9377-4b92-945e-3fc5e3cf6a6c/toolu_011gFu8k23qmywWVAyqPkJCq__vscode-1770782605596/content.txt#500-500), lines 500 to 1000
+
+Read [](file:///c%3A/Users/Rauf/AppData/Roaming/Code/User/workspaceStorage/7064c8d67cfa9ae28dde63fb9e0d66fe/GitHub.copilot-chat/chat-session-resources/76eac0b3-9377-4b92-945e-3fc5e3cf6a6c/toolu_011gFu8k23qmywWVAyqPkJCq__vscode-1770782605596/content.txt#1000-1000), lines 1000 to 1515
+
+Now I have complete visibility into every file. Let me set up my task plan and start executing. 
+
+Created 11 todos
+
+Let me first verify what's currently in the lore folder to confirm the state from the previous session.  
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/lore)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase8/phase8_restructure_guided_learning.py#1-1), lines 1 to 120
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase8/phase8_restructure_guided_learning.py#120-120), lines 120 to 442
+
+Good, now I have everything. Let me start executing the updates systematically. 
+
+Starting: *Update scripts/config.py* (1/11)
+
+Replacing 5 lines with 14 lines in [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/config.py)
+
+
+```
+
+```
+
+
+Starting: *Update mode_compiler.py world loading* (2/11)
+
+Now update the mode_compiler.py — the critical `load_world_config()` and `subject_companion_id()` functions, plus all TTS speaker defaults: 
+
+Replacing 69 lines with 90 lines in [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/utils/mode_compiler.py)
+
+
+```
+
+```
+Let me check the actual current file content for the book-wide function: 
+
+Searched for text `companion_id = subject_companion_id` (`**/scripts/utils/mode_compiler.py`), no results
+
+Searched for text `subject_companion_id` (`**/scripts/utils/mode_compiler.py`), 1 result
+
+Good, the first 4 replacements succeeded. The 5th failed because that code already uses the new `subject_specialist_id` function name rather than `subject_companion_id`. Let me check the book-wide function: 
+
+Searched for text `compile_equation_forge_book_wide` (`**/scripts/utils/mode_compiler.py`), 1 result
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/utils/mode_compiler.py#700-700), lines 700 to 770
+
+The book-wide function already got updated by one of the earlier replacements. The remaining old references with `shards` and `the_fog` in multibook also need updating. Let me check:  
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/utils/mode_compiler.py#770-770), lines 770 to 837
+
+Replacing 4 lines with 4 lines in [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/scripts/utils/mode_compiler.py)
+
+
+```
+
+```
+
+
+Starting: *Update phase 8 Python code* (3/11)
+
+Now update phase 8 Python — replace `_companion_display_name()` with `_specialist_display_name()` and update `_load_world()` to also load specialists:  
+
+Replacing 36 lines with 50 lines in [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase8/phase8_restructure_guided_learning.py)
+
+
+```
+
+```
+
+
+Starting: *Rewrite phase 8 prompt template* (4/11)
+
+Now rewrite the phase 8 prompt template — this is the biggest change. The old prompt uses narrator/companion/antagonist speakers with The Operator/The Fog lore. Needs to become LYRA/specialist/grimble with creature encounters and memory reconstruction framing:   
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase8/restructure_guided_learning.txt)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase8/restructure_guided_learning.txt#1-1), lines 1 to 10
+
+The file is 315 lines. I need to replace the entire content. Let me use the terminal to overwrite it:   
+
+Ran terminal command: Remove-Item "c:\Users\Rauf\Documents\GitHub\cursormcat\phases\phase8\restructure_guided_learning.txt"
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase8/restructure_guided_learning.txt)
+
+Created 11 todos
+
+Now update phase 6 prompt with LYRA framing and phase 6.1 verification:   
+
+Ran terminal command: Remove-Item "c:\Users\Rauf\Documents\GitHub\cursormcat\phases\phase6\wrong_answer_enrichment.txt"; Remove-Item "c:\Users\Rauf\Documents\GitHub\cursormcat\phases\phase6_1\verify_wrong_answers.txt"
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase6/wrong_answer_enrichment.txt)
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase6_1/verify_wrong_answers.txt)
+
+Starting: *Rewrite phase 9 bridge prompt* (7/11)
+
+Now rewrite the phase 9 bridge prompt to align with Bridge Missions game design:   
+
+Ran terminal command: Remove-Item "c:\Users\Rauf\Documents\GitHub\cursormcat\phases\phase9\bridge_enrichment.txt"
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase9/bridge_enrichment.txt)
+
+Created 11 todos
+
+Now update phase 9 Python to add MCAT real cross-subject patterns and save bridge rewards:    
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase9/phase9_enrich_bridges.py#1-1), lines 1 to 30
+
+The phase 9 Python code is functional as-is — the prompt template does the heavy lifting. I just need to add the MCAT real cross-subject patterns as supplementary data that gets injected into the prompt. Let me add that enhancement: 
+
+Replacing 19 lines with 39 lines in [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase9/phase9_enrich_bridges.py)
+
+
+```
+
+```
+
+
+Starting: *Overhaul phase 10 multi-voice TTS* (9/11)
+
+Now the big one — overhaul phase 10 for multi-voice TTS routing. This needs to load tts_voices.json and route each text segment to the correct character voice:     
+
+Ran terminal command: Remove-Item "c:\Users\Rauf\Documents\GitHub\cursormcat\phases\phase10\phase10_generate_tts.py"
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase10/phase10_generate_tts.py)
+
+Starting: *Expand phase 11 Firestore schema* (10/11)
+
+Now expand phase 11 Firestore upload to include all new game system collections:    
+
+Ran terminal command: Remove-Item "c:\Users\Rauf\Documents\GitHub\cursormcat\phases\phase11\phase11_upload_firestore.py"
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/phases/phase11/phase11_upload_firestore.py)
+
+Starting: *Create frontend bridge layer* (11/11)
+
+Now for the final piece — the frontend bridge layer. This creates the data schemas, API layer, and app structure that connects the backend pipeline output to the web game frontend:     
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/frontend/README.md)
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/frontend/js/data/game-data.js)
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/frontend/js/data/player.js)
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/frontend/js/systems/tts.js)
+
+Summarized conversation history
+
+Created 14 todos
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/lore/world.json#1-1), lines 1 to 60
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/lore/world.json#60-60), lines 60 to 81
+
+Now let me read the planet index and one planet file to get color palettes for CSS:    
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/lore/planets/index.json)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/lore/planets/verdania.json#1-1), lines 1 to 50
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/lore/systems/energy.json#1-1), lines 1 to 30
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/lore/systems/resonance.json#1-1), lines 1 to 40
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/lore/systems/resonance.json#40-40), lines 40 to 80
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/lore/systems/economy.json#1-1), lines 1 to 30
+
+Good, I have all color palettes. Now let me create the remaining frontend files in parallel batches. Starting with `index.html`, `app.js`, `firebase.js`, and the CSS files: 
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/frontend/index.html)
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/frontend/js/firebase.js)
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/frontend/js/app.js)
+
+Starting: *Create CSS theme system* (11/14)
+
+Now creating the CSS files: 
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/frontend/css/main.css)
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/frontend/css/planets.css)
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/frontend/css/animations.css)
+
+Continue to iterate?
+[object Object]
+
+Made changes.
+
+User: @agent Continue: "Continue to iterate?"
+
+GitHub Copilot: Created 14 todos
+
+Now creating the screen modules — dashboard, planet-map, mission, and character-select: 
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/frontend/js/screens/dashboard.js)
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/frontend/js/screens/planet-map.js)
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/frontend/js/screens/mission.js)
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/frontend/js/screens/character-select.js)
+
+Created 14 todos
+
+Now creating the game system modules — fog, energy, streaks, resonance, creatures:  
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/frontend/js/systems/fog.js)
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/frontend/js/systems/energy.js)
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/frontend/js/systems/streaks.js)
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/frontend/js/systems/resonance.js)
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/frontend/js/systems/creatures.js)
+
+Starting: *Create game mode engines* (14/14)
+
+Now creating the game mode engines. Let me check what game modes are defined in the game design doc: 
+
+Searched for regex `Mem-Game|game_mode|FlashForge|TermSlinger|ScrambleSurge|EquationForge|CascadeSolver|TriageTag|PassageProwl` (`**/MCAT_Game_Design_v2.md`), 5 results
+
+Searched for regex `game_mode_id|mode_id.*flash_forge|term_slinger|scramble|equation_forge|cascade|triage|passage`, 20 results
+
+Searched for regex `rapid_recall|sort_buckets|process_path|visual_match|cascade_solve|triage_tag|passage_prowl` (`**/scripts/utils/mode_compiler.py`), 8 results
+
+Good — the 7 engine types from the game design are: `rapid_recall`, `sort_buckets`, `equation_forge`, `concept_clash`, `flash_forge`, `term_slinger`, and `scramble_surge` (some evolved from v1). Let me check the mode_compiler more precisely: 
+
+Searched for regex `"engine":\s*"` (`**/scripts/utils/mode_compiler.py`), 7 results
+
+So the 7 engines from the codebase are: `sequence_builder`, `sort_buckets`, `equation_forge`, `rapid_recall`, `label_text`, `concept_clash`, `table_challenge`. I'll create a unified engines file with all 7: 
+
+Created [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/frontend/js/engines/game-engines.js)
+
+Now update the index.html to reference the engines file (it currently references individual engine files): 
+
+Replacing 9 lines with 12 lines in [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/frontend/index.html)
+
+
+```
+
+```
+
+
+Created 14 todos
+
+All 14 tasks complete. Let me verify the final frontend structure:  
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/frontend)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/frontend/js)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/frontend/css)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/frontend/js/data)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/frontend/js/screens)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/frontend/js/systems)
+
+Read [](file:///c%3A/Users/Rauf/Documents/GitHub/cursormcat/frontend/js/engines)
+
+Everything is in place. Here's the complete summary of what was built in this session:
+
+---
+
+**Backend Pipeline Updates (Phases 6-11):**
+
+- config.py — Added lore subdirectory paths + TTS voice defaults
+- mode_compiler.py — 6 changes: specialist lookup, `lyra/specialist/grimble` speaker IDs, `crystals` currency, `planet` key
+- phase8_restructure_guided_learning.py — `specialist_display_name` from specialists.json
+- restructure_guided_learning.txt — Full rewrite with LYRA/specialist/Grimble framing, creature encounters, memory reconstruction
+- wrong_answer_enrichment.txt — LYRA coaching tone + Grimble corruption
+- verify_wrong_answers.txt — LYRA voice quality checks
+- bridge_enrichment.txt — Bridge Missions with `mcat_real_connection`
+- phase9_enrich_bridges.py — 12 cross-subject MCAT patterns
+- phase10_generate_tts.py — Complete rewrite: multi-voice TTS routing per character from `tts_voices.json`
+- phase11_upload_firestore.py — Complete rewrite: expanded Firestore schema with `game_config`, `characters`, `planets`, `game_systems`, `audio_config`, `bridge_missions`, `compiled_modes`
+
+**Frontend App (21 new files):**
+
+| Layer | Files |
+|-------|-------|
+| **Entry** | index.html, js/app.js, js/firebase.js |
+| **CSS** | main.css, planets.css, animations.css |
+| **Data** | game-data.js, player.js |
+| **Screens** | dashboard.js, planet-map.js, mission.js, character-select.js |
+| **Systems** | tts.js, fog.js, energy.js, streaks.js, resonance.js, creatures.js |
+| **Engines** | game-engines.js — all 7 Mem-Game engines |
+| **Docs** | README.md |
+
+**Data flow:** Pipeline (PDFs → Gemini AI) → Firestore → `game-data.js` cache → Screens/Engines render → `player.js` tracks state → Firebase sync back.
+
+To launch locally: replace Firebase config in js/firebase.js with your project credentials, then serve the frontend folder with any static server.
+
+Made changes.

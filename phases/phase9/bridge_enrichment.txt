@@ -1,0 +1,112 @@
+You are creating an enriched MCAT Bridge Mission — a cross-subject connection between two planets in MCAT Mastery.
+
+GAME CONTEXT:
+Bridge Missions are permanent links between planets (subjects). When a player completes relevant content on BOTH planets, they unlock a Bridge Mission that tests cross-subject understanding. These are critical because the real MCAT tests cross-subject connections constantly.
+
+CHARACTERS:
+- LYRA (ship AI) narrates Bridge Missions. She detected the connection between planets.
+- The specialists from both planets provide context.
+
+Kaplan's "Shared Concepts" section connects these two topics:
+
+SOURCE: {source_book} Chapter {source_chapter} — {source_chapter_title}
+  Planet: (maps from subject)
+  Section focus: {source_section_title}
+
+TARGET: {target_book} Chapter {target_chapter} — {target_chapter_title}
+  Planet: (maps from subject)
+  Topics mentioned: {target_topics}
+
+SOURCE SUMMARY (what the source section covers):
+{source_summary}
+
+TARGET SUMMARY (what the target section covers):
+{target_summary}
+
+═══════════════════════════════════════════════════════════════
+YOUR TASK
+═══════════════════════════════════════════════════════════════
+
+Create a Bridge Mission that:
+1. Explains WHY these topics connect across subjects
+2. Identifies how the MCAT specifically tests this connection
+3. Creates bridge questions that require knowledge from BOTH subjects
+4. Frames it in LYRA's encouraging coaching voice
+
+OUTPUT (strict JSON):
+{{
+  "bridge_id": "{source_book}-ch{source_chapter}_to_{target_book}-ch{target_chapter}",
+  "source": {{
+    "book": "{source_book}",
+    "chapter": {source_chapter},
+    "chapter_title": "{source_chapter_title}",
+    "section_title": "{source_section_title}"
+  }},
+  "target": {{
+    "book": "{target_book}",
+    "chapter": {target_chapter},
+    "chapter_title": "{target_chapter_title}"
+  }},
+
+  "connection_type": "application | contrast | prerequisite | consequence | shared_mechanism",
+
+  "connection_explanation": "2-3 sentences explaining WHY these topics connect and how the MCAT links them. Be specific — reference actual concepts from both sides.",
+
+  "mcat_real_connection": "1-2 sentences describing how the MCAT ACTUALLY tests this cross-subject connection. Be specific about passage types and question styles. Example: 'MCAT passages often present a biochemical pathway and ask you to predict physical chemistry consequences like enthalpy changes.'",
+
+  "mission_briefing": {{
+    "speaker_id": "lyra",
+    "narrator_text": "Commander, I have detected a resonance link between [Planet A] and [Planet B]. [PAUSE] These two subjects share a deep connection. [PAUSE] Let's see if you can bridge them.",
+    "display_text": "**Bridge Mission:** [Source Topic] ↔ [Target Topic]\n\nThis connection appears frequently on the MCAT."
+  }},
+
+  "bridge_questions": [
+    {{
+      "question_text": "A question that requires knowledge of BOTH topics to answer",
+      "question_type": "pick_one",
+      "options": ["Option A", "Option B", "Option C", "Option D"],
+      "correct_index": 0,
+      "correct_response": "Excellent! You bridged both concepts. [explanation referencing both topics]",
+      "wrong_response": "This one requires connecting both planets. [redirect hint]",
+      "wrong_explanations": {{
+        "1": "Why this is wrong, referencing the cross-subject gap",
+        "2": "Why this is wrong",
+        "3": "Why this is wrong"
+      }},
+      "difficulty": 2,
+      "source_subject_knowledge": "What the player needs to know from the source subject",
+      "target_subject_knowledge": "What the player needs to know from the target subject"
+    }},
+    {{
+      "question_text": "A second bridge question from a different angle",
+      "question_type": "pick_one",
+      "options": ["Option A", "Option B", "Option C", "Option D"],
+      "correct_index": 3,
+      "correct_response": "Perfect bridge! [explanation]",
+      "wrong_response": "Think about how [source concept] affects [target concept]...",
+      "wrong_explanations": {{
+        "0": "...",
+        "1": "...",
+        "2": "..."
+      }},
+      "difficulty": 3,
+      "source_subject_knowledge": "...",
+      "target_subject_knowledge": "..."
+    }}
+  ],
+
+  "rewards": {{
+    "xp": 100,
+    "crystals": 25,
+    "resonance_bonus": "bridge_completion"
+  }}
+}}
+
+RULES:
+- connection_type must be one of the 5 options listed
+- Bridge questions MUST require knowledge of both source and target to answer correctly
+- Be specific — don't say "these are related." Say HOW they're related with concrete examples.
+- Mission briefing uses LYRA's voice (speaker_id: "lyra")
+- wrong_response should use LYRA's supportive coaching tone
+- Include source_subject_knowledge and target_subject_knowledge for each question — the frontend uses these to check prerequisites
+- mcat_real_connection should reference actual MCAT testing patterns, not generic "the MCAT tests this"

@@ -1,0 +1,50 @@
+You are adding wrong-answer explanations and LYRA-voiced TTS feedback to MCAT chapter assessment questions.
+
+GAME CONTEXT: In MCAT Mastery, LYRA is the ship AI who coaches the player. When a player gets a wrong answer, it's framed as Grimble's corruption — not the player's failure. LYRA gently redirects with warmth and points to the key fix.
+
+For each question below, I provide:
+- The question text and all 4 options
+- The correct answer letter
+- Kaplan's explanation of the correct answer
+
+Your job for EACH WRONG option:
+1. Write a 1-sentence "wrong_explanation" stating why a student might pick it and why it's actually wrong.
+2. Write a short "tts_wrong_feedback" for LYRA's spoken audio response.
+
+RULES for WRONG_EXPLANATIONS:
+- Max 1 sentence per wrong option.
+- Be specific to THIS question — don't give generic "this is wrong" responses.
+- Tone: teaching, not scolding. Imagine explaining to a friend.
+- Do NOT repeat or reword the correct answer explanation.
+
+RULES for TTS_WRONG_FEEDBACK (spoken by LYRA):
+- Max 20 words.
+- Tone: warm, supportive, encouraging. LYRA is a coach, not a judge.
+- Frame as "Grimble's corruption" not "you got it wrong."
+- Goal: Point to the key fix or relationship.
+- Examples:
+  "That's Grimble's trick! Check the group number — same column means same valence electrons."
+  "Almost! The corruption here is subtle. Focus on the charge, not the mass."
+  "Hmm, Grimble swapped those. Remember: cations lose electrons, anions gain them."
+
+QUESTIONS:
+{questions_json}
+
+OUTPUT (strict JSON — array of objects, one per question):
+[
+  {{
+    "question_number": 1,
+    "wrong_explanations": {{
+      "A": "While [concept], this actually refers to [other concept] — the question asks about [correct concept].",
+      "C": "This is a common mix-up: [wrong thing] does [X], but [correct thing] does [Y].",
+      "D": "[Concept D] is related but actually functions in [different context]."
+    }},
+    "tts_wrong_feedback": {{
+      "A": "[LYRA-voiced actionable tip A]",
+      "C": "[LYRA-voiced actionable tip C]",
+      "D": "[LYRA-voiced actionable tip D]"
+    }}
+  }}
+]
+
+Note: Only include the WRONG option letters. Do not include the correct answer letter.

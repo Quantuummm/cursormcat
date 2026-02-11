@@ -12,6 +12,16 @@ structured/
 bridges/
 audio/
 
+# Also ignore per-phase output folders (new layout)
+phases/phase0/output/assets/
+phases/phase1/output/extracted/
+phases/phase7_legacy/output/classified/
+phases/phase7/output/primitives/
+phases/phase8/output/structured/
+phases/phase8_1/output/compiled/
+phases/phase9/output/bridges/
+phases/phase10/output/audio/
+
 # Assets (extracted images)
 assets/
 
@@ -32,7 +42,13 @@ venv/
 Thumbs.db
 .DS_Store
 
+# Hidden Archives (Legacy/Old)
+.archive/
+archive/
+
 # Google Cloud credentials
 *.json
 !scripts/prompts/*.json
 !package.json
+!pipeline_checkpoint.json
+!lore/world.json

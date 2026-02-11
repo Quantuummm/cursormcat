@@ -16,9 +16,23 @@ from pathlib import Path
 from slugify import slugify
 
 sys.path.insert(0, str(Path(__file__).parent))
-from config import EXTRACTED_DIR, CLASSIFIED_DIR, STRUCTURED_DIR, PROMPTS_DIR, BOOKS
+from config import EXTRACTED_DIR, CLASSIFIED_DIR, STRUCTURED_DIR, PROMPTS_DIR, BOOKS, LORE_DIR
 from utils.gemini_client import GeminiClient
 from utils.schema_validator import validate_restructured, print_validation
+
+
+def _load_world():
+    world_path = LORE_DIR / "world.json"
+    if world_path.exists():
+        return json.loads(world_path.read_text(encoding="utf-8"))
+    return {}
+
+
+def _companion_display_name(world: dict, subject: str) -> str:
+    companion_id = world.get("regions", {}).get(subject, {}).get("companion_id")
+    if companion_id:
+        return world.get("characters", {}).get(companion_id, {}).get("display_name", companion_id)
+    return "Companion"
 
 
 def run(pdf_filename: str = None, chapter_num: int = None):
@@ -28,6 +42,8 @@ def run(pdf_filename: str = None, chapter_num: int = None):
     prompt_template = (PROMPTS_DIR / "restructure_guided_learning.txt").read_text(encoding="utf-8")
 
     subjects = [BOOKS[pdf_filename]] if pdf_filename and pdf_filename in BOOKS else BOOKS.values()
+
+    world = _load_world()
 
     for subject in subjects:
         subject_dir = EXTRACTED_DIR / subject
@@ -120,6 +136,8 @@ def run(pdf_filename: str = None, chapter_num: int = None):
                 # Get callouts for this section
                 callouts = section.get("callouts", [])
 
+                companion_display_name = _companion_display_name(world, subject)
+
                 # Build the restructuring prompt
                 prompt = prompt_template.format(
                     book_subject=subject,
@@ -129,6 +147,7 @@ def run(pdf_filename: str = None, chapter_num: int = None):
                     section_title=sec_title,
                     is_high_yield=str(is_hy).lower(),
                     aamc_categories=json.dumps(aamc_categories),
+                    companion_display_name=companion_display_name,
                     learning_objectives=json.dumps(section.get("learning_objectives", []), indent=2),
                     content_blocks_json=json.dumps(section.get("content_blocks", []), indent=2),
                     summary_points=json.dumps(summary_by_section.get(sec_id, []), indent=2),

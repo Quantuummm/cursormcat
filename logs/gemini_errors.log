@@ -1,0 +1,61 @@
+2026-02-10T12:11:11.913175	ERROR	model=gemini-2.5-flash	phase=P3_sections_ch2	attempt=1	err=DeadlineExceeded	msg=504 The request timed out. Please try again.
+2026-02-10T13:45:18.514369	ERROR	model=gemini-3-flash-preview	phase=P6_1_verify_ch2_at2_1	attempt=1	err=DeadlineExceeded	msg=504 Deadline Exceeded
+2026-02-10T14:05:20.902399	ERROR	model=gemini-3-flash-preview	phase=P6_1_verify_ch2_at2_1	attempt=1	err=DeadlineExceeded	msg=504 Stream cancelled; RPC from prefill servable to decode servable failed; Failed to close the streaming context; status = CANCELLED: Stream cancelled; RPC from prefill servable to decode servable fai
+2026-02-10T14:11:41.920942	ERROR	model=gemini-3-flash-preview	phase=P6_1_verify_ch2_at2_2	attempt=1	err=DeadlineExceeded	msg=504 Deadline Exceeded
+2026-02-10T18:40:59.072904	ERROR	model=gemini-3-flash-preview	phase=verify_ans	attempt=1	err=DeadlineExceeded	msg=504 Deadline expired before operation could complete.
+2026-02-11T00:53:43.943133	ERROR	model=gemini-3-flash-preview	phase=P1_toc	attempt=2	err=DeadlineExceeded	msg=504 Deadline expired before operation could complete.
+2026-02-11T01:14:13.649557	ERROR	model=gemini-3-flash-preview	phase=P1_toc	attempt=2	err=DeadlineExceeded	msg=504 Deadline expired before operation could complete.
+2026-02-11T01:22:33.012047	ERROR	model=gemini-3-flash-preview	phase=P2_assessment_ch5	attempt=1	err=ResourceExhausted	msg=429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current
+2026-02-11T01:22:37.217032	ERROR	model=gemini-3-flash-preview	phase=P2_assessment_ch5	attempt=2	err=ResourceExhausted	msg=429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current
+2026-02-11T01:22:37.398826	ERROR	model=gemini-3-flash-preview	phase=P2_assessment_ch6	attempt=1	err=ResourceExhausted	msg=429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current
+2026-02-11T01:22:41.603821	ERROR	model=gemini-3-flash-preview	phase=P2_assessment_ch6	attempt=2	err=ResourceExhausted	msg=429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current
+2026-02-11T01:22:41.765142	ERROR	model=gemini-3-flash-preview	phase=P2_assessment_ch7	attempt=1	err=ResourceExhausted	msg=429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current
+2026-02-11T01:22:45.976991	ERROR	model=gemini-3-flash-preview	phase=P2_assessment_ch7	attempt=2	err=ResourceExhausted	msg=429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current
+2026-02-11T01:22:46.133504	ERROR	model=gemini-3-flash-preview	phase=P2_assessment_ch8	attempt=1	err=ResourceExhausted	msg=429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current
+2026-02-11T04:11:28.088284	ERROR	model=gemini-3-flash-preview	phase=P3_sections_ch12	attempt=1	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:11:32.256278	ERROR	model=gemini-3-flash-preview	phase=P3_sections_ch12	attempt=2	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:11:32.412853	ERROR	model=gemini-3-flash-preview	phase=P4_glossary	attempt=1	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:11:36.637920	ERROR	model=gemini-3-flash-preview	phase=P4_glossary	attempt=2	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:11:36.828967	ERROR	model=gemini-3-flash-preview	phase=P5_figures_ch1	attempt=1	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:11:41.038685	ERROR	model=gemini-3-flash-preview	phase=P5_figures_ch1	attempt=2	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:11:41.211065	ERROR	model=gemini-3-flash-preview	phase=P5_figures_ch2	attempt=1	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:11:45.424326	ERROR	model=gemini-3-flash-preview	phase=P5_figures_ch2	attempt=2	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:11:45.578544	ERROR	model=gemini-3-flash-preview	phase=P5_figures_ch3	attempt=1	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:11:49.817058	ERROR	model=gemini-3-flash-preview	phase=P5_figures_ch3	attempt=2	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:11:49.973811	ERROR	model=gemini-3-flash-preview	phase=P5_figures_ch4	attempt=1	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:11:54.197685	ERROR	model=gemini-3-flash-preview	phase=P5_figures_ch4	attempt=2	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:11:54.352749	ERROR	model=gemini-3-flash-preview	phase=P5_figures_ch5	attempt=1	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:11:58.580419	ERROR	model=gemini-3-flash-preview	phase=P5_figures_ch5	attempt=2	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:11:58.739716	ERROR	model=gemini-3-flash-preview	phase=P5_figures_ch6	attempt=1	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:12:02.972369	ERROR	model=gemini-3-flash-preview	phase=P5_figures_ch6	attempt=2	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:12:03.145632	ERROR	model=gemini-3-flash-preview	phase=P5_figures_ch7	attempt=1	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:12:07.354698	ERROR	model=gemini-3-flash-preview	phase=P5_figures_ch7	attempt=2	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:12:07.532005	ERROR	model=gemini-3-flash-preview	phase=P5_figures_ch8	attempt=1	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:12:11.731795	ERROR	model=gemini-3-flash-preview	phase=P5_figures_ch8	attempt=2	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:12:11.883162	ERROR	model=gemini-3-flash-preview	phase=P5_figures_ch9	attempt=1	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:12:16.118475	ERROR	model=gemini-3-flash-preview	phase=P5_figures_ch9	attempt=2	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:12:16.272282	ERROR	model=gemini-3-flash-preview	phase=P5_figures_ch10	attempt=1	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:12:20.505097	ERROR	model=gemini-3-flash-preview	phase=P5_figures_ch10	attempt=2	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:12:20.670347	ERROR	model=gemini-3-flash-preview	phase=P5_figures_ch11	attempt=1	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:12:24.880680	ERROR	model=gemini-3-flash-preview	phase=P5_figures_ch11	attempt=2	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:12:26.734784	ERROR	model=gemini-3-flash-preview	phase=P5_figures_ch12	attempt=1	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:12:29.256231	ERROR	model=gemini-3-flash-preview	phase=P5_figures_ch12	attempt=2	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:12:46.881265	ERROR	model=gemini-3-flash-preview	phase=P2_assessment_ch3	attempt=1	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:12:51.099380	ERROR	model=gemini-3-flash-preview	phase=P2_assessment_ch3	attempt=2	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:12:51.259445	ERROR	model=gemini-3-flash-preview	phase=P2_assessment_ch4	attempt=1	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:12:55.470453	ERROR	model=gemini-3-flash-preview	phase=P2_assessment_ch4	attempt=2	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:12:55.620036	ERROR	model=gemini-3-flash-preview	phase=P2_assessment_ch5	attempt=1	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:12:59.841944	ERROR	model=gemini-3-flash-preview	phase=P2_assessment_ch5	attempt=2	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:13:00.005028	ERROR	model=gemini-3-flash-preview	phase=P2_assessment_ch6	attempt=1	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:13:04.226674	ERROR	model=gemini-3-flash-preview	phase=P2_assessment_ch6	attempt=2	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:13:04.386833	ERROR	model=gemini-3-flash-preview	phase=P2_assessment_ch7	attempt=1	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:13:08.600424	ERROR	model=gemini-3-flash-preview	phase=P2_assessment_ch7	attempt=2	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:13:08.756999	ERROR	model=gemini-3-flash-preview	phase=P2_assessment_ch8	attempt=1	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:13:12.976823	ERROR	model=gemini-3-flash-preview	phase=P2_assessment_ch8	attempt=2	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:13:13.127669	ERROR	model=gemini-3-flash-preview	phase=P2_assessment_ch9	attempt=1	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:13:17.352692	ERROR	model=gemini-3-flash-preview	phase=P2_assessment_ch9	attempt=2	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:13:17.504362	ERROR	model=gemini-3-flash-preview	phase=P2_assessment_ch10	attempt=1	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:13:21.724540	ERROR	model=gemini-3-flash-preview	phase=P2_assessment_ch10	attempt=2	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:13:21.884904	ERROR	model=gemini-3-flash-preview	phase=P2_assessment_ch11	attempt=1	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:13:26.102797	ERROR	model=gemini-3-flash-preview	phase=P2_assessment_ch11	attempt=2	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).
+2026-02-11T04:43:38.740434	ERROR	model=gemini-3-flash-preview	phase=P3_sections_ch10	attempt=1	err=ResourceExhausted	msg=429 Resource has been exhausted (e.g. check quota).

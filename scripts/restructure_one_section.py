@@ -11,14 +11,28 @@ from pathlib import Path
 from slugify import slugify
 
 sys.path.insert(0, str(Path(__file__).parent))
-from config import EXTRACTED_DIR, CLASSIFIED_DIR, STRUCTURED_DIR, PROMPTS_DIR
+from config import EXTRACTED_DIR, CLASSIFIED_DIR, STRUCTURED_DIR, LORE_DIR
 from utils.gemini_client import GeminiClient
 from utils.schema_validator import validate_restructured, print_validation
 
 
+def _load_world():
+    world_path = LORE_DIR / "world.json"
+    if world_path.exists():
+        return json.loads(world_path.read_text(encoding="utf-8"))
+    return {}
+
+
+def _companion_display_name(world: dict, subject: str) -> str:
+    companion_id = world.get("regions", {}).get(subject, {}).get("companion_id")
+    if companion_id:
+        return world.get("characters", {}).get(companion_id, {}).get("display_name", companion_id)
+    return "Companion"
+
+
 def run(subject: str, chapter_num: int, section_id: str):
     client = GeminiClient()
-    prompt_template = (PROMPTS_DIR / "restructure_guided_learning.txt").read_text(encoding="utf-8")
+    prompt_template = (Path(__file__).resolve().parents[1] / "phases" / "phase8" / "restructure_guided_learning.txt").read_text(encoding="utf-8")
 
     # Load TOC
     toc = json.loads((EXTRACTED_DIR / subject / "_toc.json").read_text(encoding="utf-8"))
@@ -77,6 +91,9 @@ def run(subject: str, chapter_num: int, section_id: str):
 
     print(f"🎯 Restructuring {section_id}: {sec_title} {'[HY]' if is_hy else ''}")
 
+    world = _load_world()
+    companion_display_name = _companion_display_name(world, subject)
+
     prompt = prompt_template.format(
         book_subject=subject,
         chapter_number=chapter_num,
@@ -85,6 +102,7 @@ def run(subject: str, chapter_num: int, section_id: str):
         section_title=sec_title,
         is_high_yield=str(is_hy).lower(),
         aamc_categories=json.dumps(aamc_categories),
+        companion_display_name=companion_display_name,
         learning_objectives=json.dumps(target_section.get("learning_objectives", []), indent=2),
         content_blocks_json=json.dumps(target_section.get("content_blocks", []), indent=2),
         summary_points=json.dumps(summary_points, indent=2),

@@ -1,0 +1,89 @@
+/* ═══════════════════════════════════════════════════════════
+   MCAT Mastery — Planet Color Themes
+   Each planet has a unique palette from lore/planets/*.json
+   Applied via data-planet attribute on containers.
+   ═══════════════════════════════════════════════════════════ */
+
+/* ─── Verdania (Biology) ───────────────────────────────── */
+[data-planet="verdania"] { --planet-primary: #2ECC71; --planet-secondary: #1ABC9C; --planet-accent: #27AE60; --planet-fog: #1A0A2E; --planet-glow: #7DFFB3; }
+[data-planet="verdania"] .planet-icon { background: linear-gradient(135deg, #2ECC71, #1ABC9C); }
+.planet-btn[data-planet="verdania"]:hover { border-color: #2ECC71; box-shadow: 0 0 16px rgba(46, 204, 113, 0.3); }
+
+/* ─── Glycera (Biochemistry) ───────────────────────────── */
+[data-planet="glycera"] { --planet-primary: #E74C8B; --planet-secondary: #FF69B4; --planet-accent: #C0397B; --planet-fog: #1A0A2E; --planet-glow: #FFB6D9; }
+[data-planet="glycera"] .planet-icon { background: linear-gradient(135deg, #E74C8B, #FF69B4); }
+.planet-btn[data-planet="glycera"]:hover { border-color: #E74C8B; box-shadow: 0 0 16px rgba(231, 76, 139, 0.3); }
+
+/* ─── Luminara (Gen Chem) ──────────────────────────────── */
+[data-planet="luminara"] { --planet-primary: #FFD700; --planet-secondary: #FFA500; --planet-accent: #DAA520; --planet-fog: #1A0A2E; --planet-glow: #FFF8DC; }
+[data-planet="luminara"] .planet-icon { background: linear-gradient(135deg, #FFD700, #FFA500); }
+.planet-btn[data-planet="luminara"]:hover { border-color: #FFD700; box-shadow: 0 0 16px rgba(255, 215, 0, 0.3); }
+
+/* ─── Synthara (Org Chem) ──────────────────────────────── */
+[data-planet="synthara"] { --planet-primary: #9B59B6; --planet-secondary: #8E44AD; --planet-accent: #6C3483; --planet-fog: #1A0A2E; --planet-glow: #D2B4DE; }
+[data-planet="synthara"] .planet-icon { background: linear-gradient(135deg, #9B59B6, #8E44AD); }
+.planet-btn[data-planet="synthara"]:hover { border-color: #9B59B6; box-shadow: 0 0 16px rgba(155, 89, 182, 0.3); }
+
+/* ─── Aethon (Physics) ─────────────────────────────────── */
+[data-planet="aethon"] { --planet-primary: #3498DB; --planet-secondary: #2980B9; --planet-accent: #1F618D; --planet-fog: #1A0A2E; --planet-glow: #AED6F1; }
+[data-planet="aethon"] .planet-icon { background: linear-gradient(135deg, #3498DB, #2980B9); }
+.planet-btn[data-planet="aethon"]:hover { border-color: #3498DB; box-shadow: 0 0 16px rgba(52, 152, 219, 0.3); }
+
+/* ─── Miravel (Psych/Soc) ──────────────────────────────── */
+[data-planet="miravel"] { --planet-primary: #E67E22; --planet-secondary: #D35400; --planet-accent: #A04000; --planet-fog: #1A0A2E; --planet-glow: #F5CBA7; }
+[data-planet="miravel"] .planet-icon { background: linear-gradient(135deg, #E67E22, #D35400); }
+.planet-btn[data-planet="miravel"]:hover { border-color: #E67E22; box-shadow: 0 0 16px rgba(230, 126, 34, 0.3); }
+
+/* ─── Lexara (CARS) ────────────────────────────────────── */
+[data-planet="lexara"] { --planet-primary: #1ABC9C; --planet-secondary: #16A085; --planet-accent: #0E6655; --planet-fog: #1A0A2E; --planet-glow: #A3E4D7; }
+[data-planet="lexara"] .planet-icon { background: linear-gradient(135deg, #1ABC9C, #16A085); }
+.planet-btn[data-planet="lexara"]:hover { border-color: #1ABC9C; box-shadow: 0 0 16px rgba(26, 188, 156, 0.3); }
+
+/* ─── Planet Tiles (use CSS vars) ──────────────────────── */
+.tile {
+    background: var(--planet-primary, var(--bg-card));
+    color: #fff;
+}
+
+.tile.cleared {
+    background: var(--planet-primary);
+    border-color: var(--planet-glow);
+    box-shadow: 0 0 8px color-mix(in srgb, var(--planet-glow) 30%, transparent);
+}
+
+.tile.available {
+    background: color-mix(in srgb, var(--planet-primary) 40%, var(--bg-card));
+    border-color: var(--planet-primary);
+}
+
+/* ─── Planet Map Header Tint ───────────────────────────── */
+.planet-header {
+    border-bottom-color: var(--planet-primary, var(--border));
+}
+
+.planet-header .planet-title-block h2 {
+    color: var(--planet-primary, var(--text-primary));
+}
+
+/* ─── Sector Tab Active Color ──────────────────────────── */
+.sector-tab.active {
+    border-color: var(--planet-primary, var(--lyra-blue));
+    color: var(--planet-primary, var(--text-primary));
+}
+
+/* ─── Resonance Element Colors ─────────────────────────── */
+[data-element="thermal"]  { --element-color: #FF6B35; --element-glow: #FF4500; }
+[data-element="tidal"]    { --element-color: #1E90FF; --element-glow: #4169E1; }
+[data-element="cryo"]     { --element-color: #E0F7FA; --element-glow: #B3E5FC; }
+[data-element="lithic"]   { --element-color: #D4A574; --element-glow: #CD853F; }
+[data-element="ferric"]   { --element-color: #C0C0C0; --element-glow: #E8E8E8; }
+[data-element="lumen"]    { --element-color: #FFD700; --element-glow: #FFF8DC; }
+
+.resonance-option[data-element] .resonance-emoji {
+    text-shadow: 0 0 8px var(--element-glow);
+}
+
+.resonance-option[data-element].selected {
+    border-color: var(--element-color);
+    box-shadow: 0 0 16px color-mix(in srgb, var(--element-glow) 30%, transparent);
+}

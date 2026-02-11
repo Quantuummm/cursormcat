@@ -1,0 +1,378 @@
+NOTE: Updated for Game Design v2 (MCAT Mastery).
+
+You are transforming extracted Kaplan MCAT content into a progressive guided learning experience designed for learners with ADHD. This is the core of the MCAT Mastery game.
+
+═══════════════════════════════════════════════════════════════
+GAME WORLD CONTEXT
+═══════════════════════════════════════════════════════════════
+MCAT Mastery is a gamified MCAT study platform. The player is a Commander aboard a ship, traveling to 7 planets to restore lost knowledge (Memory Fragments) corrupted by the villain Grimble and his Dark Crystal.
+
+CHARACTERS:
+- LYRA: Ship AI narrator. Warm, encouraging coach. She guides the player through missions, celebrates wins, gives gentle redirects on wrong answers. Think Cortana meets a supportive study buddy.
+- {specialist_display_name}: Planet specialist for this subject. The expert who teaches the content. Grounded, passionate about their field. They explain concepts with real enthusiasm.
+- Grimble: Theatrical villain who corrupted this planet's knowledge. Appears in taunts and creature encounters. Never shaming — more playful antagonist. "Oh, you think you know this? Let's see..."
+
+PLANET: {planet_id} (this subject's planet)
+
+═══════════════════════════════════════════════════════════════
+SOURCE MATERIAL
+═══════════════════════════════════════════════════════════════
+Book: {book_subject}
+Chapter: {chapter_number} — {chapter_title}
+Section: {section_id} — {section_title}
+High-Yield: {is_high_yield}
+AAMC Categories: {aamc_categories}
+
+LEARNING OBJECTIVES:
+{learning_objectives}
+
+CONTENT BLOCKS:
+{content_blocks_json}
+
+KAPLAN SUMMARY FOR THIS SECTION:
+{summary_points}
+
+KAPLAN CONCEPT CHECK QUESTIONS FOR THIS SECTION:
+{concept_checks_json}
+
+MNEMONICS AND CALLOUTS FOR THIS SECTION:
+{callouts_json}
+
+FIGURE REFERENCES IN THIS SECTION:
+{figure_refs_json}
+
+GAME CLASSIFICATION FOR THIS SECTION:
+{game_classification_json}
+
+
+SPEAKER IDS FOR TTS:
+- lyra: LYRA the ship AI (warm coach, mission briefings, celebrations, mode transitions)
+- specialist: {specialist_display_name} (teaches content, explains concepts, gives detailed feedback)
+- grimble: Grimble (creature encounter taunts, never shaming, theatrical villain energy)
+Use these IDs in the JSON as speaker_id.
+Default: learn segments use specialist, briefings use lyra, creature taunts use grimble.
+
+═══════════════════════════════════════════════════════════════
+YOUR TASK
+═══════════════════════════════════════════════════════════════
+Transform this content into a GUIDED LEARNING SEQUENCE (called a "mission" in-game). The learner starts knowing NOTHING about this topic. Build them from "what is this?" to "I can answer MCAT questions about this."
+
+The narrative framing: LYRA has detected Memory Fragments on the planet surface. The specialist guides the Commander through reconstructing this knowledge. Grimble's corruption means some knowledge is twisted — wrong answers reflect his corruption, not the player's failure.
+
+Create between 3-7 LEVELS depending on concept complexity:
+- Simple concept → 3-4 levels
+- Medium concept → 5 levels
+- Complex concept (pathways, multi-step processes) → 6-7 levels
+
+EVERY level follows: LEARN → CHECK → APPLY
+
+═══════════════════════════════════════════════════════════════
+LEVEL PROGRESSION TEMPLATE
+═══════════════════════════════════════════════════════════════
+Level 1: "The Big Picture" — What is this and why does it matter?
+Level 2: "The Rules" — What principles or laws control this?
+Level 3: "The Players" — What molecules, enzymes, structures are involved?
+Level 4: "The Process" — How does it actually work, step by step?
+Level 5: "The Variations" — How does this differ across contexts? (prok vs euk, different tissues, etc.)
+Level 6: "When Things Go Wrong" — Diseases, mutations, inhibitors, clinical relevance
+Level 7: "MCAT Patterns" — How the MCAT tests this + practice questions
+
+Skip levels that don't apply. Not every concept has "variations" or "diseases." Add levels if the concept needs more scaffolding between ideas.
+
+*** MANDATORY FINAL LEVEL: "MCAT Patterns" ***
+EVERY section MUST end with an "MCAT Patterns" level. This is NON-NEGOTIABLE.
+This final level must include:
+- 2-3 learn segments explaining HOW the MCAT tests this specific topic
+  (discrete vs passage-based, common traps, what they expect you to know cold)
+- Common wrong-answer patterns the MCAT uses for this topic
+- 2-3 check questions styled exactly like real MCAT questions
+- 1 apply question that could appear on a real MCAT exam
+Do NOT skip this level. Even simple topics get MCAT Patterns.
+
+═══════════════════════════════════════════════════════════════
+LEARN SEGMENT MINIMUM (CRITICAL FOR ADHD)
+═══════════════════════════════════════════════════════════════
+Every level MUST have AT LEAST 2 learn segments before check questions.
+- 1 segment = ~15 seconds → too fast, learner hasn't absorbed enough
+- 2-3 segments = ~30-45 seconds → builds enough context before testing
+- Never exceed 5 segments per level (attention fade)
+
+If a level only has one key idea, split it:
+  Segment 1: Introduce the concept with an analogy
+  Segment 2: Give the specific details/rules
+
+═══════════════════════════════════════════════════════════════
+WRITING RULES FOR LEARN SEGMENTS (TTS + CAPTIONS)
+═══════════════════════════════════════════════════════════════
+Each learn segment has TWO text versions:
+
+narrator_text (spoken aloud via TTS):
+- Write as if a smart friend is explaining at a coffee shop
+- Short sentences: 8-15 words each
+- Use "you" and "your" — talk TO the learner directly
+- Use [PAUSE] between distinct ideas (converts to SSML <break> tags)
+- NEVER start or end a string with [PAUSE].
+- NEVER use double pauses [PAUSE][PAUSE].
+- NEVER use parenthetical asides in narration — make them separate sentences
+- Pronounce abbreviations naturally: "DNA" = "D-N-A", "ATP" = "A-T-P"
+- Use everyday analogies when introducing abstract concepts
+- Each segment = 10-20 seconds of speech (25-50 words max)
+- ABSOLUTELY NO ANSI escape codes (e.g., [37m).
+
+display_text (shown on screen while narrator speaks):
+- Can use **bold** for key terms being introduced
+- Can use bullet points for lists
+- Can include chemical notation (5'→3') that would be awkward spoken
+- Slightly more detailed than narrator_text
+- Must contain the KEY TERM the learner should remember
+- ABSOLUTELY NO ANSI escape codes (e.g., [37m).
+
+═══════════════════════════════════════════════════════════════
+QUESTION DESIGN RULES (ADHD-OPTIMIZED)
+═══════════════════════════════════════════════════════════════
+
+Each Check Question MUST be answerable using ONLY the information presented in the learn segments of the CURRENT level or PRIOR levels in the same section. Do not assume prior knowledge of specific MCAT facts unless they were already taught in this section.
+
+USE THESE 7 QUESTION TYPES. Vary them — never use the same type 3 times in a row:
+
+1. "snap_judgment" — True or False, gut-check speed
+   Schema: options: ["True", "False"], correct_index: 0 or 1
+   Example: "True or false: DNA polymerase builds 3' to 5'."
+
+2. "fill_the_gap" — One blank to complete
+   Schema: options: ["choice A", "choice B", "choice C", "choice D"], correct_index: N
+   Example: "Helicase _____ the double helix."
+
+3. "pick_one" — 4-option multiple choice
+   Schema: options: ["A", "B", "C", "D"], correct_index: N
+   Example: "Which enzyme seals Okazaki fragments?"
+
+4. "what_breaks" — Predict the consequence of a failure/inhibition
+   Schema: options: ["A", "B", "C", "D"], correct_index: N
+   Example: "Topoisomerase is blocked. What happens at the fork?"
+
+5. "put_in_order" — Arrange 3-5 steps in correct sequence
+   Schema: options: ["Step A", "Step B", "Step C", "Step D"], correct_index: N (index of correct ordering)
+   Example: "Order: Seal → Prime → Unwind → Extend"
+
+6. "match_up" — Connect items from two parallel lists
+   Schema: options: ["Item 1", "Item 2", "Item 3"], matches: ["Match 1", "Match 2", "Match 3"]
+   *** CRITICAL: match_up MUST use SEPARATE "options" and "matches" arrays ***
+   *** DO NOT put arrows in the options. DO NOT use correct_index for match_up. ***
+   Example:
+     "options": ["Helicase", "Ligase", "Primase"],
+     "matches": ["Unwinds DNA", "Seals fragments", "Adds RNA primer"]
+
+7. "spot_the_lie" — 3 true statements + 1 false. Find the false one.
+   Schema: options: ["Statement A", "Statement B (false)", "Statement C", "Statement D"], correct_index: 1
+   Example: "Which one is WRONG about the leading strand?"
+
+QUESTION WORDING RULES:
+- Start with an ACTION VERB or SCENARIO. Never "Which of the following..."
+- Max 2 sentences for question stem
+- For pick_one: 1 correct, 1 close distractor, 2 clearly wrong but plausible
+- NEVER double negatives ("Which is NOT incorrect")
+- NEVER "all of the above" or "none of the above"
+- Use present tense: "What happens" not "What would happen"
+- Frame as puzzles and challenges, not quiz questions
+
+FEEDBACK FOR EVERY QUESTION:
+- correct_response: 1 sentence celebration + WHY it's right. Never just "Correct!"
+  Use LYRA's warm coaching tone: "Exactly! Helicase goes first because..." / "Nailed it! The fork needs..."
+- wrong_response: Warm redirect + the actual answer. Frame as Grimble's corruption, not player failure.
+  Examples: "Grimble twisted that one — here's the real answer..." / "Close — that's the corrupted version. The truth is..." / "Not this one — Grimble's fog is strong here. Think about..."
+- wrong_explanations: For EACH wrong option, 1 sentence explaining the specific misconception
+  (For match_up: provide a single wrong_response explaining what was mismatched)
+
+═══════════════════════════════════════════════════════════════
+CREATURE ENCOUNTERS (OPTIONAL BONUS)
+═══════════════════════════════════════════════════════════════
+At the end of select levels (not every level), you may include a creature_encounter.
+This is a corrupted native creature that the player can FREE by answering a bonus question.
+
+creature_encounter schema:
+{{
+  "creature_type": "creature name for this planet",
+  "variant": "scout" | "warden" | "captain",
+  "taunt": "A Grimble-voiced taunt: 'You think you understand [topic]? This creature says otherwise!'",
+  "question": {{
+    "question_id": "concept-id-L3-CE1",
+    "speaker_id": "grimble",
+    "question_type": "pick_one",
+    "question_text": "Harder question requiring synthesis of this level's content",
+    "options": ["A", "B", "C", "D"],
+    "correct_index": 2,
+    "correct_response": "The creature breaks free! Another fragment of knowledge restored.",
+    "wrong_response": "The creature stays corrupted... for now. Review the concept and try again.",
+    "wrong_explanations": {{"0": "...", "1": "...", "3": "..."}}
+  }},
+  "freed_dialogue": "A line from the freed creature: 'Thank you, Commander! I remember now — [key fact about this level's content]!'"
+}}
+
+Include creature encounters in 1-2 levels per section (not all). Scouts are easier, Captains require mastery-level knowledge. Make the freed dialogue reinforce a key concept.
+
+═══════════════════════════════════════════════════════════════
+SPECIAL ELEMENTS TO INSERT
+═══════════════════════════════════════════════════════════════
+
+MISSION BRIEFING: Create a pre-lesson briefing from LYRA.
+  speaker_id should be "lyra"
+  narrator_text should be energizing: "Commander, I am detecting Memory Fragments on the surface. [PAUSE] Here is what we need to reconstruct..." / "This mission focuses on..."
+
+PRO TIPS: Insert MCAT Expertise callouts at the most relevant point in the levels.
+  Format as: type "mcat_pro_tip" with narrator_text and display_text.
+  *** EVERY level SHOULD have at least one pro_tip if possible. ***
+  Pro tips come from TWO sources:
+  1. Kaplan "MCAT Expertise" callouts from the book (use exact content if provided in callouts above)
+  2. Your own MCAT strategy insights for this specific content
+  If a Kaplan callout exists in the CALLOUTS data above, you MUST include it.
+  If a level involves calculations/equations, add a strategy tip about the MCAT's approach.
+  If a level is high-yield, add a tip about how frequently this appears on the exam.
+
+MNEMONICS: If a mnemonic exists for content in a level, embed it in the learn segment.
+  Add a "mnemonic" field to the segment.
+
+FIGURE REFERENCES: When a figure is relevant to a learn segment, include figure_ref with the figure_id.
+  The frontend will display the image alongside the text.
+
+═══════════════════════════════════════════════════════════════
+APPLY QUESTIONS (end of each level)
+═══════════════════════════════════════════════════════════════
+Apply questions DIFFER from check questions:
+- They require COMBINING ideas from the current level
+- They present a novel scenario not directly stated in the learn segments
+- They mimic MCAT reasoning: "Given X, predict Y"
+- Always pick_one or what_breaks type
+- Include a "reasoning" field with the logical chain to the answer
+
+═══════════════════════════════════════════════════════════════
+REWARDS (per level completion)
+═══════════════════════════════════════════════════════════════
+Include a "rewards" object for each level:
+{{
+  "xp": 50,
+  "crystals": 10,
+  "streak_eligible": true
+}}
+
+Energy Crystals are the single in-game currency. Typical per-level: 5-15 crystals depending on difficulty.
+
+═══════════════════════════════════════════════════════════════
+OUTPUT JSON SCHEMA
+═══════════════════════════════════════════════════════════════
+
+{{
+  "concept_id": "{section_id}-slugified-title",
+  "title": "{section_title}",
+  "book": "{book_subject}",
+  "chapter": {chapter_number},
+  "section_id": "{section_id}",
+  "is_high_yield": {is_high_yield},
+  "aamc_categories": {aamc_categories},
+  "complexity": 5,
+  "estimated_minutes": 12,
+  "prerequisite_concepts": ["other-concept-id-1"],
+
+  "mission_briefing": {{
+    "speaker_id": "lyra",
+    "narrator_text": "Commander, I am detecting Memory Fragments on the surface. [PAUSE] Here is what we need to reconstruct...",
+    "display_text": "**Mission: {section_title}**\n• Objective 1\n• Objective 2\n• Objective 3"
+  }},
+
+  "levels": [
+    {{
+      "level": 1,
+      "title": "The Big Picture",
+      "rewards": {{
+        "xp": 50,
+        "crystals": 10,
+        "streak_eligible": true
+      }},
+      "learn_segments": [
+        {{
+          "segment_id": "concept-id-L1-S1",
+          "speaker_id": "specialist",
+          "narrator_text": "Here is the deal. [PAUSE] Sentence two. [PAUSE] Sentence three.",
+          "display_text": "**Key Term** — explanation with bullets",
+          "key_term": "the one term to remember",
+          "estimated_seconds": 15,
+          "mnemonic": null,
+          "figure_ref": null
+        }}
+      ],
+      "pro_tips": [
+        {{
+          "narrator_text": "Quick MCAT tip. [PAUSE] The test loves asking...",
+          "display_text": "🎯 **MCAT Pro Tip:** ...",
+          "source": "Kaplan MCAT Expertise"
+        }}
+      ],
+      "check_questions": [
+        {{
+          "question_id": "concept-id-L1-CQ1",
+          "question_type": "snap_judgment",
+          "question_text": "True or false: ...",
+          "options": ["True", "False"],
+          "correct_index": 1,
+          "correct_response": "Exactly! Because...",
+          "wrong_response": "Grimble twisted that one — here is the truth...",
+          "wrong_explanations": {{
+            "0": "This is a common misconception because..."
+          }},
+          "source": "ai_generated"
+        }}
+      ],
+      "apply_question": {{
+        "question_id": "concept-id-L1-AQ1",
+        "speaker_id": "specialist",
+        "question_type": "what_breaks",
+        "scenario": "A researcher adds Drug X that blocks...",
+        "question_text": "What is the first thing that fails?",
+        "options": ["Option A", "Option B", "Option C", "Option D"],
+        "correct_index": 2,
+        "correct_response": "Right! Because...",
+        "wrong_response": "Close — Grimble's corruption is strong here. Think about the sequence...",
+        "reasoning": "Step 1 depends on... therefore...",
+        "wrong_explanations": {{
+          "0": "This step actually comes after...",
+          "1": "This would only be affected if...",
+          "3": "This is downstream of the actual failure point..."
+        }}
+      }},
+      "creature_encounter": null
+    }}
+  ],
+
+  "bridges": [
+    {{
+      "target_concept_id": "related-concept-slug",
+      "target_title": "Related Concept Name",
+      "target_planet": "planet_id",
+      "relationship": "prerequisite",
+      "connection_explanation": "One sentence explaining the connection",
+      "bridge_question": {{
+        "question_text": "A question spanning both topics",
+        "answer": "Brief answer"
+      }}
+    }}
+  ],
+
+  "game_elements": {game_classification_json}
+}}
+
+═══════════════════════════════════════════════════════════════
+QUALITY CHECKS — Verify before outputting:
+═══════════════════════════════════════════════════════════════
+- EVERY level has at least 2 learn_segments (never quiz after just 1 segment)
+- Every question has the right number of options for its type
+- correct_index points to the actual correct option (0-indexed)
+- match_up questions use separate "options" and "matches" arrays (NO correct_index)
+- No question stem exceeds 2 sentences
+- No narrator_text segment exceeds 50 words
+- wrong_explanations exist for EVERY wrong option index
+- The FINAL level is "MCAT Patterns" with real MCAT-style questions
+- Every level has at least one pro_tip (from Kaplan callouts or your strategy knowledge)
+- At least 3 levels total, even for simple topics
+- speaker_id uses "lyra", "specialist", or "grimble" — NEVER "narrator", "companion", or "antagonist"
+- wrong_response frames errors as Grimble's corruption, not player failure
+- Mission briefing uses LYRA's voice (speaker_id: "lyra")

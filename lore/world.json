@@ -1,0 +1,80 @@
+{
+  "game_title": "MCAT Mastery",
+  "version": "2.0",
+  "tone": "Stardew Valley coziness × Duolingo addiction × Clash Royale cartoon boldness",
+  "platform": "Web App (HTML/CSS/JS)",
+  "core_fantasy": "You are a superpowered Commander reclaiming corrupted planets through the power of learning.",
+
+  "design_pillars": [
+    {
+      "id": "adhd_first",
+      "name": "ADHD-First",
+      "description": "~15-second micro-lessons + questions every 2-3 min. Instant feedback. Multi-sensory (TTS + visuals + animations + sounds)."
+    },
+    {
+      "id": "cozy_addictive",
+      "name": "Cozy & Addictive",
+      "description": "Warm visuals, satisfying sounds, visible progress, rewarding loops. Never punishing."
+    },
+    {
+      "id": "simple_build",
+      "name": "Simple to Build",
+      "description": "2D/2.5D web app. Tile-based maps. CSS animations. No game engine required."
+    },
+    {
+      "id": "autonomy",
+      "name": "Autonomy",
+      "description": "Recommended path, never forced. Player chooses what to study."
+    },
+    {
+      "id": "disguised_spaced_rep",
+      "name": "Spaced Repetition Disguised as Gameplay",
+      "description": "Fog reclamation = forced review. Players never feel drilled."
+    }
+  ],
+
+  "setting": {
+    "description": "A solar system of seven vibrant planets, each home to unique indigenous creatures and ecosystems, blanketed in Grimble's corrupting fog.",
+    "inciting_event": "Grimble, wielding the Dark Crystal, has blanketed all seven planets in a corrupting fog that corrupts native creatures into mindless servants of darkness.",
+    "player_origin": "Your ship detects the disturbance. LYRA wakes you from cryo-sleep. A mysterious energy shimmer bonds to your nervous system, giving you Resonance.",
+    "memory_fracture": "The Dark Crystal's pulse caused a Memory Fracture in your mind. Your knowledge is scattered. As LYRA guides you, you rebuild your fractured memory piece by piece."
+  },
+
+  "hub": {
+    "id": "ship_dashboard",
+    "name": "Ship Dashboard",
+    "description": "A glass deck overlooking the 7 darkened planets. Your home base between missions.",
+    "tagline": "Reclaim the Light. Defeat Grimble."
+  },
+
+  "lore_framing": {
+    "learning_new_content": "Memory Reconstruction",
+    "review": "Signal Stabilization",
+    "correct_answer": "Neural pathway confirmed",
+    "wrong_answer": "Partial recall — reinforcing pathway",
+    "guided_lesson": "Guided Clearing",
+    "review_mission": "Memory Sweep",
+    "field_notes": "Neural Archive",
+    "mission_complete": "Sector Stabilized"
+  },
+
+  "opening_flow": [
+    "Intro Cutscene: Illustrated panels + TTS narration (~60s) — planets consumed by fog, shimmer bonds to you, LYRA wakes you up.",
+    "Character Selection: Pick Commander (4 premade) + name + Resonance element.",
+    "Ship Dashboard: Glass deck overlooking 7 darkened planets. LYRA gives first mission briefing.",
+    "First Deploy: Tap recommended planet → first chapter → first guided lesson. Instant transition."
+  ],
+
+  "subjects": {
+    "biology":      { "book_key": "biology",      "planet_id": "verdania", "specialist_id": "dr_kade",    "kaplan_book": "Kaplan MCAT Biology Review" },
+    "biochemistry": { "book_key": "biochemistry", "planet_id": "glycera",  "specialist_id": "dr_vale",    "kaplan_book": "Kaplan MCAT Biochemistry Review" },
+    "gen_chem":     { "book_key": "gen_chem",     "planet_id": "luminara", "specialist_id": "dr_calder",  "kaplan_book": "Kaplan MCAT General Chemistry Review" },
+    "org_chem":     { "book_key": "org_chem",     "planet_id": "synthara", "specialist_id": "dr_finch",   "kaplan_book": "Kaplan MCAT Organic Chemistry Review" },
+    "physics":      { "book_key": "physics",      "planet_id": "aethon",   "specialist_id": "cmdr_voss",  "kaplan_book": "Kaplan MCAT Physics and Math Review" },
+    "psych_soc":    { "book_key": "psych_soc",    "planet_id": "miravel",  "specialist_id": "dr_solomon", "kaplan_book": "Kaplan MCAT Behavioral Sciences Review" },
+    "cars":         { "book_key": "cars",         "planet_id": "lexara",   "specialist_id": "prof_rhee",  "kaplan_book": "Kaplan MCAT Critical Analysis and Reasoning Skills Review" }
+  },
+
+  "deployment_flow": "Ship Dashboard → Tap Planet → Planet Map → Tap Sector → Tap Tile → MISSION START",
+  "transition_style": "Clean fade transition with element-colored wash. Duolingo-speed. No travel animation."
+}

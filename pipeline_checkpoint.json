@@ -1,0 +1,111 @@
+{
+  "last_run": {
+    "last_updated": "2026-02-10T14:17:38.199873",
+    "pdf": "MCAT General Chemistry Review.pdf",
+    "subject": "gen_chem",
+    "chapter": 2,
+    "phase": 6.1,
+    "phase_name": "Verify Wrong-Answer Explanations",
+    "status": "completed"
+  },
+  "history": [
+    {
+      "pdf": "MCAT Biology Review.pdf",
+      "chapter": 1,
+      "phase": 0,
+      "timestamp": "2026-02-09T20:48:54.324612",
+      "status": "completed"
+    }
+  ],
+  "subjects": {
+    "gen_chem": {
+      "completed_phases": [
+        0,
+        1,
+        4
+      ],
+      "chapters": {
+        "ch1": [
+          0,
+          2,
+          3,
+          6,
+          6.1,
+          5
+        ],
+        "ch2": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          6.1
+        ]
+      }
+    },
+    "biology": {
+      "completed_phases": [
+        1
+      ],
+      "chapters": {
+        "ch1": [
+          0,
+          3,
+          2,
+          5,
+          6,
+          6.1,
+          6.1
+        ],
+        "ch2": [
+          3
+        ],
+        "ch3": [
+          3
+        ]
+      }
+    },
+    "physics": {
+      "completed_phases": [],
+      "chapters": {
+        "ch1": [
+          0,
+          1,
+          2
+        ]
+      }
+    },
+    "global": {
+      "completed_phases": [
+        3
+      ],
+      "chapters": {}
+    },
+    "biochemistry": {
+      "completed_phases": [
+        0
+      ],
+      "chapters": {}
+    },
+    "org_chem": {
+      "completed_phases": [
+        0,
+        1
+      ],
+      "chapters": {}
+    },
+    "psych_soc": {
+      "completed_phases": [
+        0,
+        1
+      ],
+      "chapters": {}
+    },
+    "cars": {
+      "completed_phases": [
+        0
+      ],
+      "chapters": {}
+    }
+  }
+}

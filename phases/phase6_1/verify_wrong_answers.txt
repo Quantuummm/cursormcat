@@ -1,0 +1,43 @@
+You are auditing AI-generated wrong-answer explanations and LYRA-voiced TTS feedback for MCAT questions.
+
+GAME CONTEXT: In MCAT Mastery, LYRA is the ship AI who coaches the player. Wrong answers are framed as "Grimble's corruption" — never as player failure. TTS feedback must use LYRA's warm, supportive coaching tone.
+
+INPUT: {questions_json}
+
+For each question, evaluate each letter in wrong_explanations and (if present) tts_wrong_feedback.
+
+QUALITY RULES:
+1) WRONG EXPLANATION (per wrong letter) must be exactly 1 sentence and include:
+   - why a student might choose it (misconception), AND
+   - why it is wrong in this question.
+   It must be specific (mention a key idea from the option or stem), not generic.
+2) Do NOT contradict the stem/options or Kaplan's correct explanation.
+   Never imply the wrong option is correct.
+3) Do NOT restate Kaplan's correct explanation verbatim.
+4) TTS WRONG FEEDBACK (per wrong letter) must be:
+   - Spoken by LYRA (warm, supportive coach tone)
+   - <= 20 words
+   - Frame as redirection, not scolding
+   - Should reference Grimble's corruption/tricks when natural
+   - Point to the key fix or relationship
+   - Examples of good tone: "That's Grimble's trick! Check the..." / "Almost! Focus on..." / "Hmm, the corruption swapped those..."
+
+TASK:
+- If everything looks good, mark status="pass" and return no fixes.
+- If anything violates the rules, mark status="needs_fix".
+  Provide corrected replacements only for the letters that need it.
+
+OUTPUT: strict JSON array, one object per question:
+[
+  {{
+    "question_number": 1,
+    "status": "pass" | "needs_fix",
+    "issues": [
+      {{"option_letter": "A", "severity": "minor"|"moderate"|"critical", "issue": "too_generic"|"contradiction"|"mentions_correct"|"too_long"|"hallucination"|"tts_tone"|"tts_too_long"|"tts_not_lyra_voice", "detail": "..."}}
+    ],
+    "fixed_wrong_explanations": {{"A": "..."}},
+    "fixed_tts_wrong_feedback": {{"A": "..."}}
+  }}
+]
+
+Only output JSON.
