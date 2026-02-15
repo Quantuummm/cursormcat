@@ -1,2 +1,0 @@
-[     581ms] [WARNING] [2026-02-12T01:02:22.057Z]  @firebase/firestore: Firestore (10.12.0): enableMultiTabIndexedDbPersistence() will be deprecated in the future, you can use `FirestoreSettings.cache` instead. @ https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js:0
-[     839ms] [WARNING] <meta name="apple-mobile-web-app-capable" content="yes"> is deprecated. Please include <meta name="mobile-web-app-capable" content="yes"> @ https://gen-lang-client-0005785057.web.app/:0

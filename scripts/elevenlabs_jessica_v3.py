@@ -1,8 +1,14 @@
 import requests
 import json
+import os
+from dotenv import load_dotenv
+from pathlib import Path
 
-# User provided API key
-API_KEY = "sk_e362b529d666f3c1e86f8f2eb05b09fa1c8aa0d022b88108"
+# Load environment variables
+load_dotenv(Path(__file__).parent.parent / ".env")
+
+# User provided API key from environment
+API_KEY = os.getenv("ELEVENLABS_API_KEY")
 
 # Based on research:
 # Voice Name: Jessica -> ID: cgSgspJ2msm6clMCkdW9

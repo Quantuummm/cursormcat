@@ -1,7 +1,12 @@
 import requests
 import json
+import os
+from dotenv import load_dotenv
+from pathlib import Path
 
-API_KEY = "sk_e362b529d666f3c1e86f8f2eb05b09fa1c8aa0d022b88108"
+# Load environment variables
+load_dotenv(Path(__file__).parent.parent / ".env")
+API_KEY = os.getenv("ELEVENLABS_API_KEY")
 
 def list_voices():
     url = "https://api.elevenlabs.io/v1/voices"

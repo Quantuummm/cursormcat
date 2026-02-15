@@ -1,18 +1,25 @@
 /**
  * MCAT Mastery — Firebase Configuration
  * 
- * Initialize Firebase, expose db and auth references.
- * Replace the config values with your project's credentials.
+ * NOTE: Credentials are now being handled securely.
+ * For local development, ensure these are placeholder values in tracked files.
  */
 
 const firebaseConfig = {
-    apiKey:            "AIzaSyA1RnGs2GWOVu8RH-6sG4ek-ycyvAv51C8",
+    apiKey:            "REPLACED_WITH_ENV_VARIABLE",
     authDomain:        "gen-lang-client-0005785057.firebaseapp.com",
     projectId:         "gen-lang-client-0005785057",
     storageBucket:     "gen-lang-client-0005785057.firebasestorage.app",
     messagingSenderId: "1009890177702",
     appId:             "1:1009890177702:web:7bbecb45aeae1bea41fa67",
 };
+
+// In a real production build, these would be injected via environment variables.
+// For now, we are removing the hardcoded key from the tracked file.
+if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    // If you need the key locally for development, you can manually set it here 
+    // or use a local dev server that injects it.
+}
 
 firebase.initializeApp(firebaseConfig);
 
