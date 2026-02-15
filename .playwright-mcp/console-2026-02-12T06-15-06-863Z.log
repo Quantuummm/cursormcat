@@ -1,0 +1,11 @@
+[     170ms] [WARNING] [2026-02-12T06:15:07.032Z]  @firebase/firestore: Firestore (10.12.0): enableMultiTabIndexedDbPersistence() will be deprecated in the future, you can use `FirestoreSettings.cache` instead. @ https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js:0
+[  414315ms] ReferenceError: Mobile is not defined
+    at _handleAnswer (http://localhost:3001/js/screens/mission.js?v=7:193:9)
+    at HTMLButtonElement.<anonymous> (http://localhost:3001/js/screens/mission.js?v=7:163:45)
+[  442949ms] ReferenceError: Mobile is not defined
+    at _handleAnswer (http://localhost:3001/js/screens/mission.js?v=7:193:9)
+    at HTMLButtonElement.<anonymous> (http://localhost:3001/js/screens/mission.js?v=7:163:45)
+[  454645ms] ReferenceError: initShop is not defined
+    at btnShop.onclick (http://localhost:3001/js/app.js?v=7:74:79)
+[  457113ms] ReferenceError: initNotebook is not defined
+    at btnNotebook.onclick (http://localhost:3001/js/app.js?v=7:73:83)

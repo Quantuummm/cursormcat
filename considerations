@@ -1,0 +1,16 @@
+**Recommendation:** Conduct user testing specifically measuring whether players are motivated by "I want to learn this" vs "I want crystals/streaks." If the latter dominates, reduce crystal earn rates and increase narrative rewards. See Section 10.
+**⚠️ Gap:** We use Kaplan as the source but haven't verified if our AI extraction captures 100% of testable concepts. Some nuanced application scenarios in Kaplan that require multi-paragraph context may be lost in micro-segmentation. Need a "concept coverage audit" against AAMC content outline.
+| "I need pictures with explanations, not just text" | **Dual Coding Theory**: Combining verbal + visual information enhances encoding (Paivio, decades of evidence) | 🟡 **Partial alignment** | TTS + animated text + figures. But we lack dynamic diagrams and animated visual explanations for complex processes. |
+| "I need to understand WHY, not just WHAT" | **Elaborative Interrogation**: Asking "how" and "why" improves retention when connected to prior knowledge (PMC) | ✅ **Good alignment** | LYRA teaches → comprehension check → apply question → wrong answer explanations (Phase 6 enrichment) |
+| "Mix up subjects, don't study one thing for hours" | **Interleaving**: Switching between topics helps identify similarities/differences and improves transfer (Cognitive Science research) | ✅ **Good alignment** | Bridge Missions cross subjects. 7 planets available simultaneously. Player chooses. |
+| "Mix up subjects, don't study one thing for hours" | **Interleaving**: Switching between topics helps identify similarities/differences and improves transfer (Cognitive Science research) | ✅ **Good alignment** | Bridge Missions cross subjects. 7 planets available simultaneously. Player chooses. |
+
+**11. AI-Generated Short Videos for Hard Concepts — Rating: 0/10**
+- The brief asks: "Should we use generative AI for short video clips?"
+- **Answer:** YES, but strategically. For the top 50 hardest MCAT concepts (ETC, fluid dynamics, optics, neuroanatomy), a 30-60 second animated explainer would be transformative.
+- **Solution:** Generate after MVP launch using tools like Synthesia, HeyGen, or Manim (math animation library). Store in Cloud Storage, embed in mission when learning_segment involves a complex visual process.
+
+**12. Adaptive Difficulty — Rating: 0/10**
+- Current design: fixed difficulty per concept
+- **Solution:** Phase 6 (Advanced roadmap). Track accuracy per concept category. Auto-adjust question difficulty and review frequency.
+**⚠️ BUT:** We don't fully replicate Anki's granular spaced repetition algorithm (SM-2 / FSRS). Our fog system is a simplified version. For power users who want per-card interval control, we may lose them. However, for our target audience (ADHD learners who hate Anki), this is actually a feature, not a bug. The fog system is spaced rep that doesn't FEEL like spaced rep.

@@ -1,0 +1,31 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // ─── TTS Audio Files ─────────────────────────────
+    // Public read for audio playback; admin-only write (Phase 10 upload)
+    match /audio/{allPaths=**} {
+      allow read: if true;
+      allow write: if false;  // Admin SDK only
+    }
+
+    // ─── Images (Phase 0 extracted figures) ──────────
+    match /images/{allPaths=**} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // ─── User Exports ────────────────────────────────
+    match /exports/{userId}/{allPaths=**} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if request.auth != null && request.auth.uid == userId
+                   && request.resource.size < 5 * 1024 * 1024;  // 5MB limit
+    }
+
+    // Default deny
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

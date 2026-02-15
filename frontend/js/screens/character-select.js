@@ -31,7 +31,22 @@ function _renderCommanders() {
     grid.innerHTML = '';
     
     // Try to load from game data, fallback to defaults
-    const commanders = getCommanders() || _defaultCommanders();
+    let commanders;
+    const raw = getCommanders();
+    
+    if (Array.isArray(raw)) {
+        commanders = raw;
+    } else if (raw && Array.isArray(raw.commanders)) {
+        // Firestore doc shape: { commanders: [ { id, display_name, ... } ] }
+        commanders = raw.commanders.map(c => ({
+            id: (c.id || '').replace('commander_', ''),
+            name: (c.display_name || c.id || '').replace('Commander ', ''),
+            emoji: c.emoji || _commanderEmoji(c.id),
+            tagline: c.tagline || _commanderTagline((c.id || '').replace('commander_', '')),
+        }));
+    } else {
+        commanders = _defaultCommanders();
+    }
     
     commanders.forEach(cmd => {
         const card = document.createElement('div');
@@ -69,6 +84,17 @@ function _defaultCommanders() {
         { id: 'ryn',  name: 'Ryn',  emoji: '🌿', tagline: 'Curious & kind' },
         { id: 'lira', name: 'Lira', emoji: '✨', tagline: 'Fierce & fast' },
     ];
+}
+
+function _commanderEmoji(id) {
+    const map = { commander_kai: '🔥', kai: '🔥', commander_zara: '⚡', zara: '⚡', 
+                  commander_ryn: '🌿', ryn: '🌿', commander_lira: '✨', lira: '✨' };
+    return map[id] || '🧑‍🚀';
+}
+
+function _commanderTagline(id) {
+    const map = { kai: 'Bold & driven', zara: 'Calm & precise', ryn: 'Curious & kind', lira: 'Fierce & fast' };
+    return map[id] || '';
 }
 
 // ─── Resonance Picker ───────────────────────────────────
@@ -143,26 +169,30 @@ function _checkReady() {
 
 /**
  * Initialize a brand new player state.
+ * Writes directly to the Player global (not the adapter) so saves work correctly.
  */
 function createNewPlayer({ name, commanderId, resonance }) {
-    const state = getPlayerState();
-    state.name = name;
-    state.commanderId = commanderId;
-    state.level = 1;
-    state.xp = 0;
-    state.crystals = 50; // Starter crystals
-    state.neuralCharge = { current: 6, max: 6, lastRegenTime: Date.now() };
-    state.streak = { current: 0, lastDate: null };
-    state.resonance = {
-        primary: resonance,
-        tiers: { [resonance]: 1 },
-    };
-    state.planetProgress = {};
-    state.creaturesFreed = [];
-    state.bridgesCompleted = [];
-    state.fieldNotes = [];
-    state.notebook = [];
-    state.cosmetics = { equipped: {} };
-    state.settings = { ttsEnabled: true, sfxEnabled: true, musicEnabled: true };
+    // Write directly to Player global, not through getPlayerState() adapter
+    Player.commanderId = commanderId;
+    Player.commanderName = name;
+    Player.crystals = 50; // Starter crystals
+    Player.neuralCharge.current = 6;
+    Player.neuralCharge.max = 6;
+    Player.neuralCharge.lastRegenAt = Date.now();
+    Player.streak.currentDaily = 0;
+    Player.streak.lastPlayDate = null;
+    Player.streak.longestStreak = 0;
+    Player.streak.milestones = [];
+    // Set primary resonance element
+    for (const key of Object.keys(Player.resonance)) {
+        Player.resonance[key] = key === resonance ? 1 : 0;
+    }
+    Player.planetProgress = {};
+    Player.creaturesFreed = [];
+    Player.bridgesCompleted = [];
+    Player.fieldNotes = {};
+    Player.notebook = [];
+    Player.cosmetics = { shipSkin: 'default', trailEffect: 'default', badges: [] };
+    Player.settings = { ttsEnabled: true, sfxEnabled: true, musicEnabled: true, ttsSpeed: 1.0 };
     _saveLocal();
 }

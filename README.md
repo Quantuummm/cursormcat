@@ -6,6 +6,8 @@
 
 You play as a Commander, woken from cryo-sleep by your AI companion **LYRA**, to reclaim seven corrupted planets — each representing an MCAT subject. Every correct answer fires your Resonance element, clears fog from the planet surface, and rebuilds your fractured memory. The villain **Grimble** (a theatrical, plushie-worthy overlord) constantly tries to reclaim territory with his Dark Crystal. Spaced repetition *is* the fog. You never know you're being drilled.
 
+> **🌟 NEW:** Reduce API costs by 90% with one line of code! Context caching + conversation persistence + auto-summarization. **[Quick Start Guide](docs/QUICK_START_OPTIMIZATION.md)** (5 min) | [Full Documentation](docs/API_OPTIMIZATION_GUIDE.md)
+
 ---
 
 ## Table of Contents

@@ -12,20 +12,28 @@ Your job for EACH WRONG option:
 2. Write a short "tts_wrong_feedback" for LYRA's spoken audio response.
 
 RULES for WRONG_EXPLANATIONS:
-- Max 1 sentence per wrong option.
+- Max 2 sentences per wrong option.
 - Be specific to THIS question — don't give generic "this is wrong" responses.
 - Tone: teaching, not scolding. Imagine explaining to a friend.
 - Do NOT repeat or reword the correct answer explanation.
+- ALWAYS explain WHY this option is wrong, not just THAT it's wrong.
+- Connect to the underlying mechanism or principle: "This is wrong BECAUSE [mechanism]..."
+- Address the specific misconception or confusion that leads to this error.
+- If the wrong answer is a different but related concept, explain HOW they differ and WHY the distinction matters.
+- Example of BAD: "This is incorrect because it's not the right answer."
+- Example of GOOD: "Students confuse cations with anions here because both involve charge, but cations LOSE electrons (hence the positive charge) while anions GAIN electrons."
 
 RULES for TTS_WRONG_FEEDBACK (spoken by LYRA):
 - Max 20 words.
 - Tone: warm, supportive, encouraging. LYRA is a coach, not a judge.
 - Frame as "Grimble's corruption" not "you got it wrong."
-- Goal: Point to the key fix or relationship.
+- Goal: Explain WHY it's wrong AND point to the key fix or relationship.
+- MUST include a causal word (because, since, due to, that's why, the reason is...).
+- Never just say "wrong" — always say WHY and HOW to think about it correctly.
 - Examples:
-  "That's Grimble's trick! Check the group number — same column means same valence electrons."
-  "Almost! The corruption here is subtle. Focus on the charge, not the mass."
-  "Hmm, Grimble swapped those. Remember: cations lose electrons, anions gain them."
+  "That's Grimble's trick! Check the group number — same column means same valence electrons BECAUSE group number equals outer electrons."
+  "Almost! The corruption here is subtle. Focus on the charge, not the mass, because mass doesn't change during ionization."
+  "Hmm, Grimble swapped those. Remember: cations lose electrons, anions gain them — that's why cations are positive."
 
 QUESTIONS:
 {questions_json}

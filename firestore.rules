@@ -1,0 +1,103 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ─── Player Profiles ───────────────────────────────
+    // Each player owns their document keyed by Firebase Auth UID
+    match /players/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // ─── Player Progress (sub-collection) ──────────────
+    match /players/{userId}/{subcol}/{doc} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // ─── Leaderboard ───────────────────────────────────
+    // Anyone authenticated can read; only own entry can be written
+    match /leaderboard/{entryId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.resource.data.uid == request.auth.uid;
+    }
+    // Nested leaderboards (per-planet/global with monthly entries)
+    match /leaderboards/{boardId}/{path=**} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null;
+    }
+
+    // ─── Game Data (read-only for clients) ─────────────
+    // Populated by Phase 11 pipeline upload (admin SDK)
+    // Subjects: biochemistry, biology, cars, gen_chem, org_chem, physics, psych_soc
+    match /subjects/{subjectId} {
+      allow read: if true;  // Public read for game content
+      allow write: if false; // Admin SDK only
+    }
+    match /subjects/{subjectId}/{subcol}/{doc} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // ─── Chapter Content ───────────────────────────────
+    match /chapters/{chapterId} {
+      allow read: if true;
+      allow write: if false;
+    }
+    match /chapters/{chapterId}/{subcol}/{doc} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // ─── Guided Learning Content (Phase 8) ─────────────
+    match /guided_learning/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+    match /guided_learning/{docId}/{subcol}/{doc} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // ─── Assessments (Phase 2 MCQs) ────────────────────
+    match /assessments/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // ─── Concepts / Mission Content ────────────────────
+    match /concepts/{subjectId} {
+      allow read: if true;
+      allow write: if false;
+    }
+    match /concepts/{subjectId}/{subcol}/{doc} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // ─── Glossary (Phase 4) ────────────────────────────
+    match /glossary/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // ─── Game Config (lore, creatures, planets, etc.) ──
+    match /game_config/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+    match /game_config/{docId}/{subcol}/{doc} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // ─── Connection Test (cleanup) ─────────────────────
+    match /_connection_test/{doc} {
+      allow read, write: if false;
+    }
+
+    // ─── Default deny ──────────────────────────────────
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

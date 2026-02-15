@@ -1,0 +1,9 @@
+node_modules/
+android/
+ios/
+www/
+.gradle/
+build/
+*.apk
+*.aab
+*.ipa

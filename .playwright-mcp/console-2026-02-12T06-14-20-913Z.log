@@ -1,0 +1,1 @@
+[     323ms] [WARNING] [2026-02-12T06:14:21.235Z]  @firebase/firestore: Firestore (10.12.0): enableMultiTabIndexedDbPersistence() will be deprecated in the future, you can use `FirestoreSettings.cache` instead. @ https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js:0

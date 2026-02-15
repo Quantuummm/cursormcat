@@ -1,0 +1,6 @@
+[     435ms] [WARNING] [2026-02-12T06:00:11.615Z]  @firebase/firestore: Firestore (10.12.0): enableMultiTabIndexedDbPersistence() will be deprecated in the future, you can use `FirestoreSettings.cache` instead. @ https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js:0
+[  373939ms] [WARNING] [2026-02-12T06:06:25.119Z]  @firebase/firestore: Firestore (10.12.0): enableMultiTabIndexedDbPersistence() will be deprecated in the future, you can use `FirestoreSettings.cache` instead. @ https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js:0
+[  373941ms] [ERROR] Boot failed: ReferenceError: Mobile is not defined
+    at HTMLDocument.boot (http://localhost:3001/js/app.js?v=7:135:9) @ http://localhost:3001/js/app.js?v=7:214
+[  394889ms] [WARNING] [2026-02-12T06:06:46.070Z]  @firebase/firestore: Firestore (10.12.0): enableMultiTabIndexedDbPersistence() will be deprecated in the future, you can use `FirestoreSettings.cache` instead. @ https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js:0
+[  409105ms] [WARNING] [2026-02-12T06:07:00.285Z]  @firebase/firestore: Firestore (10.12.0): enableMultiTabIndexedDbPersistence() will be deprecated in the future, you can use `FirestoreSettings.cache` instead. @ https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js:0

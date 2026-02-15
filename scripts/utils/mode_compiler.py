@@ -226,12 +226,27 @@ def build_sort_payload(ctx: CompilationContext, table_block: Dict[str, Any], dif
     buckets = headers[1:]
     items = []
     for r in rows:
-        if not r or len(r) < 3:
+        # Handle both list and dict row formats
+        if isinstance(r, dict):
+            # Dict format: {header1: value1, header2: value2, ...}
+            if len(r) < 3:
+                continue
+            # Get feature from first header
+            feature = str(r.get(feature_header, "")).strip()
+            if not feature:
+                continue
+            # Get bucket values
+            cells = [str(r.get(b, "")).strip() for b in buckets]
+        elif isinstance(r, list):
+            # List format: [value1, value2, value3, ...]
+            if not r or len(r) < 3:
+                continue
+            feature = str(r[0]).strip()
+            if not feature:
+                continue
+            cells = [str(c).strip() for c in r[1:]]
+        else:
             continue
-        feature = str(r[0]).strip()
-        if not feature:
-            continue
-        cells = [str(c).strip() for c in r[1:]]
         items.append({"feature": feature, "cells": dict(zip(buckets, cells))})
     if not items:
         return None
@@ -426,29 +441,59 @@ def build_table_challenge_payload(ctx: CompilationContext, table_block: Dict[str
     # Build question cards: hide one cell, ask student to identify it
     cards = []
     for r in rows:
-        if not isinstance(r, list) or len(r) < 2:
-            continue
-        row_label = str(r[0]).strip()
-        for col_idx in range(1, min(len(r), len(headers))):
-            answer = str(r[col_idx]).strip()
-            if not answer or answer.lower() in ("", "null", "none", "n/a"):
+        # Handle both list and dict row formats
+        if isinstance(r, dict):
+            # Dict format: {header1: value1, header2: value2, ...}
+            if len(r) < 2:
                 continue
-            # Gather distractors from other rows in the same column
-            other_values = [str(other_row[col_idx]).strip() for other_row in rows
-                           if isinstance(other_row, list) and len(other_row) > col_idx
-                           and str(other_row[col_idx]).strip() != answer
-                           and str(other_row[col_idx]).strip()]
-            if not other_values:
+            # Get row label from first header
+            row_label = str(r.get(headers[0], "")).strip()
+            for col_idx in range(1, len(headers)):
+                col_name = headers[col_idx]
+                answer = str(r.get(col_name, "")).strip()
+                if not answer or answer.lower() in ("", "null", "none", "n/a"):
+                    continue
+                # Gather distractors from other rows in the same column
+                other_values = [str(other_row.get(col_name, "")).strip() for other_row in rows
+                               if isinstance(other_row, dict)
+                               and str(other_row.get(col_name, "")).strip() != answer
+                               and str(other_row.get(col_name, "")).strip()]
+                if not other_values:
+                    continue
+                distractors = _sample_unique(other_values, 3, rng)
+                options = distractors + [answer]
+                rng.shuffle(options)
+                cards.append({
+                    "row_label": row_label,
+                    "column": col_name,
+                    "options": options,
+                    "correct_index": options.index(answer),
+                })
+        elif isinstance(r, list):
+            # List format: [value1, value2, value3, ...]
+            if len(r) < 2:
                 continue
-            distractors = _sample_unique(other_values, 3, rng)
-            options = distractors + [answer]
-            rng.shuffle(options)
-            cards.append({
-                "row_label": row_label,
-                "column": headers[col_idx],
-                "options": options,
-                "correct_index": options.index(answer),
-            })
+            row_label = str(r[0]).strip()
+            for col_idx in range(1, min(len(r), len(headers))):
+                answer = str(r[col_idx]).strip()
+                if not answer or answer.lower() in ("", "null", "none", "n/a"):
+                    continue
+                # Gather distractors from other rows in the same column
+                other_values = [str(other_row[col_idx]).strip() for other_row in rows
+                               if isinstance(other_row, list) and len(other_row) > col_idx
+                               and str(other_row[col_idx]).strip() != answer
+                               and str(other_row[col_idx]).strip()]
+                if not other_values:
+                    continue
+                distractors = _sample_unique(other_values, 3, rng)
+                options = distractors + [answer]
+                rng.shuffle(options)
+                cards.append({
+                    "row_label": row_label,
+                    "column": headers[col_idx],
+                    "options": options,
+                    "correct_index": options.index(answer),
+                })
 
     if len(cards) < 3:
         return None
@@ -484,6 +529,7 @@ def compile_modes_for_section(
     """Returns a compiled package with archetypes, mode_instances, and speaker defaults."""
     world = ctx.world
     specialist_id = subject_specialist_id(world, ctx.subject)
+    companion_id = subject_companion_id(world, ctx.subject)  # Alias for companion references
 
     # Prefer primitives for downstream payload builders when present.
     # Use section-scoped equations from primitives (not chapter-wide)

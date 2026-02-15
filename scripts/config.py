@@ -20,8 +20,17 @@ PROJECT_ROOT = Path(__file__).parent.parent
 load_dotenv(PROJECT_ROOT / ".env")
 
 # ─── API Keys ───────────────────────────────────────────────
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
+# Support both single key and numbered multi-key configs.
+# The parallel pipeline worker sets GEMINI_API_KEY in the env before this loads.
+# If not set, fall back to GEMINI_API_KEY_1 from .env as a reasonable default.
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "") or os.getenv("GEMINI_API_KEY_1", "")
 GOOGLE_CLOUD_PROJECT_ID = os.getenv("GOOGLE_CLOUD_PROJECT_ID", "")
+
+# Load all 5 keys for parallel pipeline use
+GEMINI_API_KEYS = [
+    os.getenv(f"GEMINI_API_KEY_{i}", "") for i in range(1, 6)
+]
+GEMINI_API_KEYS = [k for k in GEMINI_API_KEYS if k]  # Filter empty
 
 # ─── Gemini Model Settings ──────────────────────────────────
 # Strategy: Try Gemini 3 Flash first (best quality). If it fails
@@ -87,9 +96,11 @@ BOOKS = {
     "MCAT Critical Analysis and Reasoning Skills Review.pdf": "cars",
 }
 
-# ─── Rate Limiting (Gemini free tier) ───────────────────────
-GEMINI_REQUESTS_PER_MINUTE = 14   # Stay under 15 RPM free tier limit
-GEMINI_DELAY_BETWEEN_REQUESTS = 60 / GEMINI_REQUESTS_PER_MINUTE  # ~4.3 seconds
+# ─── Rate Limiting (Paid tier: 200 RPM per key, 1M TPM) ────
+# With 5 keys on separate projects (billing enabled), each key gets full quotas.
+# Per-key limits: 200 RPM, 1M TPM. Workers use 1 key each.
+GEMINI_REQUESTS_PER_MINUTE = 60   # Conservative: ~60 RPM per worker to avoid bursts
+GEMINI_DELAY_BETWEEN_REQUESTS = 60 / GEMINI_REQUESTS_PER_MINUTE  # ~1.0 seconds
 # Per-request timeout (seconds) for Gemini API calls. Increased for heavy extraction.
 GEMINI_API_TIMEOUT = int(os.getenv("GEMINI_API_TIMEOUT", "600"))
 

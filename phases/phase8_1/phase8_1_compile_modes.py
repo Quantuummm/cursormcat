@@ -69,6 +69,15 @@ def run(pdf_filename: str = None, chapter_num: int = None):
 
         for ch_path in chapter_files:
             ch_data = json.loads(ch_path.read_text(encoding="utf-8"))
+            
+            # Handle both data formats from Phase 3:
+            # 1. Top-level: {"chapter_number": 1, "sections": [...]}
+            # 2. Nested: {"sections": [{"chapter_number": 1, "sections": [...]}]}
+            if "chapter_number" not in ch_data and "sections" in ch_data:
+                # Nested format - unwrap
+                if ch_data["sections"] and isinstance(ch_data["sections"][0], dict):
+                    ch_data = ch_data["sections"][0]
+            
             ch_num = ch_data.get("chapter_number")
             chapter_title = ch_data.get("chapter_title", "?")
             if chapter_num is not None and ch_num != chapter_num:

@@ -75,9 +75,8 @@ def main():
                     run_phase2(pdf, ch)
                 except Exception as e:
                     print(f"❌ Failed Phase 2 for {subject} Ch {ch}: {e}")
-                # Always sleep to preserve quota even on failure
-                print("  💤 Sleeping 35s to preserve quota...")
-                time.sleep(35)
+                # Rate limiting is now handled dynamically in GeminiClient
+                time.sleep(2)
 
         # Phase 3: Sections
         for ch in chapters:
@@ -87,9 +86,8 @@ def main():
                     run_phase3(pdf, ch)
                 except Exception as e:
                     print(f"❌ Failed Phase 3 for {subject} Ch {ch}: {e}")
-                # Always sleep to preserve quota even on failure
-                print("  💤 Sleeping 40s to preserve quota...")
-                time.sleep(40)
+                # Rate limiting is now handled dynamically in GeminiClient
+                time.sleep(2)
 
         # Phase 4: Glossary
         if not check_exists(4, subject):
@@ -98,9 +96,8 @@ def main():
                 run_phase4(pdf)
             except Exception as e:
                 print(f"❌ Failed Phase 4 for {subject}: {e}")
-            # Always sleep to preserve quota even on failure
-            print("  💤 Sleeping 30s to preserve quota...")
-            time.sleep(30)
+            # Rate limiting is now handled dynamically in GeminiClient
+            time.sleep(2)
 
         # Phase 5: Figures
         for ch in chapters:
@@ -110,9 +107,8 @@ def main():
                     run_phase5(pdf, ch)
                 except Exception as e:
                     print(f"❌ Failed Phase 5 for {subject} Ch {ch}: {e}")
-                # Always sleep to preserve quota even on failure
-                print("  💤 Sleeping 30s to preserve quota...")
-                time.sleep(30)
+                # Rate limiting is now handled dynamically in GeminiClient
+                time.sleep(2)
 
     print("✅ Batch Submission complete!")
 

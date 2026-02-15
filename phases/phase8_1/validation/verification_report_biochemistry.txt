@@ -1,0 +1,57 @@
+﻿≡ƒöì Starting verification in C:\Users\Rauf\Documents\GitHub\cursormcat\phases\phase8_1\output\compiled
+
+≡ƒôé Subject: biochemistry
+
+Γ¥î phases\phase8_1\output\compiled\biochemistry\6.1_modes.json
+  - [biochemistry/6.1] Label Text: No items
+  - [biochemistry/6.1] Label Text: Missing image_file reference
+  - [biochemistry/6.1] Label Text: No items
+  - [biochemistry/6.1] Label Text: Missing image_file reference
+  - [biochemistry/6.1] Label Text: No items
+  - [biochemistry/6.1] Label Text: Missing image_file reference
+  - [biochemistry/6.1] Label Text: No items
+  - [biochemistry/6.1] Label Text: Missing image_file reference
+
+Γ¥î phases\phase8_1\output\compiled\biochemistry\6.2_modes.json
+  - [biochemistry/6.2] Label Text: No items
+  - [biochemistry/6.2] Label Text: Missing image_file reference
+  - [biochemistry/6.2] Label Text: No items
+  - [biochemistry/6.2] Label Text: Missing image_file reference
+  - [biochemistry/6.2] Label Text: No items
+  - [biochemistry/6.2] Label Text: Missing image_file reference
+  - [biochemistry/6.2] Label Text: No items
+  - [biochemistry/6.2] Label Text: Missing image_file reference
+
+Γ¥î phases\phase8_1\output\compiled\biochemistry\6.3_modes.json
+  - [biochemistry/6.3] Label Text: No items
+  - [biochemistry/6.3] Label Text: Missing image_file reference
+  - [biochemistry/6.3] Label Text: No items
+  - [biochemistry/6.3] Label Text: Missing image_file reference
+  - [biochemistry/6.3] Label Text: No items
+  - [biochemistry/6.3] Label Text: Missing image_file reference
+  - [biochemistry/6.3] Label Text: No items
+  - [biochemistry/6.3] Label Text: Missing image_file reference
+
+Γ¥î phases\phase8_1\output\compiled\biochemistry\6.4_modes.json
+  - [biochemistry/6.4] Label Text: No items
+  - [biochemistry/6.4] Label Text: Missing image_file reference
+  - [biochemistry/6.4] Label Text: No items
+  - [biochemistry/6.4] Label Text: Missing image_file reference
+  - [biochemistry/6.4] Label Text: No items
+  - [biochemistry/6.4] Label Text: Missing image_file reference
+  - [biochemistry/6.4] Label Text: No items
+  - [biochemistry/6.4] Label Text: Missing image_file reference
+
+Γ¥î phases\phase8_1\output\compiled\biochemistry\6.5_modes.json
+  - [biochemistry/6.5] Label Text: No items
+  - [biochemistry/6.5] Label Text: Missing image_file reference
+  - [biochemistry/6.5] Label Text: No items
+  - [biochemistry/6.5] Label Text: Missing image_file reference
+  - [biochemistry/6.5] Label Text: No items
+  - [biochemistry/6.5] Label Text: Missing image_file reference
+  - [biochemistry/6.5] Label Text: No items
+  - [biochemistry/6.5] Label Text: Missing image_file reference
+
+========================================
+Scanned 37 files.
+Found 40 issues across 5 files.

@@ -62,6 +62,9 @@ const Player = {
     // Creatures freed (array of creature encounter IDs)
     creaturesFreed: [],
     
+    // Fog timers (spaced repetition state per tile)
+    fogTimers: {},
+    
     // Settings
     settings: {
         ttsEnabled: true,
@@ -90,6 +93,10 @@ function spendEnergy(cost = 1) {
     _regenCharges();
     if (Player.neuralCharge.current < cost) return false;
     Player.neuralCharge.current -= cost;
+    // Start regen timer if not already set
+    if (!Player.neuralCharge.lastRegenAt) {
+        Player.neuralCharge.lastRegenAt = Date.now();
+    }
     _saveLocal();
     return true;
 }
@@ -162,16 +169,31 @@ function updatePlanetProgress(planetId, sectionId, completed) {
     if (!Player.planetProgress[planetId]) {
         Player.planetProgress[planetId] = {
             sectionsCompleted: new Set(),
+            clearedTiles: [],
+            percentCleared: 0,
             fogCleared: 0,
         };
     }
     
-    if (completed) {
-        const progress = Player.planetProgress[planetId];
-        if (typeof progress.sectionsCompleted === 'object' && !(progress.sectionsCompleted instanceof Set)) {
-            progress.sectionsCompleted = new Set(progress.sectionsCompleted);
-        }
+    const progress = Player.planetProgress[planetId];
+    
+    // Ensure arrays/Sets exist (migration from older saves)
+    if (!progress.clearedTiles) progress.clearedTiles = [];
+    if (!(progress.sectionsCompleted instanceof Set)) {
+        progress.sectionsCompleted = new Set(progress.sectionsCompleted || []);
+    }
+    
+    if (completed && sectionId) {
         progress.sectionsCompleted.add(sectionId);
+        
+        // Also add to clearedTiles if not already there
+        if (!progress.clearedTiles.includes(sectionId)) {
+            progress.clearedTiles.push(sectionId);
+        }
+        
+        // Recalculate percent (assuming ~96 tiles per planet: 12 sectors × 8 tiles)
+        const totalTiles = 96;
+        progress.percentCleared = Math.round((progress.clearedTiles.length / totalTiles) * 100);
     }
     
     _saveLocal();
@@ -257,9 +279,70 @@ async function loadFromFirebase(db, userId) {
 }
 
 // ─── Exports ────────────────────────────────────────────────
+
+/**
+ * Adapter: Returns the Player state in the shape expected by all systems/screens.
+ */
+function getPlayerState() {
+    _regenCharges();
+    return {
+        // Identity
+        commanderId: Player.commanderId,
+        name: Player.commanderName || 'Commander',
+        level: _computeLevel(),
+        xp: _computeXP(),
+        
+        // Resources 
+        crystals: Player.crystals,
+        neuralCharge: Player.neuralCharge,
+        energyMax: Player.neuralCharge.max,
+        
+        // Streaks — return direct references so mutations flow through
+        streak: Player.streak,
+        
+        // Resonance
+        resonance: Player.resonance,
+        
+        // Progress
+        planetProgress: Player.planetProgress,
+        fogTimers: Player.fogTimers,
+        fieldNotes: Player.fieldNotes,
+        notebook: Player.notebook,
+        bridgesCompleted: Player.bridgesCompleted,
+        creaturesFreed: Player.creaturesFreed,
+        
+        // Cosmetics & Settings
+        cosmetics: Player.cosmetics,
+        settings: Player.settings,
+        
+        // Direct reference so mutations flow through
+        _raw: Player,
+    };
+}
+
+function _computeXP() {
+    // XP = sum of completed sections + completed bridges + creatures freed
+    let xp = 0;
+    for (const planet of Object.values(Player.planetProgress)) {
+        const sc = planet.sectionsCompleted;
+        xp += (sc instanceof Set ? sc.size : Array.isArray(sc) ? sc.length : 0) * 100;
+    }
+    xp += (Player.bridgesCompleted?.length || 0) * 250;
+    xp += (Player.creaturesFreed?.length || 0) * 50;
+    xp += Player.streak.longestStreak * 10;
+    return xp;
+}
+
+function _computeLevel() {
+    const xp = _computeXP();
+    // Levels: 0-499=1, 500-1499=2, 1500-2999=3, etc. (quadratic thresholds)
+    if (xp < 500) return 1;
+    return Math.min(50, Math.floor(1 + Math.sqrt(xp / 250)));
+}
+
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
-        Player, hasEnergy, spendEnergy, addCrystals, spendCrystals,
+        Player, getPlayerState, hasEnergy, spendEnergy, addCrystals, spendCrystals,
         updateDailyStreak, upgradeResonance, updatePlanetProgress,
         addFieldNote, addNotebookEntry,
         loadPlayerFromLocal, syncToFirebase, loadFromFirebase,

@@ -52,3 +52,7 @@ archive/
 !package.json
 !pipeline_checkpoint.json
 !lore/world.json
+
+# Copilot Orchestrator temporary files
+.orchestrator/
+.worktrees/

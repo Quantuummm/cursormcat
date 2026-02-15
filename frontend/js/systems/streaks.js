@@ -25,31 +25,32 @@ function checkDailyStreak() {
     const state = getPlayerState();
     const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
     
-    if (state.streak.lastDate === today) {
+    if (state.streak.lastPlayDate === today) {
         // Already counted today
         return null;
     }
     
     const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
     
-    if (state.streak.lastDate === yesterday) {
+    if (state.streak.lastPlayDate === yesterday) {
         // Consecutive day
-        state.streak.current++;
-    } else if (!state.streak.lastDate) {
+        state.streak.currentDaily++;
+    } else if (!state.streak.lastPlayDate) {
         // First day
-        state.streak.current = 1;
+        state.streak.currentDaily = 1;
     } else {
         // Streak broken
-        state.streak.current = 1;
+        state.streak.currentDaily = 1;
     }
     
-    state.streak.lastDate = today;
+    state.streak.lastPlayDate = today;
+    state.streak.longestStreak = Math.max(state.streak.longestStreak || 0, state.streak.currentDaily);
     _saveLocal();
     
     // Check milestones
-    const milestone = STREAK_MILESTONES[state.streak.current];
+    const milestone = STREAK_MILESTONES[state.streak.currentDaily];
     if (milestone) {
-        addCrystals(milestone.crystals);
+        addCrystals(milestone.crystals, 'streak_milestone');
         return milestone;
     }
     
@@ -76,19 +77,19 @@ function checkQuestionStreakBonus(streak) {
 function getStreakInfo() {
     const state = getPlayerState();
     const today = new Date().toISOString().slice(0, 10);
-    const isActive = state.streak.lastDate === today;
+    const isActive = state.streak.lastPlayDate === today;
     
     // Next milestone
     let nextMilestone = null;
     for (const day of Object.keys(STREAK_MILESTONES).map(Number).sort((a, b) => a - b)) {
-        if (state.streak.current < day) {
-            nextMilestone = { day, daysAway: day - state.streak.current };
+        if (state.streak.currentDaily < day) {
+            nextMilestone = { day, daysAway: day - state.streak.currentDaily };
             break;
         }
     }
     
     return {
-        current: state.streak.current,
+        current: state.streak.currentDaily,
         isActiveToday: isActive,
         nextMilestone,
     };

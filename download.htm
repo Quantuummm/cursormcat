@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MCAT Mastery Mission Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#0A0E17",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            overflow: hidden;
+            background-color: #0A0E17;
+        }
+        .star-field {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background-image: 
+                radial-gradient(1px 1px at 20px 30px, #fff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 40px 70px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 100px 150px, #fff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 200px 300px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 300px 50px, #fff, rgba(0,0,0,0));
+            background-size: 500px 500px;
+            opacity: 0.3;
+        }
+        .orbit-container {
+            position: relative;
+            width: 800px;
+            height: 800px;
+            margin: auto;
+        }
+        .orbital-line {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+        .planet-orb {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            transition: all 0.3s ease;
+        }
+        .planet-orb:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            z-index: 50;
+        }
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-100 min-h-screen flex flex-col">
+<div class="star-field"></div>
+<!-- Top HUD Bar -->
+<header class="fixed top-0 left-0 right-0 h-[64px] bg-[#0A0E17]/90 backdrop-blur-md border-b border-white/10 px-8 flex items-center justify-between z-50">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center shadow-lg shadow-primary/20">
+<span class="material-icons text-white">rocket_launch</span>
+</div>
+<h1 class="text-xl font-bold tracking-tight text-white uppercase tracking-widest">MCAT Mastery</h1>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 bg-white/5 px-4 py-1.5 rounded-full border border-white/10">
+<span class="text-lg">🔥</span>
+<span class="font-bold text-orange-400">14</span>
+</div>
+<div class="flex items-center gap-2 bg-white/5 px-4 py-1.5 rounded-full border border-white/10">
+<span class="text-lg">💎</span>
+<span class="font-bold text-cyan-400">250</span>
+</div>
+<div class="flex items-center gap-2 bg-white/5 px-4 py-1.5 rounded-full border border-white/10">
+<span class="text-lg">⚡</span>
+<span class="font-bold text-yellow-400">5/5</span>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-primary overflow-hidden cursor-pointer hover:ring-4 hover:ring-primary/30 transition-all">
+<img alt="Avatar" class="w-full h-full object-cover" data-alt="A circular portrait of a student avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdYMAwRdrowjzex0chVoU8xbsLHzcvCRNt31bc2GaurWamPNfObYvjabMfWlQ9zx0wtPQWjOsd7zrpqasyCAw3JZrR4zCUvlnjjUOW165ajk70D-anzLEnracKlD-NQ4euDLg4lzb4C1IcFbZ8Tmn8Txtx9lZE4csQxBDSCq-jxQsIdN8us4GsaIpgVS9kRxRNy7X84I3__bCgQ3dLwm2G8I-Jn7YmGsHNENqaoSv9UvdLrOlR1HOsZM1ebzI_BrI1pmeGYJf0GFk"/>
+</div>
+</div>
+</header>
+<!-- Main Mission Area -->
+<main class="flex-grow flex items-center justify-center mt-16 relative">
+<div class="orbit-container">
+<!-- Orbital Rings Visual -->
+<div class="orbital-line w-[400px] h-[400px]"></div>
+<div class="orbital-line w-[650px] h-[650px]"></div>
+<div class="orbital-line w-[850px] h-[850px]"></div>
+<!-- Planets -->
+<!-- Biology - Verdania (Top Center) -->
+<div class="planet-orb left-1/2 top-[5%]" style="margin-left: 0px;">
+<div class="relative group cursor-pointer text-center">
+<svg class="progress-ring w-[140px] h-[140px]">
+<circle class="text-white/10" cx="70" cy="70" fill="transparent" r="60" stroke="currentColor" stroke-width="4"></circle>
+<circle class="text-emerald-500 drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]" cx="70" cy="70" fill="transparent" r="60" stroke="currentColor" stroke-dasharray="377" stroke-dashoffset="100" stroke-linecap="round" stroke-width="4"></circle>
+</svg>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full bg-gradient-to-br from-emerald-400 to-green-700 shadow-[0_0_30px_rgba(16,185,129,0.4)] border border-white/20"></div>
+<div class="mt-4">
+<h3 class="font-bold text-white text-lg">Verdania</h3>
+<p class="text-emerald-400 text-xs uppercase tracking-widest font-semibold">Biology</p>
+</div>
+</div>
+</div>
+<!-- Biochemistry - Glycera (Top Right) -->
+<div class="planet-orb left-[85%] top-[25%]">
+<div class="relative group cursor-pointer text-center">
+<svg class="progress-ring w-[140px] h-[140px]">
+<circle class="text-white/10" cx="70" cy="70" fill="transparent" r="60" stroke="currentColor" stroke-width="4"></circle>
+<circle class="text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.5)]" cx="70" cy="70" fill="transparent" r="60" stroke="currentColor" stroke-dasharray="377" stroke-dashoffset="200" stroke-linecap="round" stroke-width="4"></circle>
+</svg>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full bg-gradient-to-br from-amber-300 to-yellow-600 shadow-[0_0_30px_rgba(251,191,36,0.4)] border border-white/20"></div>
+<div class="mt-4">
+<h3 class="font-bold text-white text-lg">Glycera</h3>
+<p class="text-amber-400 text-xs uppercase tracking-widest font-semibold">Biochem</p>
+</div>
+</div>
+</div>
+<!-- Gen Chem - Luminara (Bottom Right) -->
+<div class="planet-orb left-[90%] top-[65%]">
+<div class="relative group cursor-pointer text-center">
+<svg class="progress-ring w-[140px] h-[140px]">
+<circle class="text-white/10" cx="70" cy="70" fill="transparent" r="60" stroke="currentColor" stroke-width="4"></circle>
+<circle class="text-primary drop-shadow-[0_0_8px_rgba(19,91,236,0.5)]" cx="70" cy="70" fill="transparent" r="60" stroke="currentColor" stroke-dasharray="377" stroke-dashoffset="50" stroke-linecap="round" stroke-width="4"></circle>
+</svg>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full bg-gradient-to-br from-blue-400 to-blue-800 shadow-[0_0_30px_rgba(19,91,236,0.4)] border border-white/20"></div>
+<div class="mt-4">
+<h3 class="font-bold text-white text-lg">Luminara</h3>
+<p class="text-primary text-xs uppercase tracking-widest font-semibold">Gen Chem</p>
+</div>
+</div>
+</div>
+<!-- Org Chem - Synthara (Bottom Center) -->
+<div class="planet-orb left-1/2 top-[90%]">
+<div class="relative group cursor-pointer text-center">
+<svg class="progress-ring w-[140px] h-[140px]">
+<circle class="text-white/10" cx="70" cy="70" fill="transparent" r="60" stroke="currentColor" stroke-width="4"></circle>
+<circle class="text-purple-500 drop-shadow-[0_0_8px_rgba(168,85,247,0.5)]" cx="70" cy="70" fill="transparent" r="60" stroke="currentColor" stroke-dasharray="377" stroke-dashoffset="280" stroke-linecap="round" stroke-width="4"></circle>
+</svg>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full bg-gradient-to-br from-purple-400 to-indigo-900 shadow-[0_0_30px_rgba(168,85,247,0.4)] border border-white/20"></div>
+<div class="mt-4">
+<h3 class="font-bold text-white text-lg">Synthara</h3>
+<p class="text-purple-400 text-xs uppercase tracking-widest font-semibold">Org Chem</p>
+</div>
+</div>
+</div>
+<!-- Physics - Aethon (Bottom Left) -->
+<div class="planet-orb left-[10%] top-[65%]">
+<div class="relative group cursor-pointer text-center">
+<svg class="progress-ring w-[140px] h-[140px]">
+<circle class="text-white/10" cx="70" cy="70" fill="transparent" r="60" stroke="currentColor" stroke-width="4"></circle>
+<circle class="text-red-500 drop-shadow-[0_0_8px_rgba(239,68,68,0.5)]" cx="70" cy="70" fill="transparent" r="60" stroke="currentColor" stroke-dasharray="377" stroke-dashoffset="150" stroke-linecap="round" stroke-width="4"></circle>
+</svg>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full bg-gradient-to-br from-red-500 to-red-900 shadow-[0_0_30px_rgba(239,68,68,0.4)] border border-white/20"></div>
+<div class="mt-4">
+<h3 class="font-bold text-white text-lg">Aethon</h3>
+<p class="text-red-400 text-xs uppercase tracking-widest font-semibold">Physics</p>
+</div>
+</div>
+</div>
+<!-- Psych/Soc - Miravel (Top Left) -->
+<div class="planet-orb left-[15%] top-[25%]">
+<div class="relative group cursor-pointer text-center">
+<svg class="progress-ring w-[140px] h-[140px]">
+<circle class="text-white/10" cx="70" cy="70" fill="transparent" r="60" stroke="currentColor" stroke-width="4"></circle>
+<circle class="text-pink-500 drop-shadow-[0_0_8px_rgba(236,72,153,0.5)]" cx="70" cy="70" fill="transparent" r="60" stroke="currentColor" stroke-dasharray="377" stroke-dashoffset="300" stroke-linecap="round" stroke-width="4"></circle>
+</svg>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full bg-gradient-to-br from-pink-400 to-rose-700 shadow-[0_0_30px_rgba(236,72,153,0.4)] border border-white/20"></div>
+<div class="mt-4">
+<h3 class="font-bold text-white text-lg">Miravel</h3>
+<p class="text-pink-400 text-xs uppercase tracking-widest font-semibold">Psych/Soc</p>
+</div>
+</div>
+</div>
+<!-- CARS - Lexara (Floating Inner) -->
+<div class="planet-orb left-1/2 top-[40%] scale-90">
+<div class="relative group cursor-pointer text-center">
+<svg class="progress-ring w-[140px] h-[140px]">
+<circle class="text-white/10" cx="70" cy="70" fill="transparent" r="60" stroke="currentColor" stroke-width="4"></circle>
+<circle class="text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]" cx="70" cy="70" fill="transparent" r="60" stroke="currentColor" stroke-dasharray="377" stroke-dashoffset="120" stroke-linecap="round" stroke-width="4"></circle>
+</svg>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full bg-gradient-to-br from-cyan-400 to-teal-800 shadow-[0_0_30px_rgba(34,211,238,0.4)] border border-white/20"></div>
+<div class="mt-4">
+<h3 class="font-bold text-white text-lg">Lexara</h3>
+<p class="text-cyan-400 text-xs uppercase tracking-widest font-semibold">CARS</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Ship Hub -->
+<footer class="fixed bottom-0 left-0 right-0 pb-12 flex flex-col items-center pointer-events-none">
+<!-- Ship Illustration Container -->
+<div class="mb-6 flex flex-col items-center pointer-events-auto">
+<div class="relative w-24 h-24 mb-2">
+<div class="absolute inset-0 bg-primary/20 blur-2xl rounded-full"></div>
+<span class="material-icons text-7xl text-white drop-shadow-glow">auto_awesome_motion</span>
+</div>
+<p class="text-white font-bold text-xl tracking-wider drop-shadow-lg mb-6">YOUR SHIP</p>
+<!-- Utility Buttons -->
+<div class="flex items-center gap-4 bg-black/40 backdrop-blur-xl p-2 rounded-full border border-white/10">
+<button class="flex items-center gap-2 bg-primary hover:bg-primary/80 text-white px-6 py-3 rounded-full transition-all group">
+<span class="material-icons text-xl group-hover:rotate-12">videogame_asset</span>
+<span class="font-semibold">Games</span>
+</button>
+<button class="flex items-center gap-2 bg-purple-600/20 hover:bg-purple-600/40 text-purple-400 border border-purple-500/30 px-6 py-3 rounded-full transition-all group">
+<span class="material-icons text-xl">menu_book</span>
+<span class="font-semibold">Notebook</span>
+</button>
+<button class="flex items-center gap-2 bg-amber-600/20 hover:bg-amber-600/40 text-amber-400 border border-amber-500/30 px-6 py-3 rounded-full transition-all group">
+<span class="material-icons text-xl">tune</span>
+<span class="font-semibold">Customize</span>
+</button>
+<button class="flex items-center gap-2 bg-emerald-600/20 hover:bg-emerald-600/40 text-emerald-400 border border-emerald-500/30 px-6 py-3 rounded-full transition-all group">
+<span class="material-icons text-xl">groups</span>
+<span class="font-semibold">Social</span>
+</button>
+</div>
+</div>
+</footer>
+<!-- Overlay Info (Optional Aesthetic) -->
+<div class="fixed bottom-6 left-8 text-white/40 text-xs uppercase tracking-[0.2em] font-medium pointer-events-none">
+        Mission: MCAT_MASTERY_01 // Sector: 4B-PHY-BIO
+    </div>
+<div class="fixed bottom-6 right-8 text-white/40 text-xs uppercase tracking-[0.2em] font-medium pointer-events-none text-right">
+        Uptime: 14D_04H_22M // Latency: 24MS
+    </div>
+</body></html>

@@ -22,7 +22,10 @@ from typing import Any, Dict, List, Optional, Tuple
 
 
 def _norm(s: str) -> str:
-    return re.sub(r"\s+", " ", (s or "").strip())
+    """Normalize whitespace in a string. Handles non-string inputs gracefully."""
+    if not isinstance(s, str):
+        s = str(s) if s is not None else ""
+    return re.sub(r"\s+", " ", s.strip())
 
 
 def _lower(s: str) -> str:

@@ -40,25 +40,28 @@
 .planet-btn[data-planet="lexara"]:hover { border-color: #1ABC9C; box-shadow: 0 0 16px rgba(26, 188, 156, 0.3); }
 
 /* ─── Planet Tiles (use CSS vars) ──────────────────────── */
-.tile {
-    background: var(--planet-primary, var(--bg-card));
-    color: #fff;
-}
+/* Tiles inherit planet colors through CSS custom properties.
+   Base .tile styles in main.css. Only planet-specific overrides here. */
 
 .tile.cleared {
     background: var(--planet-primary);
     border-color: var(--planet-glow);
-    box-shadow: 0 0 8px color-mix(in srgb, var(--planet-glow) 30%, transparent);
+    box-shadow:
+        0 3px 0 var(--planet-secondary),
+        0 0 12px color-mix(in srgb, var(--planet-glow) 40%, transparent);
 }
 
 .tile.available {
-    background: color-mix(in srgb, var(--planet-primary) 40%, var(--bg-card));
-    border-color: var(--planet-primary);
+    background: var(--planet-primary);
+    border-color: #fff;
+    box-shadow:
+        0 3px 0 var(--planet-secondary),
+        0 0 16px color-mix(in srgb, var(--planet-glow) 50%, transparent);
 }
 
 /* ─── Planet Map Header Tint ───────────────────────────── */
 .planet-header {
-    border-bottom-color: var(--planet-primary, var(--border));
+    border-bottom-color: color-mix(in srgb, var(--planet-primary, var(--border-subtle)) 40%, transparent);
 }
 
 .planet-header .planet-title-block h2 {
@@ -67,8 +70,9 @@
 
 /* ─── Sector Tab Active Color ──────────────────────────── */
 .sector-tab.active {
-    border-color: var(--planet-primary, var(--lyra-blue));
-    color: var(--planet-primary, var(--text-primary));
+    background: var(--planet-primary, var(--accent-blue));
+    border-color: transparent;
+    color: #fff;
 }
 
 /* ─── Resonance Element Colors ─────────────────────────── */

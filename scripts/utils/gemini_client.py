@@ -1,9 +1,15 @@
 """
-Gemini API client with automatic fallback, rate limiting, JSON mode, and cost tracking.
+Gemini API client with automatic fallback, rate limiting, JSON mode, cost tracking, and context caching.
 
 Model strategy:
   - Default: gemini-3-flash-preview (best balance of speed/quality)
   - Fallback: gemini-2.5-flash (if Gemini 3 is blocked or fails)
+  
+Features:
+  - Context caching for repeated prompts (90% cost reduction on cached tokens)
+  - Conversation persistence across sessions
+  - Automatic rate limiting and retry logic
+  - Cost tracking and optimization
 """
 
 import json
@@ -33,6 +39,14 @@ from config import (
     EXTRACTED_DIR,
 )
 
+# Import context caching utilities
+try:
+    from utils.context_cache import ContextCache
+    CACHING_AVAILABLE = True
+except ImportError:
+    CACHING_AVAILABLE = False
+    print("⚠️  Context caching not available (utils.context_cache not found)")
+
 # ─── Cost Estimates (per 1M tokens, free tier = $0) ────────
 COST_PER_1M_INPUT = {
     "gemini-2.0-flash": 0.10, "gemini-2.5-flash": 0.15,
@@ -51,13 +65,26 @@ class GeminiClient:
     - JSON mode enforced on all calls
     - Rate limiting for free tier
     - Per-call and cumulative cost tracking
+    - Context caching for 90% cost reduction on repeated prompts
+    - Conversation persistence
     """
 
     # Shared cache across all instances in the same process
     # Maps absolute path string -> Gemini File object
     _shared_uploaded_files = {}
+    
+    # Track global TPM across all instances in this process
+    _global_usage_window = [] # List of (timestamp, tokens)
+    _tpm_limit = 1000000
 
-    def __init__(self):
+    def __init__(self, enable_caching: bool = True, conversation_id: str = None):
+        """
+        Initialize Gemini client.
+        
+        Args:
+            enable_caching: Enable context caching for cost optimization
+            conversation_id: Optional conversation ID for persistence
+        """
         if not GEMINI_API_KEY:
             raise ValueError(
                 "GEMINI_API_KEY not set. Get a free key at https://aistudio.google.com/apikey\n"
@@ -68,9 +95,23 @@ class GeminiClient:
         self._usage_log = []
         self._total_input_tokens = 0
         self._total_output_tokens = 0
+        self.last_input_tokens = 0
+        self.last_output_tokens = 0
         self._total_cost_estimate = 0.0
         self._call_count = 0
         self._session_start = datetime.now()
+        
+        # Context caching
+        self._enable_caching = enable_caching and CACHING_AVAILABLE
+        self._context_cache = ContextCache() if self._enable_caching else None
+        self._cached_contexts = {}  # Map phase -> CachedContent
+        
+        # Conversation tracking
+        self._conversation_id = conversation_id
+        if self._enable_caching:
+            print(f"✅ Context caching enabled (90% cost reduction on cached tokens)")
+        else:
+            print(f"⚠️  Context caching disabled")
 
     @property
     def _uploaded_files(self):
@@ -79,7 +120,7 @@ class GeminiClient:
 
     # ─── Public API ─────────────────────────────────────────
 
-    def extract_light(self, prompt, pdf_file=None, phase="extract_light", max_retries=2):
+    def extract_light(self, prompt, pdf_file=None, phase="extract_light", max_retries=4):
         """Small extraction (TOC, assessments, figures). Defaults to fallback logic."""
         return self._call_with_fallback(prompt, pdf_file,
                                         GEMINI_TEMPERATURE_EXTRACT, phase, max_retries)
@@ -94,7 +135,7 @@ class GeminiClient:
         return self._call_with_fallback(prompt, None,
                                         GEMINI_TEMPERATURE_RESTRUCTURE, phase, max_retries)
 
-    def enrich(self, prompt, phase="enrich", max_retries=2):
+    def enrich(self, prompt, phase="enrich", max_retries=4):
         """Generation tasks (explanations, games, bridges). Gemini 3 first, falls back to 2.5."""
         return self._call_with_fallback(prompt, None,
                                         GEMINI_TEMPERATURE_ENRICH, phase, max_retries)
@@ -131,29 +172,113 @@ class GeminiClient:
             of.write(f"{datetime.now().isoformat()}\tUPLOAD_COMPLETE\tfile={Path(pdf_path).name}\n")
         return uploaded
 
+    # ─── Context Caching Methods ────────────────────────────
+
+    def create_cached_prompt(self, phase: str, model_name: str, system_instruction: str, 
+                            static_content: list, ttl_seconds: int = 3600):
+        """
+        Create a cached context for a specific phase.
+        This should be used for large, repetitive prompts (e.g., PDF extraction templates).
+        
+        Args:
+            phase: Phase identifier (e.g., 'P1_toc', 'P3_sections')
+            model_name: Gemini model name
+            system_instruction: System instruction to cache
+            static_content: List of static content to cache (prompts, instructions)
+            ttl_seconds: Cache duration (default: 1 hour)
+            
+        Returns:
+            CachedContent object or None if caching unavailable
+        """
+        if not self._enable_caching:
+            return None
+        
+        try:
+            cached_content = self._context_cache.create_cached_context(
+                model=model_name,
+                contents=static_content,
+                system_instruction=system_instruction,
+                ttl_seconds=ttl_seconds
+            )
+            
+            if cached_content:
+                self._cached_contexts[phase] = cached_content
+                print(f"   💾 Cached context for phase: {phase}")
+            
+            return cached_content
+        except Exception as e:
+            print(f"   ⚠️  Failed to create cache for {phase}: {e}")
+            return None
+
+    def extract_with_cache(self, prompt: str, pdf_file=None, phase: str = "extract", 
+                          system_instruction: str = None, max_retries: int = 4):
+        """
+        Extract content using cached context if available.
+        Falls back to regular extraction if caching unavailable.
+        
+        Args:
+            prompt: Extraction prompt
+            pdf_file: Optional PDF file object
+            phase: Phase identifier
+            system_instruction: Optional system instruction to cache
+            max_retries: Number of retries
+            
+        Returns:
+            Extracted data
+        """
+        # Check if we have a cached context for this phase
+        if self._enable_caching and phase in self._cached_contexts:
+            try:
+                cached_content = self._cached_contexts[phase]
+                response = self._context_cache.generate_with_cache(
+                    cached_content=cached_content,
+                    new_prompt=prompt,
+                    temperature=GEMINI_TEMPERATURE_EXTRACT,
+                    json_mode=True
+                )
+                
+                # Track usage
+                self._track_usage(GEMINI_MODEL_PRIMARY, phase, response)
+                
+                # Parse response
+                text = response.text.strip()
+                if text.startswith("```"):
+                    lines = text.split("\n")
+                    if lines[0].startswith("```"): lines = lines[1:]
+                    if lines[-1].startswith("```"): lines = lines[:-1]
+                    text = "\n".join(lines).strip()
+                
+                return json.loads(text)
+            except Exception as e:
+                print(f"   ⚠️  Cached extraction failed, falling back to regular call: {e}")
+        
+        # Fall back to regular extraction
+        return self.extract_heavy(prompt, pdf_file, phase, max_retries)
+
     # ─── Core call with fallback ────────────────────────────
 
     def _call_with_fallback(self, prompt, pdf_file, temperature, phase, max_retries):
-        """Try Gemini 3 Flash first. If it fails, fall back to 2.5 Flash only on copyright issues."""
+        """Try Gemini 3 Flash first. Fall back to 2.5 Flash on copyright OR persistent 429."""
         try:
-            # Force Gemini 3 to try hard before giving up
             return self._call(GEMINI_MODEL_PRIMARY, prompt, pdf_file,
                               temperature, phase, max_retries, fallback=False)
         except Exception as e:
             err_str = str(e)
-            # Check for copyright block specifically
-            # We look for "reciting", "copyright", or "RECITATION" which are typical block markers
             is_copyright = any(marker in err_str.lower() or marker in err_str 
                                for marker in ["copyrighted", "reciting", "RECITATION"])
+            is_quota = "429" in err_str or "ResourceExhausted" in type(e).__name__
             
             if is_copyright:
                 print(f"  ⬇️  Gemini 3 blocked (copyright). Falling back to 2.5 Flash...")
                 return self._call(GEMINI_MODEL_FALLBACK, prompt, pdf_file,
                                   temperature, f"{phase}_fallback", max_retries=3, fallback=False)
             
-            # If not a copyright issue (e.g., timeout, rate limit, 500 error), do NOT fallback
-            # and let the primary error bubble up after its retries.
-            print(f"  ❌ Gemini 3 failed for {phase} after {max_retries} attempts. Not falling back as it was not a copyright error.")
+            if is_quota:
+                print(f"  ⬇️  Gemini 3 quota exhausted (429). Falling back to 2.5 Flash...")
+                return self._call(GEMINI_MODEL_FALLBACK, prompt, pdf_file,
+                                  temperature, f"{phase}_fallback", max_retries=3, fallback=False)
+            
+            print(f"  ❌ Gemini 3 failed for {phase} after {max_retries} attempts.")
             raise e
 
     def _call(self, model_name, prompt, pdf_file, temperature, phase, max_retries, fallback=False):
@@ -168,8 +293,10 @@ class GeminiClient:
 
         for attempt in range(max_retries):
             try:
-                # Rate limit before call
-                self._rate_limit()
+                # Rate limit before call. Estimate tokens: Phase 0/1/2/4/5 are ~400k, Phase 3/6/8 are ~500k.
+                est_tokens = 550000 if ("P3" in phase or "heavy" in phase or "restructure" in phase) else 450000
+                self._rate_limit(incoming_tokens=est_tokens)
+                
                 content = []
                 if pdf_file:
                     content.append(pdf_file)
@@ -267,11 +394,15 @@ class GeminiClient:
                 if isinstance(e, TimeoutError):
                     print(f"  ⚠️  Timeout (attempt {attempt+1}/{max_retries}): {err_msg[:80]}")
                 elif "429" in err_msg or "ResourceExhausted" in type(e).__name__:
-                    print(f"  ⚠️  Quota hit (429) (attempt {attempt+1}/{max_retries}). Sleeping 60s to recover...")
-                    delay = 60
+                    # Exponential backoff: 30s, 60s, 120s, 240s
+                    delay = 30 * (2 ** attempt)
+                    print(f"  ⚠️  Quota hit (429) (attempt {attempt+1}/{max_retries}). Sleeping {delay}s...")
                 elif "copyrighted" in err_msg.lower() or "reciting" in err_msg.lower():
                     # Don't retry copyright blocks — they won't resolve
                     raise
+                elif "500" in err_msg or "503" in err_msg or "InternalError" in type(e).__name__:
+                    delay = 10 * (2 ** attempt)
+                    print(f"  ⚠️  Server error (attempt {attempt+1}/{max_retries}): {err_msg[:80]}")
                 else:
                     print(f"  ⚠️  API error (attempt {attempt+1}/{max_retries}): {err_msg[:80]}")
                 
@@ -280,9 +411,26 @@ class GeminiClient:
                 else:
                     raise
 
-    # ─── Rate limiting ──────────────────────────────────────
+    def _rate_limit(self, incoming_tokens=450000):
+        """Dynamic rate limiting based on Tokens Per Minute (TPM)."""
+        now = time.time()
+        # Clean window
+        self._global_usage_window = [u for u in self._global_usage_window if now - u[0] < 60]
+        
+        current_tpm = sum(u[1] for u in self._global_usage_window)
+        
+        # If adding this call would exceed TPM, wait until the oldest call falls out of the window
+        while current_tpm + incoming_tokens > self._tpm_limit:
+            wait_time = 60 - (now - self._global_usage_window[0][0]) + 1
+            if wait_time > 0:
+                print(f"     ⏳ TPM Limit reached ({current_tpm:,} + {incoming_tokens:,} > {self._tpm_limit:,}). Waiting {int(wait_time)}s...")
+                time.sleep(wait_time)
+            
+            now = time.time()
+            self._global_usage_window = [u for u in self._global_usage_window if now - u[0] < 60]
+            current_tpm = sum(u[1] for u in self._global_usage_window)
 
-    def _rate_limit(self):
+        # Also respect the base RPM delay
         elapsed = time.time() - self._last_request_time
         if elapsed < GEMINI_DELAY_BETWEEN_REQUESTS:
             time.sleep(GEMINI_DELAY_BETWEEN_REQUESTS - elapsed)
@@ -298,6 +446,12 @@ class GeminiClient:
         except (AttributeError, TypeError):
             inp, out = 0, 0
 
+        self.last_input_tokens = inp
+        self.last_output_tokens = out
+        
+        # Add to global window
+        self._global_usage_window.append((time.time(), inp + out))
+        
         cost = (inp / 1e6) * COST_PER_1M_INPUT.get(model_name, 0.15) + \
                (out / 1e6) * COST_PER_1M_OUTPUT.get(model_name, 0.60)
 
@@ -319,6 +473,15 @@ class GeminiClient:
         print(f"💰 BILLING: {self._call_count} calls | "
               f"{self._total_input_tokens + self._total_output_tokens:,} tokens | "
               f"${self._total_cost_estimate:.4f} est. | {int(elapsed)}s")
+        
+        # Print caching stats if enabled
+        if self._enable_caching and self._context_cache:
+            stats = self._context_cache.get_stats()
+            if stats.get('total_hits', 0) > 0 or stats.get('total_created', 0) > 0:
+                print(f"\n💾 CACHING: {stats['total_created']} caches created | "
+                      f"{stats['total_hits']} hits | "
+                      f"${stats.get('estimated_cost_savings', 0):.4f} saved")
+        
         print(f"{'='*60}")
 
     def save_usage_log(self, filename=None):

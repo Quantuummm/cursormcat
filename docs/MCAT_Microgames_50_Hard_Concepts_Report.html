@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MCAT Micro-Games Report</title>
+  <style>
+    :root {
+      --bg: #0f1220;
+      --card: #171b2e;
+      --ink: #eef2ff;
+      --muted: #b7c0e0;
+      --line: #2a3152;
+      --accent: #7dd3fc;
+      --good: #86efac;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, Segoe UI, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.4;
+    }
+    .wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    h1, h2 {
+      margin: 0 0 12px;
+    }
+    .sub {
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px;
+    }
+    .top {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 12px;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .id {
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .subject {
+      border: 1px solid var(--line);
+      color: var(--good);
+      border-radius: 999px;
+      padding: 2px 10px;
+      font-size: 12px;
+    }
+    .concept {
+      font-weight: 700;
+    }
+    .row { margin: 4px 0; color: var(--muted); }
+    .label { color: var(--ink); font-weight: 600; }
+    @media print {
+      :root {
+        --bg: #ffffff;
+        --card: #ffffff;
+        --ink: #101322;
+        --muted: #2e3550;
+        --line: #d7dcef;
+        --accent: #1546d8;
+        --good: #116b37;
+      }
+      body { background: #fff; }
+      .card { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>MCAT Mastery — 50 Hard Concepts as 30–60s Cozy Micro-Games</h1>
+    <p class="sub">Each concept has a short verification interaction: quick objective, tactile action, instant feedback, and a clear mastery signal.</p>
+
+    <h2>Biochemistry (1–12)</h2>
+    <div class="grid">
+      <div class="card"><div class="top"><span class="id">#1</span><span class="concept">Electron Transport Chain (Complexes I–IV)</span><span class="subject">Biochem</span></div><div class="row"><span class="label">Game:</span> Electron Relay — route electrons through correct complexes and pump protons.</div><div class="row"><span class="label">Interaction:</span> Drag electrons through chain + tap pumps.</div><div class="row"><span class="label">Mastery:</span> Correct sequence and proton gradient tally.</div></div>
+      <div class="card"><div class="top"><span class="id">#2</span><span class="concept">ATP Synthase rotary mechanism</span><span class="subject">Biochem</span></div><div class="row"><span class="label">Game:</span> Rotor Rush — spin ATP synthase as protons flow and synthesize ATP.</div><div class="row"><span class="label">Interaction:</span> Swipe rotor + place ADP/Pi.</div><div class="row"><span class="label">Mastery:</span> Correct coupling direction and ATP yield.</div></div>
+      <div class="card"><div class="top"><span class="id">#3</span><span class="concept">Enzyme Inhibition on Lineweaver-Burk</span><span class="subject">Biochem</span></div><div class="row"><span class="label">Game:</span> Line Shift Lab — apply inhibitor type and predict graph shift.</div><div class="row"><span class="label">Interaction:</span> Drag inhibitor card onto plot.</div><div class="row"><span class="label">Mastery:</span> Correct intercept/slope changes.</div></div>
+      <div class="card"><div class="top"><span class="id">#4</span><span class="concept">Michaelis-Menten Kinetics</span><span class="subject">Biochem</span></div><div class="row"><span class="label">Game:</span> Curve Builder — tune [S], find Km and Vmax.</div><div class="row"><span class="label">Interaction:</span> Substrate slider + Km marker drop.</div><div class="row"><span class="label">Mastery:</span> Km at 1/2 Vmax and plateau recognition.</div></div>
+      <div class="card"><div class="top"><span class="id">#5</span><span class="concept">Gluconeogenesis vs. Glycolysis regulation</span><span class="subject">Biochem</span></div><div class="row"><span class="label">Game:</span> Metabolic Toggle — set fed/fasting and switch key enzymes.</div><div class="row"><span class="label">Interaction:</span> State toggle + ON/OFF enzyme taps.</div><div class="row"><span class="label">Mastery:</span> Correct reciprocal regulation map.</div></div>
+      <div class="card"><div class="top"><span class="id">#6</span><span class="concept">Beta-oxidation of fatty acids</span><span class="subject">Biochem</span></div><div class="row"><span class="label">Game:</span> Chain Chopper — repeat 4-step cycle and collect outputs.</div><div class="row"><span class="label">Interaction:</span> Step sequencing taps.</div><div class="row"><span class="label">Mastery:</span> Correct step order and yield totals.</div></div>
+      <div class="card"><div class="top"><span class="id">#7</span><span class="concept">Amino acid titration curves + pI</span><span class="subject">Biochem</span></div><div class="row"><span class="label">Game:</span> Proton Pop — adjust pH and track charge states.</div><div class="row"><span class="label">Interaction:</span> pH slider + protonation taps.</div><div class="row"><span class="label">Mastery:</span> Correct net charge transitions and pI region.</div></div>
+      <div class="card"><div class="top"><span class="id">#8</span><span class="concept">Protein folding (1°–4°)</span><span class="subject">Biochem</span></div><div class="row"><span class="label">Game:</span> Fold Forge — fold chain through all structure levels.</div><div class="row"><span class="label">Interaction:</span> Drag residues/domains/subunits.</div><div class="row"><span class="label">Mastery:</span> Correct level + force associations.</div></div>
+      <div class="card"><div class="top"><span class="id">#9</span><span class="concept">Citric Acid Cycle carbon tracking</span><span class="subject">Biochem</span></div><div class="row"><span class="label">Game:</span> Carbon Tracker — follow labeled carbons and CO2 release.</div><div class="row"><span class="label">Interaction:</span> Step taps + carbon destination picks.</div><div class="row"><span class="label">Mastery:</span> Correct carbon fate through cycle.</div></div>
+      <div class="card"><div class="top"><span class="id">#10</span><span class="concept">Fed vs. Fasting metabolic integration</span><span class="subject">Biochem</span></div><div class="row"><span class="label">Game:</span> State Scanner — assign fuels/pathways by tissue and state.</div><div class="row"><span class="label">Interaction:</span> Drag fuel tokens to organs.</div><div class="row"><span class="label">Mastery:</span> Correct tissue-level integration.</div></div>
+      <div class="card"><div class="top"><span class="id">#11</span><span class="concept">Pentose Phosphate Pathway</span><span class="subject">Biochem</span></div><div class="row"><span class="label">Game:</span> PPP Split Path — route G6P to oxidative/non-oxidative branch by need.</div><div class="row"><span class="label">Interaction:</span> Objective card + pathway routing.</div><div class="row"><span class="label">Mastery:</span> Correct branch and product outputs.</div></div>
+      <div class="card"><div class="top"><span class="id">#12</span><span class="concept">Hemoglobin cooperativity (T/R states)</span><span class="subject">Biochem</span></div><div class="row"><span class="label">Game:</span> O2 Affinity Dial — shift pH/CO2 and observe Hb curve shift.</div><div class="row"><span class="label">Interaction:</span> Sliders + O2 loading taps.</div><div class="row"><span class="label">Mastery:</span> Correct left/right shift interpretation.</div></div>
+    </div>
+
+    <h2>Biology (13–22)</h2>
+    <div class="grid">
+      <div class="card"><div class="top"><span class="id">#13</span><span class="concept">Action potential propagation</span><span class="subject">Biology</span></div><div class="row"><span class="label">Game:</span> Axon Sprint — open channels in sequence to move depolarization wave.</div><div class="row"><span class="label">Interaction:</span> Timed Na+/K+ taps across nodes.</div><div class="row"><span class="label">Mastery:</span> Correct depol/repol order and direction.</div></div>
+      <div class="card"><div class="top"><span class="id">#14</span><span class="concept">Nephron filtration/reabsorption/secretion</span><span class="subject">Biology</span></div><div class="row"><span class="label">Game:</span> Nephron Journey — escort filtrate and sort molecules per segment.</div><div class="row"><span class="label">Interaction:</span> Drag-and-sort along nephron map.</div><div class="row"><span class="label">Mastery:</span> Correct molecule handling by region.</div></div>
+      <div class="card"><div class="top"><span class="id">#15</span><span class="concept">Female reproductive cycle hormones</span><span class="subject">Biology</span></div><div class="row"><span class="label">Game:</span> Cycle Conductor — align hormone peaks to day-cycle events.</div><div class="row"><span class="label">Interaction:</span> Place hormone peaks on timeline wheel.</div><div class="row"><span class="label">Mastery:</span> Correct ovulation and luteal alignment.</div></div>
+      <div class="card"><div class="top"><span class="id">#16</span><span class="concept">Cardiac cycle PV relationships</span><span class="subject">Biology</span></div><div class="row"><span class="label">Game:</span> PV Loop Trace — map valve states during the loop.</div><div class="row"><span class="label">Interaction:</span> Trace loop + valve timing taps.</div><div class="row"><span class="label">Mastery:</span> Correct isovolumetric segments and valve events.</div></div>
+      <div class="card"><div class="top"><span class="id">#17</span><span class="concept">Meiosis crossing over & assortment</span><span class="subject">Biology</span></div><div class="row"><span class="label">Game:</span> Chromosome Shuffle — execute crossover and segregation correctly.</div><div class="row"><span class="label">Interaction:</span> Drag homologs through meiosis I/II.</div><div class="row"><span class="label">Mastery:</span> Correct ploidy and gamete variability.</div></div>
+      <div class="card"><div class="top"><span class="id">#18</span><span class="concept">Sliding filament model</span><span class="subject">Biology</span></div><div class="row"><span class="label">Game:</span> Sarcomere Steps — order contraction events.</div><div class="row"><span class="label">Interaction:</span> Sequence event cards.</div><div class="row"><span class="label">Mastery:</span> Correct role timing for Ca2+, ATP, myosin.</div></div>
+      <div class="card"><div class="top"><span class="id">#19</span><span class="concept">DNA replication fork</span><span class="subject">Biology</span></div><div class="row"><span class="label">Game:</span> Fork Builder — place replication machinery on leading/lagging strands.</div><div class="row"><span class="label">Interaction:</span> Drag enzyme pieces onto fork.</div><div class="row"><span class="label">Mastery:</span> Correct enzyme positions and directions.</div></div>
+      <div class="card"><div class="top"><span class="id">#20</span><span class="concept">T cell activation & clonal selection</span><span class="subject">Biology</span></div><div class="row"><span class="label">Game:</span> Immune Briefing — connect APC pathways to T-cell outcomes.</div><div class="row"><span class="label">Interaction:</span> Link-and-route immune nodes.</div><div class="row"><span class="label">Mastery:</span> Correct MHC class routing and activation logic.</div></div>
+      <div class="card"><div class="top"><span class="id">#21</span><span class="concept">Lac operon regulation</span><span class="subject">Biology</span></div><div class="row"><span class="label">Game:</span> Operon Switchboard — set lactose/glucose and predict transcription.</div><div class="row"><span class="label">Interaction:</span> Condition toggles + regulator placement.</div><div class="row"><span class="label">Mastery:</span> Correct ON/OFF with CAP/repressor logic.</div></div>
+      <div class="card"><div class="top"><span class="id">#22</span><span class="concept">Gastrulation & germ layer formation</span><span class="subject">Biology</span></div><div class="row"><span class="label">Game:</span> Layer Maker — morph blastula and assign derivatives.</div><div class="row"><span class="label">Interaction:</span> Cell movement drag + organ matching.</div><div class="row"><span class="label">Mastery:</span> Correct ecto/meso/endo outcomes.</div></div>
+    </div>
+
+    <h2>Physics (23–31)</h2>
+    <div class="grid">
+      <div class="card"><div class="top"><span class="id">#23</span><span class="concept">Bernoulli's equation & fluid dynamics</span><span class="subject">Physics</span></div><div class="row"><span class="label">Game:</span> Pipe Pressure — vary pipe width and predict pressure/speed.</div><div class="row"><span class="label">Interaction:</span> Diameter drag handles + gauge checks.</div><div class="row"><span class="label">Mastery:</span> Correct inverse pressure-speed relation.</div></div>
+      <div class="card"><div class="top"><span class="id">#24</span><span class="concept">Ray diagrams (lenses & mirrors)</span><span class="subject">Physics</span></div><div class="row"><span class="label">Game:</span> Ray Painter — draw principal rays and place image.</div><div class="row"><span class="label">Interaction:</span> Ray drag + image marker drop.</div><div class="row"><span class="label">Mastery:</span> Correct image type/location/orientation.</div></div>
+      <div class="card"><div class="top"><span class="id">#25</span><span class="concept">Circuit analysis (Kirchhoff)</span><span class="subject">Physics</span></div><div class="row"><span class="label">Game:</span> Current Split — solve branch currents in mini-circuit.</div><div class="row"><span class="label">Interaction:</span> Drag current tokens + loop equation checks.</div><div class="row"><span class="label">Mastery:</span> Correct junction and loop balances.</div></div>
+      <div class="card"><div class="top"><span class="id">#26</span><span class="concept">Electromagnetic induction & right-hand rule</span><span class="subject">Physics</span></div><div class="row"><span class="label">Game:</span> Field Flip — move magnet through coil and choose current direction.</div><div class="row"><span class="label">Interaction:</span> 3D drag + vector selection.</div><div class="row"><span class="label">Mastery:</span> Correct orientation and induced polarity.</div></div>
+      <div class="card"><div class="top"><span class="id">#27</span><span class="concept">Wave interference (double slit)</span><span class="subject">Physics</span></div><div class="row"><span class="label">Game:</span> Fringe Finder — tune variables to match interference target.</div><div class="row"><span class="label">Interaction:</span> Sliders + fringe position taps.</div><div class="row"><span class="label">Mastery:</span> Correct constructive/destructive zones.</div></div>
+      <div class="card"><div class="top"><span class="id">#28</span><span class="concept">Doppler effect</span><span class="subject">Physics</span></div><div class="row"><span class="label">Game:</span> Pitch Chase — infer source motion from wavefront spacing.</div><div class="row"><span class="label">Interaction:</span> Move source/observer + choose perceived pitch.</div><div class="row"><span class="label">Mastery:</span> Correct approaching/receding interpretation.</div></div>
+      <div class="card"><div class="top"><span class="id">#29</span><span class="concept">Buoyancy & Archimedes' principle</span><span class="subject">Physics</span></div><div class="row"><span class="label">Game:</span> Float Test — submerge object and compute buoyant force.</div><div class="row"><span class="label">Interaction:</span> Depth drag + displaced volume readout.</div><div class="row"><span class="label">Mastery:</span> Correct displaced-fluid to force mapping.</div></div>
+      <div class="card"><div class="top"><span class="id">#30</span><span class="concept">Torque & rotational equilibrium</span><span class="subject">Physics</span></div><div class="row"><span class="label">Game:</span> Balance Beam — place angled forces to zero net torque.</div><div class="row"><span class="label">Interaction:</span> Force vector placement around pivot.</div><div class="row"><span class="label">Mastery:</span> Correct clockwise/counterclockwise balance.</div></div>
+      <div class="card"><div class="top"><span class="id">#31</span><span class="concept">Nuclear decay types & half-life</span><span class="subject">Physics</span></div><div class="row"><span class="label">Game:</span> Decay Clock — classify emission and project population over time.</div><div class="row"><span class="label">Interaction:</span> Decay card choose + time slider.</div><div class="row"><span class="label">Mastery:</span> Correct decay identity and half-life count.</div></div>
+    </div>
+
+    <h2>General Chemistry (32–39)</h2>
+    <div class="grid">
+      <div class="card"><div class="top"><span class="id">#32</span><span class="concept">Galvanic vs. electrolytic cells</span><span class="subject">Gen Chem</span></div><div class="row"><span class="label">Game:</span> Cell Polarity Duel — label anode/cathode and electron flow.</div><div class="row"><span class="label">Interaction:</span> Drag labels onto dual-cell diagrams.</div><div class="row"><span class="label">Mastery:</span> Correct polarity and spontaneity.</div></div>
+      <div class="card"><div class="top"><span class="id">#33</span><span class="concept">Acid-base titration curves</span><span class="subject">Gen Chem</span></div><div class="row"><span class="label">Game:</span> Burette Drop — titrate and mark key curve points.</div><div class="row"><span class="label">Interaction:</span> Drop titrant + marker placement.</div><div class="row"><span class="label">Mastery:</span> Correct half-equivalence/equivalence zones.</div></div>
+      <div class="card"><div class="top"><span class="id">#34</span><span class="concept">Le Chatelier's principle</span><span class="subject">Gen Chem</span></div><div class="row"><span class="label">Game:</span> Equilibrium Push — apply perturbation and predict shift.</div><div class="row"><span class="label">Interaction:</span> Stress buttons (T/P/concentration).</div><div class="row"><span class="label">Mastery:</span> Correct directional shift response.</div></div>
+      <div class="card"><div class="top"><span class="id">#35</span><span class="concept">Orbital hybridization & VSEPR</span><span class="subject">Gen Chem</span></div><div class="row"><span class="label">Game:</span> Shape Studio — build geometry from electron domains.</div><div class="row"><span class="label">Interaction:</span> Domain drag around central atom.</div><div class="row"><span class="label">Mastery:</span> Correct geometry, angle, hybridization.</div></div>
+      <div class="card"><div class="top"><span class="id">#36</span><span class="concept">Gibbs free energy relationships</span><span class="subject">Gen Chem</span></div><div class="row"><span class="label">Game:</span> DeltaG Mixer — combine ΔH/ΔS and temperature.</div><div class="row"><span class="label">Interaction:</span> Temperature slider + sign prediction.</div><div class="row"><span class="label">Mastery:</span> Correct spontaneous regime by T.</div></div>
+      <div class="card"><div class="top"><span class="id">#37</span><span class="concept">Phase diagrams & colligative properties</span><span class="subject">Gen Chem</span></div><div class="row"><span class="label">Game:</span> Phase Shift — drag state point and add solute.</div><div class="row"><span class="label">Interaction:</span> P-T point drag + solute controls.</div><div class="row"><span class="label">Mastery:</span> Correct phase and boundary shift.</div></div>
+      <div class="card"><div class="top"><span class="id">#38</span><span class="concept">Redox half-reactions & balancing</span><span class="subject">Gen Chem</span></div><div class="row"><span class="label">Game:</span> Half-Reaction Forge — assemble balanced acidic/basic equations.</div><div class="row"><span class="label">Interaction:</span> Drag H2O/H+/OH-/e- tiles.</div><div class="row"><span class="label">Mastery:</span> Balanced atoms and net charge.</div></div>
+      <div class="card"><div class="top"><span class="id">#39</span><span class="concept">Rate laws & energy diagrams</span><span class="subject">Gen Chem</span></div><div class="row"><span class="label">Game:</span> Kinetics Climb — pick RDS and catalyst effect.</div><div class="row"><span class="label">Interaction:</span> Transition-state tap + catalyst toggle.</div><div class="row"><span class="label">Mastery:</span> Correct RDS and lowered Ea only.</div></div>
+    </div>
+
+    <h2>Organic Chemistry (40–45)</h2>
+    <div class="grid">
+      <div class="card"><div class="top"><span class="id">#40</span><span class="concept">SN1/SN2/E1/E2 decision tree</span><span class="subject">Org Chem</span></div><div class="row"><span class="label">Game:</span> Mechanism Match — map conditions to mechanism lane.</div><div class="row"><span class="label">Interaction:</span> Drag condition cards to SN1/SN2/E1/E2.</div><div class="row"><span class="label">Mastery:</span> Correct mechanism and expected product trend.</div></div>
+      <div class="card"><div class="top"><span class="id">#41</span><span class="concept">Chirality — R/S configuration</span><span class="subject">Org Chem</span></div><div class="row"><span class="label">Game:</span> Chiral Spin — assign CIP priorities and choose R/S.</div><div class="row"><span class="label">Interaction:</span> 3D center rotation + priority ranking.</div><div class="row"><span class="label">Mastery:</span> Correct final configuration.</div></div>
+      <div class="card"><div class="top"><span class="id">#42</span><span class="concept">Electrophilic aromatic substitution</span><span class="subject">Org Chem</span></div><div class="row"><span class="label">Game:</span> Ring Defender — choose substitution position by directing effects.</div><div class="row"><span class="label">Interaction:</span> Electrophile placement on ring map.</div><div class="row"><span class="label">Mastery:</span> Correct regioselective product.</div></div>
+      <div class="card"><div class="top"><span class="id">#43</span><span class="concept">NMR spectroscopy interpretation</span><span class="subject">Org Chem</span></div><div class="row"><span class="label">Game:</span> Peak Mapper — match shift/integration/splitting to structure.</div><div class="row"><span class="label">Interaction:</span> Drag peak cards to proton groups.</div><div class="row"><span class="label">Mastery:</span> Correct full-spectrum mapping.</div></div>
+      <div class="card"><div class="top"><span class="id">#44</span><span class="concept">Fischer/Newman projections</span><span class="subject">Org Chem</span></div><div class="row"><span class="label">Game:</span> Projection Flip — convert and choose low-energy conformation.</div><div class="row"><span class="label">Interaction:</span> Rotate molecule into target projection.</div><div class="row"><span class="label">Mastery:</span> Correct conversion and conformation call.</div></div>
+      <div class="card"><div class="top"><span class="id">#45</span><span class="concept">Carbonyl addition-elimination mechanisms</span><span class="subject">Org Chem</span></div><div class="row"><span class="label">Game:</span> Carbonyl Workshop — sequence nucleophilic attack to collapse.</div><div class="row"><span class="label">Interaction:</span> Mechanism step ordering drag.</div><div class="row"><span class="label">Mastery:</span> Correct intermediate and product logic.</div></div>
+    </div>
+
+    <h2>Psych/Soc (46–50)</h2>
+    <div class="grid">
+      <div class="card"><div class="top"><span class="id">#46</span><span class="concept">Signal detection theory</span><span class="subject">Psych/Soc</span></div><div class="row"><span class="label">Game:</span> Criterion Slider — move threshold and watch matrix outcomes.</div><div class="row"><span class="label">Interaction:</span> Criterion drag over overlapping curves.</div><div class="row"><span class="label">Mastery:</span> Correct hit/FA tradeoff understanding.</div></div>
+      <div class="card"><div class="top"><span class="id">#47</span><span class="concept">Synaptic transmission</span><span class="subject">Psych/Soc</span></div><div class="row"><span class="label">Game:</span> Synapse Snap — run neurotransmission event chain.</div><div class="row"><span class="label">Interaction:</span> Sequence taps from AP to reuptake.</div><div class="row"><span class="label">Mastery:</span> Correct temporal order and location.</div></div>
+      <div class="card"><div class="top"><span class="id">#48</span><span class="concept">Classical vs. operant conditioning</span><span class="subject">Psych/Soc</span></div><div class="row"><span class="label">Game:</span> Conditioning Sort — classify scenarios and labels.</div><div class="row"><span class="label">Interaction:</span> Card sorting into paradigm bins.</div><div class="row"><span class="label">Mastery:</span> Correct paradigm and term matching.</div></div>
+      <div class="card"><div class="top"><span class="id">#49</span><span class="concept">Weber's Law & sensory thresholds</span><span class="subject">Psych/Soc</span></div><div class="row"><span class="label">Game:</span> JND Judge — decide detectable difference across baselines.</div><div class="row"><span class="label">Interaction:</span> Stimulus scaling slider + yes/no picks.</div><div class="row"><span class="label">Mastery:</span> Correct proportional JND behavior.</div></div>
+      <div class="card"><div class="top"><span class="id">#50</span><span class="concept">Sleep stages & EEG patterns</span><span class="subject">Psych/Soc</span></div><div class="row"><span class="label">Game:</span> Sleep Cycle DJ — arrange EEG clips across sleep stages.</div><div class="row"><span class="label">Interaction:</span> Waveform drag to stage timeline.</div><div class="row"><span class="label">Mastery:</span> Correct stage order and waveform identity.</div></div>
+    </div>
+
+    <h2>Export to PDF</h2>
+    <p class="sub">Open this file in VS Code Simple Browser or any browser, then Print → Save as PDF. Print CSS is included for clean pages.</p>
+  </div>
+</body>
+</html>

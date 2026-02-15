@@ -140,7 +140,7 @@ def _ensure_min_learn_segments(data: dict, section_content: dict) -> dict:
             if len(words) > 45:
                 narrator += "..."
             new_seg = {
-                "segment_id": f"{sec_id}-L{lv}-S{len(segments)+1}-补",
+                "segment_id": f"{sec_id}-L{lv}-S{len(segments)+1}-pad",
                 "speaker_id": "specialist",
                 "narrator_text": narrator,
                 "display_text": raw[:300],

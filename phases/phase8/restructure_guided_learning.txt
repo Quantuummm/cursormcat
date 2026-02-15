@@ -177,12 +177,19 @@ QUESTION WORDING RULES:
 - Frame as puzzles and challenges, not quiz questions
 
 FEEDBACK FOR EVERY QUESTION:
-- correct_response: 1 sentence celebration + WHY it's right. Never just "Correct!"
-  Use LYRA's warm coaching tone: "Exactly! Helicase goes first because..." / "Nailed it! The fork needs..."
-- wrong_response: Warm redirect + the actual answer. Frame as Grimble's corruption, not player failure.
-  Examples: "Grimble twisted that one — here's the real answer..." / "Close — that's the corrupted version. The truth is..." / "Not this one — Grimble's fog is strong here. Think about..."
-- wrong_explanations: For EACH wrong option, 1 sentence explaining the specific misconception
-  (For match_up: provide a single wrong_response explaining what was mismatched)
+- correct_response: 1-2 sentences celebration + WHY it's right with the MECHANISM. Never just "Correct!"
+  ALWAYS explain the causal chain: "Exactly! Helicase goes first BECAUSE the double helix must be unwound BEFORE any new bases can be added."
+  Use LYRA's warm coaching tone. Connect the answer to the underlying principle.
+- wrong_response: Warm redirect + WHY the correct answer is right + HOW to distinguish from the wrong one.
+  Frame as Grimble's corruption, not player failure.
+  MUST include the reasoning chain: "Grimble twisted that one — the key is that X happens BECAUSE Y, which means Z is the answer."
+  Examples: "Grimble twisted that one — helicase unwinds first BECAUSE polymerase needs a single strand to read." / "Close — that's the corrupted version. The truth is that cations are positive BECAUSE they lose electrons, reducing negative charge." / "Not this one — Grimble's fog is strong here. Think about the sequence: step A must happen first BECAUSE step B depends on its product."
+- wrong_explanations: For EACH wrong option, 1-2 sentences explaining:
+  (1) WHY a student might pick this (the misconception or confusion)
+  (2) WHY it's actually wrong (the mechanism or principle that disproves it)
+  (3) HOW to distinguish it from the correct answer
+  NEVER just say "this is wrong" — always give the REASON.
+  (For match_up: provide a single wrong_response explaining what was mismatched and WHY)
 
 ═══════════════════════════════════════════════════════════════
 CREATURE ENCOUNTERS (OPTIONAL BONUS)

@@ -19,6 +19,7 @@
  */
 
 const GameEngines = {};
+let _gameReturnScreen = 'planet-map-screen';
 
 // ─── Engine Registry ────────────────────────────────────
 
@@ -36,13 +37,14 @@ const ENGINE_REGISTRY = {
  * Launch a game mode by engine type.
  * @param {object} modeData - Full mode payload from compiled_modes
  */
-function launchGameMode(modeData) {
+function launchGameMode(modeData, returnScreen) {
     const engine = ENGINE_REGISTRY[modeData.engine];
     if (!engine) {
         console.error(`Unknown engine: ${modeData.engine}`);
         return;
     }
     
+    _gameReturnScreen = returnScreen || 'planet-map-screen';
     document.getElementById('game-mode-title').textContent = _engineDisplayName(modeData.engine);
     showScreen('game-mode-screen');
     
@@ -71,12 +73,14 @@ function renderRapidRecall(mode) {
     let currentIdx = 0;
     let score = 0;
     let startTime = Date.now();
+    let answering = false;
     
     function showCard() {
         if (currentIdx >= items.length) {
             _completeGame(mode, score, items.length, startTime);
             return;
         }
+        answering = false;
         
         const item = items[currentIdx];
         const correct = item.definition || item.answer;
@@ -98,6 +102,8 @@ function renderRapidRecall(mode) {
         
         arena.querySelectorAll('.game-option').forEach(btn => {
             btn.addEventListener('click', () => {
+                if (answering) return;
+                answering = true;
                 const isCorrect = btn.getAttribute('data-correct') === 'true';
                 btn.classList.add(isCorrect ? 'correct' : 'incorrect');
                 if (isCorrect) score++;
@@ -471,8 +477,9 @@ function _completeGame(mode, score, total, startTime) {
     addCrystals(crystals);
     
     document.getElementById('btn-game-done').addEventListener('click', () => {
-        showScreen('planet-map-screen');
+        showScreen(_gameReturnScreen);
         updateHUD();
+        if (_gameReturnScreen === 'dashboard-screen') initDashboard();
     });
 }
 

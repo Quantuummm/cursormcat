@@ -16,16 +16,16 @@ const ENERGY_REGEN_MS = 2 * 60 * 60 * 1000; // 2 hours
  */
 function getCurrentEnergy() {
     const state = getPlayerState();
-    const nc = state.neuralCharge || { current: 6, max: 6, lastRegenTime: Date.now() };
+    const nc = state.neuralCharge || { current: 6, max: 6, lastRegenAt: Date.now() };
     
     if (nc.current >= nc.max) return nc.max;
     
-    const elapsed = Date.now() - nc.lastRegenTime;
+    const elapsed = Date.now() - (nc.lastRegenAt || Date.now());
     const regenCharges = Math.floor(elapsed / ENERGY_REGEN_MS);
     
     if (regenCharges > 0) {
         nc.current = Math.min(nc.max, nc.current + regenCharges);
-        nc.lastRegenTime = nc.lastRegenTime + (regenCharges * ENERGY_REGEN_MS);
+        nc.lastRegenAt = (nc.lastRegenAt || Date.now()) + (regenCharges * ENERGY_REGEN_MS);
         state.neuralCharge = nc;
         _saveLocal();
     }
@@ -51,7 +51,7 @@ function spendEnergy(amount = 1) {
     if (nc.current < amount) return false;
     
     nc.current -= amount;
-    nc.lastRegenTime = Date.now();
+    nc.lastRegenAt = Date.now();
     _saveLocal();
     return true;
 }
@@ -62,11 +62,11 @@ function spendEnergy(amount = 1) {
  */
 function getRegenTimer() {
     const state = getPlayerState();
-    const nc = state.neuralCharge || { current: 6, max: 6, lastRegenTime: Date.now() };
+    const nc = state.neuralCharge || { current: 6, max: 6, lastRegenAt: Date.now() };
     
     if (nc.current >= nc.max) return null;
     
-    const elapsed = Date.now() - nc.lastRegenTime;
+    const elapsed = Date.now() - (nc.lastRegenAt || Date.now());
     const remaining = ENERGY_REGEN_MS - (elapsed % ENERGY_REGEN_MS);
     
     return {

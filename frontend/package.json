@@ -1,0 +1,27 @@
+{
+  "name": "mcat-mastery",
+  "version": "1.0.0",
+  "description": "MCAT Mastery — Gamified MCAT study platform",
+  "scripts": {
+    "build": "powershell -Command \"Remove-Item -Recurse -Force www -ErrorAction SilentlyContinue; New-Item -ItemType Directory www | Out-Null; Copy-Item -Recurse -Force index.html,manifest.json,sw.js www/; Copy-Item -Recurse -Force css,js,icons www/\"",
+    "sync": "npm run build && npx cap sync",
+    "deploy:web": "cd .. && npx firebase deploy --only hosting --project gen-lang-client-0005785057",
+    "android": "npm run sync && npx cap open android",
+    "ios": "npm run sync && npx cap open ios"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@capacitor/android": "^8.1.0",
+    "@capacitor/cli": "^8.1.0",
+    "@capacitor/core": "^8.1.0",
+    "@capacitor/haptics": "^8.0.0",
+    "@capacitor/ios": "^8.1.0",
+    "@capacitor/keyboard": "^8.0.0",
+    "@capacitor/preferences": "^8.0.0",
+    "@capacitor/splash-screen": "^8.0.0",
+    "@capacitor/status-bar": "^8.0.0"
+  }
+}

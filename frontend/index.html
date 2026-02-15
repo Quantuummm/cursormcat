@@ -10,9 +10,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/planets.css">
-    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/main.css?v=7">
+    <link rel="stylesheet" href="css/planets.css?v=7">
+    <link rel="stylesheet" href="css/animations.css?v=7">
+    <link rel="stylesheet" href="css/landing.css?v=7">
 
     <!-- Firebase SDK (compat for simplicity) -->
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
@@ -21,10 +22,122 @@
 </head>
 <body>
 
+    <!-- Galaxy Shimmer Background -->
+    <canvas id="galaxy-canvas"></canvas>
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- LANDING PAGE (Pre-Login)                        -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <div id="landing-screen" class="screen active">
+
+        <!-- Nav -->
+        <nav class="landing-nav">
+            <a class="landing-logo" href="#">
+                <span class="landing-logo-icon">&#x1F680;</span>
+                <span class="landing-logo-text">MCAT Mastery</span>
+            </a>
+            <div class="landing-nav-actions">
+                <button class="theme-toggle" aria-label="Toggle theme">&#x1F319;</button>
+                <button class="btn-login" data-action="login">LOG IN</button>
+                <button class="btn-cta" data-action="get-started">GET STARTED</button>
+            </div>
+        </nav>
+
+        <!-- Hero -->
+        <section class="landing-hero">
+            <div class="hero-text">
+                <h1 class="hero-heading">The free, fun way to master the MCAT!</h1>
+                <p class="hero-subheading">Explore 7 planetary worlds, battle knowledge-creatures, and conquer every MCAT section through immersive, game-based learning.</p>
+                <button class="btn-cta btn-cta-hero" data-action="get-started">GET STARTED</button>
+                <br>
+                <a class="hero-link" href="#" data-action="existing-account">I ALREADY HAVE AN ACCOUNT</a>
+            </div>
+            <div class="hero-illustration">
+                <div class="hero-planet-container">
+                    <div class="hero-planet hero-planet-1"></div>
+                    <div class="hero-planet hero-planet-2"></div>
+                    <div class="hero-planet hero-planet-3"></div>
+                    <div class="hero-planet hero-planet-4"></div>
+                    <div class="hero-rocket">&#x1F680;</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <div class="landing-features">
+            <section class="feature-section">
+                <div class="feature-text">
+                    <h2 class="feature-heading feature-heading--green">free. fun. effective.</h2>
+                    <p class="feature-body">Learning doesn't have to be painful. Our game-based approach keeps you motivated while you master the toughest concepts on the MCAT. Earn crystals, unlock creatures, and track progress across 7 worlds.</p>
+                </div>
+                <div class="feature-illustration feature-illust--green">&#x1F30D;</div>
+            </section>
+
+            <section class="feature-section">
+                <div class="feature-text">
+                    <h2 class="feature-heading feature-heading--blue">backed by science.</h2>
+                    <p class="feature-body">Spaced repetition, active recall, and interleaving built right in. Our fog-reclamation system ensures you review at exactly the right time for maximum retention.</p>
+                </div>
+                <div class="feature-illustration feature-illust--blue">&#x1F9EC;</div>
+            </section>
+
+            <section class="feature-section">
+                <div class="feature-text">
+                    <h2 class="feature-heading feature-heading--purple">stay motivated.</h2>
+                    <p class="feature-body">Daily streaks, XP rewards, creature companions, and cross-planet bridge missions keep you coming back. It's MCAT prep that actually feels like an adventure.</p>
+                </div>
+                <div class="feature-illustration feature-illust--purple">&#x1F9E0;</div>
+            </section>
+        </div>
+
+        <!-- CTA -->
+        <section class="landing-cta">
+            <h2 class="landing-cta-heading">Learn anytime, anywhere.</h2>
+            <div class="app-badges">
+                <a href="#" class="app-badge">&#x1F34E; App Store</a>
+                <a href="#" class="app-badge">&#x25B6;&#xFE0F; Google Play</a>
+            </div>
+            <button class="btn-cta btn-cta-large" data-action="get-started">GET STARTED &mdash; IT'S FREE</button>
+        </section>
+
+        <!-- Footer -->
+        <footer class="landing-footer">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>About</h4>
+                    <a href="#">Mission</a>
+                    <a href="#">Team</a>
+                    <a href="#">Careers</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Products</h4>
+                    <a href="#">MCAT Mastery</a>
+                    <a href="#">Podcast</a>
+                    <a href="#">Blog</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Community</h4>
+                    <a href="#">Discord</a>
+                    <a href="#">Forums</a>
+                    <a href="#">Events</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Support</h4>
+                    <a href="#">Help Center</a>
+                    <a href="#">Privacy</a>
+                    <a href="#">Terms</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2025 MCAT Mastery. All rights reserved.
+            </div>
+        </footer>
+    </div>
+
     <!-- ═══════════════════════════════════════════════ -->
     <!-- LOADING SCREEN                                  -->
     <!-- ═══════════════════════════════════════════════ -->
-    <div id="loading-screen" class="screen active">
+    <div id="loading-screen" class="screen">
         <div class="loading-content">
             <h1 class="game-title">MCAT Mastery</h1>
             <p class="loading-subtitle">Reclaim the Light. Defeat Grimble.</p>
@@ -70,19 +183,19 @@
             </div>
             <div class="hud-resources">
                 <div class="hud-item" id="hud-crystals" title="Energy Crystals">
-                    <span class="hud-icon">✨</span>
+                    <span class="hud-icon">&#x2728;</span>
                     <span class="hud-value" id="hud-crystal-count">0</span>
                 </div>
                 <div class="hud-item" id="hud-energy" title="Neural Charge">
-                    <span class="hud-icon">⚡</span>
+                    <span class="hud-icon">&#x26A1;</span>
                     <span class="hud-value" id="hud-energy-count">6/6</span>
                 </div>
                 <div class="hud-item" id="hud-streak" title="Daily Streak">
-                    <span class="hud-icon">🔥</span>
+                    <span class="hud-icon">&#x1F525;</span>
                     <span class="hud-value" id="hud-streak-count">0</span>
                 </div>
             </div>
-            <button class="btn btn-icon" id="btn-profile" title="Profile">👤</button>
+            <button class="btn btn-icon" id="btn-profile" title="Profile">&#x1F464;</button>
         </header>
 
         <div class="dashboard-body">
@@ -93,14 +206,32 @@
                 </div>
             </div>
 
-            <div class="planet-orbit" id="planet-orbit">
-                <!-- 7 planet buttons rendered by dashboard.js -->
+            <div class="orbit-container">
+                <div class="orbit-ring orbit-ring-1"></div>
+                <div class="orbit-ring orbit-ring-2"></div>
+                <div class="planet-orbit" id="planet-orbit">
+                    <!-- 7 planet buttons rendered by dashboard.js -->
+                </div>
+                <div class="ship-hub" id="ship-hub">&#x1F680;</div>
             </div>
 
             <div class="dashboard-actions">
-                <button class="btn btn-secondary" id="btn-notebook">📓 Notebook</button>
-                <button class="btn btn-secondary" id="btn-shop">🛒 Shop</button>
-                <button class="btn btn-secondary" id="btn-bridges">🌉 Bridges</button>
+                <button class="btn-action-card" id="btn-notebook">
+                    <span class="action-icon">&#x1F4D3;</span>
+                    <span class="action-label">Notebook</span>
+                </button>
+                <button class="btn-action-card" id="btn-mem-games">
+                    <span class="action-icon">&#x1F3AE;</span>
+                    <span class="action-label">Mem-Games</span>
+                </button>
+                <button class="btn-action-card" id="btn-shop">
+                    <span class="action-icon">&#x1F6D2;</span>
+                    <span class="action-label">Shop</span>
+                </button>
+                <button class="btn-action-card" id="btn-bridges">
+                    <span class="action-icon">&#x1F309;</span>
+                    <span class="action-label">Bridges</span>
+                </button>
             </div>
         </div>
     </div>
@@ -110,7 +241,7 @@
     <!-- ═══════════════════════════════════════════════ -->
     <div id="planet-map-screen" class="screen">
         <header class="planet-header" id="planet-header">
-            <button class="btn btn-icon btn-back" id="btn-back-dashboard">←</button>
+            <button class="btn btn-icon btn-back" id="btn-back-dashboard">&#x2190;</button>
             <div class="planet-title-block">
                 <h2 id="planet-name">Verdania</h2>
                 <p id="planet-subject">Biology</p>
@@ -137,12 +268,12 @@
     <!-- ═══════════════════════════════════════════════ -->
     <div id="mission-screen" class="screen">
         <header class="mission-header">
-            <button class="btn btn-icon btn-back" id="btn-back-planet">←</button>
+            <button class="btn btn-icon btn-back" id="btn-back-planet">&#x2190;</button>
             <div class="mission-progress-bar">
                 <div class="mission-bar-fill" id="mission-bar-fill" style="width: 0%"></div>
             </div>
             <div class="mission-streak-counter" id="mission-streak">
-                <span class="streak-icon">🔥</span>
+                <span class="streak-icon">&#x1F525;</span>
                 <span class="streak-num" id="mission-streak-num">0</span>
             </div>
         </header>
@@ -161,9 +292,9 @@
     <!-- ═══════════════════════════════════════════════ -->
     <div id="game-mode-screen" class="screen">
         <header class="game-header">
-            <button class="btn btn-icon btn-back" id="btn-back-from-game">←</button>
+            <button class="btn btn-icon btn-back" id="btn-back-from-game">&#x2190;</button>
             <h2 id="game-mode-title">Mem-Game</h2>
-            <div class="game-timer" id="game-timer">⏱ --</div>
+            <div class="game-timer" id="game-timer">&#x23F1; --</div>
         </header>
         <main class="game-arena" id="game-arena">
             <!-- Populated by individual game engines -->
@@ -175,7 +306,7 @@
     <!-- ═══════════════════════════════════════════════ -->
     <div id="bridge-screen" class="screen">
         <header class="bridge-header">
-            <button class="btn btn-icon btn-back" id="btn-back-from-bridge">←</button>
+            <button class="btn btn-icon btn-back" id="btn-back-from-bridge">&#x2190;</button>
             <h2>Bridge Mission</h2>
         </header>
         <div class="bridge-briefing" id="bridge-briefing">
@@ -191,8 +322,8 @@
     <!-- ═══════════════════════════════════════════════ -->
     <div id="notebook-screen" class="screen">
         <header class="notebook-header">
-            <button class="btn btn-icon btn-back" id="btn-back-from-notebook">←</button>
-            <h2>📓 Neural Archive</h2>
+            <button class="btn btn-icon btn-back" id="btn-back-from-notebook">&#x2190;</button>
+            <h2>&#x1F4D3; Neural Archive</h2>
         </header>
         <div class="notebook-tabs">
             <button class="tab active" data-tab="notes">Field Notes</button>
@@ -210,17 +341,17 @@
     <!-- ═══════════════════════════════════════════════ -->
     <div id="shop-screen" class="screen">
         <header class="shop-header">
-            <button class="btn btn-icon btn-back" id="btn-back-from-shop">←</button>
-            <h2>🛒 Crystal Exchange</h2>
+            <button class="btn btn-icon btn-back" id="btn-back-from-shop">&#x2190;</button>
+            <h2>&#x1F6D2; Crystal Exchange</h2>
             <div class="shop-balance">
-                <span class="hud-icon">✨</span>
+                <span class="hud-icon">&#x2728;</span>
                 <span id="shop-crystal-count">0</span>
             </div>
         </header>
         <div class="shop-tabs">
-            <button class="tab active" data-tab="upgrades">⚡ Upgrades</button>
-            <button class="tab" data-tab="cosmetics">🎨 Cosmetics</button>
-            <button class="tab" data-tab="items">📦 Items</button>
+            <button class="tab active" data-tab="upgrades">&#x26A1; Upgrades</button>
+            <button class="tab" data-tab="cosmetics">&#x1F3A8; Cosmetics</button>
+            <button class="tab" data-tab="items">&#x1F4E6; Items</button>
         </div>
         <div class="shop-grid" id="shop-grid">
             <!-- Populated by shop.js -->
@@ -232,7 +363,7 @@
     <!-- ═══════════════════════════════════════════════ -->
     <div id="profile-screen" class="screen">
         <header class="profile-header">
-            <button class="btn btn-icon btn-back" id="btn-back-from-profile">←</button>
+            <button class="btn btn-icon btn-back" id="btn-back-from-profile">&#x2190;</button>
             <h2>Commander Profile</h2>
         </header>
         <div class="profile-body" id="profile-body">
@@ -256,28 +387,31 @@
     <!-- SCRIPTS                                         -->
     <!-- ═══════════════════════════════════════════════ -->
     <!-- Data layer -->
-    <script src="js/data/game-data.js"></script>
-    <script src="js/data/player.js"></script>
+    <script src="js/data/game-data.js?v=7"></script>
+    <script src="js/data/player.js?v=7"></script>
 
     <!-- Systems -->
-    <script src="js/systems/tts.js"></script>
-    <script src="js/systems/fog.js"></script>
-    <script src="js/systems/energy.js"></script>
-    <script src="js/systems/streaks.js"></script>
-    <script src="js/systems/resonance.js"></script>
-    <script src="js/systems/creatures.js"></script>
+    <script src="js/systems/tts.js?v=7"></script>
+    <script src="js/systems/fog.js?v=7"></script>
+    <script src="js/systems/energy.js?v=7"></script>
+    <script src="js/systems/streaks.js?v=7"></script>
+    <script src="js/systems/resonance.js?v=7"></script>
+    <script src="js/systems/creatures.js?v=7"></script>
+    <script src="js/systems/galaxy-shimmer.js?v=7"></script>
+    <script src="js/systems/theme.js?v=7"></script>
 
     <!-- Game Engines -->
-    <script src="js/engines/game-engines.js"></script>
+    <script src="js/engines/game-engines.js?v=7"></script>
 
     <!-- Screens -->
-    <script src="js/screens/dashboard.js"></script>
-    <script src="js/screens/planet-map.js"></script>
-    <script src="js/screens/mission.js"></script>
-    <script src="js/screens/character-select.js"></script>
+    <script src="js/screens/landing.js?v=7"></script>
+    <script src="js/screens/dashboard.js?v=7"></script>
+    <script src="js/screens/planet-map.js?v=7"></script>
+    <script src="js/screens/mission.js?v=7"></script>
+    <script src="js/screens/character-select.js?v=7"></script>
 
     <!-- Core -->
-    <script src="js/firebase.js"></script>
-    <script src="js/app.js"></script>
+    <script src="js/firebase.js?v=7"></script>
+    <script src="js/app.js?v=7"></script>
 </body>
 </html>
